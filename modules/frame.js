@@ -23,6 +23,8 @@ function( Zeega, Layer ) {
             attr: { advance: 0 },
             // ids of frames and their common layers for loading
             common_layers: {},
+            controllable: true,
+            id: null,
             // ids of layers contained on frame
             layers: [],
             // ids of frames this frame can lead to
@@ -34,7 +36,8 @@ function( Zeega, Layer ) {
             // id of the next frame
             _next: null,
             // id of the previous frame
-            _prev: null
+            _prev: null,
+            thumbnail_url: null
         },
 
         // for convenience

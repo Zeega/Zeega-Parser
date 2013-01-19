@@ -115,10 +115,6 @@ function( Zeega, LayerPlugin ) {
     });
 
     Layer.Collection = Zeega.Backbone.Collection.extend({
-    });
-
-    // temporary staging collection for layers
-    Layer.TempCollection = Zeega.Backbone.Collection.extend({
         model: LayerModel
     });
 
