@@ -9,7 +9,9 @@ define([
 
 function( Zeega, _, Project, DataParser ) {
 
-    return function( response, options ) {
+    var ZeegaParser = {};
+
+    ZeegaParser.parse = function( response, options ) {
         var parsed;
 
         // determine which parser to use
@@ -30,7 +32,7 @@ function( Zeega, _, Project, DataParser ) {
         } else {
             throw new Error("Valid parser not found");
         }
-        
     };
 
+    return ZeegaParser;
 });
