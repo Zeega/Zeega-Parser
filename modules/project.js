@@ -98,7 +98,7 @@ function( Zeega, Sequence ) {
                     frame.layers.each(function( layer ) {
                         if ( layer.get("type") == "Link" && layer.get("attr").to_frame != frame.id ) {
                             var targetFrameID = parseInt( layer.get("attr").to_frame, 10 ),
-                                targetFrame = this._getFrame( targetFrameID );
+                                targetFrame = this.getFrame( targetFrameID );
                                 linksFrom = [].concat( targetFrame.get("linksFrom") );
 
                             linksTo.push( targetFrameID );
@@ -123,8 +123,8 @@ function( Zeega, Sequence ) {
                         preloadTargets = [ nextFrame, prevFrame ];
 
                     for ( var i = 0; i < this.options.preloadRadius - 1; i++ ) {
-                        nextFrame = nextFrame ? this._getFrame( nextFrame ).get("_next") : null;
-                        prevFrame = prevFrame ? this._getFrame( prevFrame ).get("_prev") : null;
+                        nextFrame = nextFrame ? this.getFrame( nextFrame ).get("_next") : null;
+                        prevFrame = prevFrame ? this.getFrame( prevFrame ).get("_prev") : null;
 
                         if ( !nextFrame && !prevFrame ) {
                             break;
@@ -149,7 +149,7 @@ function( Zeega, Sequence ) {
 
         },
 
-        _getFrame: function( frameID ) {
+        getFrame: function( frameID ) {
             return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
         }
 
