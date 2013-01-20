@@ -7,10 +7,10 @@ require.config({
 
   paths: {
     // Put paths here.
-    plugins: "dummies",
-    libs: "dummies",
-    "vendor/popcorn": "dummies",
-    zeega: "dummies/zeega",
+    plugins: "stubs",
+    libs: "stubs",
+    "vendor/popcorn": "stubs",
+    zeega: "stubs/zeega",
     zeega_parser: "../..",
 
 
