@@ -120,7 +120,7 @@ function( Zeega, Sequence ) {
                 sequence.frames.each(function( frame ) {
                     var nextFrame = frame.get("_next"),
                         prevFrame = frame.get("_prev"),
-                        preloadTargets = [ nextFrame, prevFrame ];
+                        preloadTargets = [ frame.id, nextFrame, prevFrame ];
 
                     for ( var i = 0; i < this.options.preloadRadius - 1; i++ ) {
                         nextFrame = nextFrame ? this.getFrame( nextFrame ).get("_next") : null;

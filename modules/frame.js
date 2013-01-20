@@ -66,8 +66,8 @@ function( Zeega, Layer ) {
             if ( !this.ready ) {
                 this.layers.each(function( layer ) {
                     if ( layer.state === "waiting" || layer.state === "loading" ) {
-                        layer.on( "layer_ready", this.onLayerReady, this );
                         layer.render();
+                        layer.on( "layer_ready", this.onLayerReady, this );
                     }
                 }, this );
             }
@@ -78,7 +78,8 @@ function( Zeega, Layer ) {
             var commonLayers;
             // if frame is completely loaded, then just render it
             // else try preloading the layers
-            if ( this.ready ) {
+
+           if ( this.ready ) {
                 // only render non-common layers. allows for persistent layers
                 commonLayers = this.get("common_layers")[ oldID ] || [];
                 // if the frame is "ready", then just render the layers
@@ -100,7 +101,6 @@ function( Zeega, Layer ) {
                     this.status.emit("deadend_frame", _.extend({}, this.toJSON() ) );
                 }
 
-
             } else {
                 this.renderOnReady = oldID;
             }
@@ -113,16 +113,13 @@ function( Zeega, Layer ) {
         },
 
         onLayerReady: function( layer ) {
-
-            this.status.emit("layer_ready", layer );
-
             if ( this.isFrameReady() && !this.ready ) {
                 this.onFrameReady();
             }
 
             // TODO: This does nothing?
             // trigger events on layer readiness
-            var states = this.layers.map(function(layer){ return layer.state; });
+            // var states = this.layers.map(function(layer){ return layer.state; });
         },
 
         onFrameReady: function() {
@@ -130,11 +127,12 @@ function( Zeega, Layer ) {
                 frame: this.toJSON(),
                 layers: this.layers.toJSON()
             };
+
             this.ready = true;
             this.state = "ready";
             this.status.emit( "frame_ready", data );
+            if ( !_.isNull( this.renderOnReady ) ) {
 
-            if ( !_.isNull(this.renderOnReady) ) {
                 this.status.emit( "can_play", data );
                 this.render( this.renderOnReady );
                 this.renderOnReady = null;
