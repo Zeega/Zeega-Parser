@@ -1,3 +1,13 @@
+/*
+    parser tests
+
+    TODO
+
+    - make new parser instance for each(?) test. at least some tests
+    - test parser with different preloadRadius values
+
+*/
+
 var allFrames = [],
     allLayers = [];
 
@@ -23,9 +33,6 @@ var loadAllLayers = function() {
 var isInt = function( n ) {
    return typeof n === 'number' && n % 1 == 0;
 }
-
-// TODO:
-// ensure all IDs are integers
 
 module("Project");
 
