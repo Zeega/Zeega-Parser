@@ -11,7 +11,7 @@ function( Zeega, _, Project, DataParser ) {
 
     return function( response, options ) {
         var parsed;
-console.log(options)
+
         // determine which parser to use
         _.each( DataParser, function( p ) {
             if ( p.validate( response ) ) {
