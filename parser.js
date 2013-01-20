@@ -8,12 +8,12 @@ define([
 
 function( Zeega, _, Project ) {
 
-    return function( data, options, attach ) {
+    return function( data, options ) {
         var project;
         
         // console.log(options);
         // dump project data in to project model
-        project = new Project( data );
+        project = new Project( data, options );
         return project;
     };
 

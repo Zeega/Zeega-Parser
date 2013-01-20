@@ -20,7 +20,12 @@ var loadAllLayers = function() {
     }
 }
 
+var isInt = function( n ) {
+   return typeof n === 'number' && n % 1 == 0;
+}
 
+// TODO:
+// ensure all IDs are integers
 
 module("Project");
 
@@ -122,6 +127,24 @@ asyncTest("Sequences have expected shape", function() {
     }
 });
 
+asyncTest("Sequences have integer ids", function() {
+    var test = function() {
+        expect( window.Parsed.sequences.length );
+
+        window.Parsed.sequences.each(function( sequence ) {
+            ok( isInt( sequence.id ), "Sequence ID: " + sequence.id + " is an integer");
+        });
+
+        start();
+    };
+
+    if ( window.Parsed ) {
+        test();
+    } else {
+        $(window).bind("parsed", test );
+    }
+});
+
 module("Frame");
 
 
@@ -140,6 +163,24 @@ asyncTest("Frames have expected shape", function() {
             compare = Object.keys( frame.toJSON() ).sort();
 
             deepEqual( compare, shape, "Frame has expected attribute shape");
+        });
+
+        start();
+    };
+
+    if ( window.Parsed ) {
+        test();
+    } else {
+        $(window).bind("parsed", test );
+    }
+});
+
+asyncTest("Frames have integer ids", function() {
+    var test = function() {
+        loadAllFrames();
+        expect( allFrames.length );
+        _.each( allFrames, function( frame ) {
+            ok( isInt( frame.id ), "frame ID: "+ frame.id + " is an integer" );
         });
 
         start();
@@ -186,6 +227,24 @@ asyncTest("Layers have expected shape", function() {
             shape = Object.keys( layer.defaults ).sort();
             compare = Object.keys( layer.toJSON() ).sort();
             deepEqual( compare, shape, "Layer has expected attribute shape");
+        });
+        start();
+    };
+
+    if ( window.Parsed ) {
+        test();
+    } else {
+        $(window).bind("parsed", test );
+    }
+});
+
+asyncTest("Layers have integer IDs", function() {
+    var test = function() {
+
+        loadAllLayers();
+        expect( allLayers.length );
+        _.each( allLayers, function( layer ) {
+            ok( isInt( layer.id ), "Layer ID: " + layer.id + " is an integer");
         });
         start();
     };

@@ -33,6 +33,7 @@ function( Zeega, Frame, Layer ) {
                 });
 
                 sequence.frames = new Frame.Collection( seqFrames );
+                sequence.frames.sequence = sequence;
                 sequence.frames.initLayers( options.layers );
             });
             // at this point, all frames should be loaded with layers and layer classes

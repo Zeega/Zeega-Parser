@@ -28,9 +28,9 @@ function( Zeega, Layer ) {
             // ids of layers contained on frame
             layers: [],
             // ids of frames this frame can lead to
-            link_to: [],
+            linksTo: [],
             // ids of frames this frame can be accessed from
-            link_from: [],
+            linksFrom: [],
 
             preload_frames: [],
             // id of the next frame
@@ -250,154 +250,6 @@ function( Zeega, Layer ) {
 
                 frame.layers = new Layer.Collection( frameLayers );
             });
-        },
-
-        // logic that populates the frame with information about it's connections, state, and position within the project
-        load: function( sequences, layers, preloadRadius ) {
-            var _this = this,
-            // create a layer collection. this does not need to be saved anywhere
-                layerCollection = new Layer.Collection( layers );
-                sequenceCollection = new Zeega.Backbone.Collection( sequences );
-
-            this.each(function( frame ) {
-                var linkedArray = [];
-
-                // make a layer collection inside the frame
-                frame.layers = new Layer.Collection();
-                frame.relay = _this.relay;
-                frame.status = _this.status;
-                // add each layer to the collection
-                _.each( frame.get("layers"), function( layerID ) {
-                    frame.layers.add( layerCollection.get( layerID ) );
-                });
-                // make connections by sequence>frame order
-                sequenceCollection.each(function( sequence, i ){
-                    var frames = sequence.get("frames"),
-                        advance = sequence.get("advance_to"),
-                        index = frames.indexOf( frame.id ),
-                        prev = null,
-                        next = null;
-
-                    if ( index > -1 ) {
-
-                        if ( index > 0 && frames.length > 1 ) {
-                            prev = frames[ index - 1 ];
-                        } else if ( i > 0 && sequences[ i - 1 ].advance_to ) {
-
-                            // TODO connect sequences in reverse
-
-                        }
-
-                        if ( index < frames.length - 1 && frames.length > 1 ) {
-                            next = frames[ index +1 ];
-                        } else if ( advance && sequenceCollection.get( advance ) ) {
-                            next = sequenceCollection.get( advance ).get("frames")[0];
-                        } else if ( frame.get("attr").advance ) {
-                            next = sequenceCollection.get( sequence.id ).get("frames")[0];
-                        }
-
-                        frame.set({
-                            _prev: prev,
-                            _next: next,
-                            _sequence: sequence.id
-                        });
-                        frame.setConnections();
-                    }
-                });
-
-                // make connections by link layers
-                // get all a frame's link layers
-                var linkLayers = frame.layers.where({ type:"Link" }),
-                    linkTo = [],
-                    linkFrom = [];
-
-                _.each( linkLayers, function( layer ) {
-                    // links that originate from this frame
-                    if ( layer.get("attr").from_frame == frame.id ) {
-                        linkTo.push( layer.get("attr").to_frame );
-                    } else {
-                        // links that originate on other frames
-                        // remove layer model from collection because it shouldn"t be rendered
-                        frame.layers.remove( layer );
-                        linkFrom.push( layer.get("attr").from_frame );
-                    }
-                });
-
-                frame.set({
-                    link_to: linkTo,
-                    link_from: linkFrom
-                });
-
-
-                frame.layers.each(function( layer ) {
-                    layer.relay = _this.relay;
-                    layer.status = _this.status;
-                });
-
-            });
-
-            // another for loop that has to happen after all link layers are populated
-            this.each(function( frame ) {
-                // set common layers object
-                // {
-                //      123: [a,b,c],
-                //      234: [c,d,e]
-                // }
-                var connected, commonLayers,
-                    values = [ "_prev", "_next", "link_to", "link_from" ].map(function( value ) {
-                        return frame.get( value );
-                    });
-
-                // This is sort of insane...
-                connected = _.uniq( _.compact( _.union.apply( null, values ) ) );
-
-                commonLayers = connected.reduce(function( common, id ) {
-                    common[ id ] = _.intersection(
-                        frame.layers.pluck("id"), this.get( id ).layers.pluck("id")
-                    );
-                    return common;
-                }.bind(_this), {});
-
-                frame.set({
-                    common_layers: commonLayers
-                });
-            });
-
-            // figure out the frames that should preload when this frame is rendered
-            // TODO: Investigate why (formerly preload_ahead) was being passed,
-            // despite it not actually being a functional parameter beyond ensuring that
-            // this conditional expression evaluated as true
-            // if ( preloadRadius ) {
-
-            this.each(function( frame ) {
-                var sequenceAhead = sequenceCollection.get( frame.get("_sequence") ) ? sequenceCollection.get( frame.get("_sequence") ).get("advance_to") : false,
-                    ahead = frame.get("_next"),
-                    behind = frame.get("_prev"),
-                    targets = [ frame.id, ahead, behind ];
-
-                for ( var i = 0; i < preloadRadius - 1; i++ ) {
-                    ahead = ahead ? this.get( ahead ).get("_next") : null;
-                    behind = behind ? this.get( behind ).get("_next") : null;
-
-                    if ( !ahead && !behind ) {
-                        break;
-                    }
-
-                    targets.push( ahead, behind );
-                }
-
-                targets = targets.filter( Boolean );
-
-                if( sequenceAhead && sequenceCollection.get( sequenceAhead ) ) {
-                    targets.push( sequenceCollection.get( sequenceAhead ).get("frames")[0] );
-                }
-
-                frame.set( "preload_frames",
-                    _.union(
-                        targets, frame.get("link_to"), frame.get("link_from")
-                    )
-                );
-            }.bind( this ));
         }
     });
 

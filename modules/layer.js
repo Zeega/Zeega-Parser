@@ -29,6 +29,7 @@ function( Zeega, LayerPlugin ) {
                 this.layerClass = new layerClass();
 
                 newAttr = _.defaults( this.toJSON().attr, this.layerClass.attr );
+
                 this.set({ attr: newAttr });
 
                 // create and store the layerClass

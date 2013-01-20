@@ -29,19 +29,35 @@ function( Zeega, Sequence ) {
             user_id: null
         },
 
-        initialize: function() {
+        defaultOptions: {
+            preloadRadius: 2,
+            attach: {}
+        },
+
+        initialize: function( data, options ) {
+            this.options = _.defaults( options, this.defaultOptions );
             this.parseSequences();
         },
 
         parseSequences: function() {
             this.sequences = new Sequence.Collection( this.get("sequences") );
             this.sequences.initFrames({ frames: this.get("frames"), layers: this.get("layers") });
-            
+
+            this.generateFrameSequenceKey();
             this.setInnerSequenceConnections();
             this.setSequenceToSequenceConnections();
             this.setLinkConnections();
 
-            this.setPreload();
+            this.setFramePreloadArrays();
+        },
+
+        generateFrameSequenceKey: function() {
+            this.frameKey = {};
+            this.sequences.each(function( sequence ) {
+                sequence.frames.each(function( frame ) {
+                    this.frameKey[ frame.id ] = sequence.id;
+                }, this );
+            }, this );
         },
 
         setInnerSequenceConnections: function() {
@@ -75,11 +91,66 @@ function( Zeega, Sequence ) {
         },
 
         setLinkConnections: function() {
+            this.sequences.each(function( sequence ) {
+                sequence.frames.each(function( frame ) {
+                    var linksTo = [];
+
+                    frame.layers.each(function( layer ) {
+                        if ( layer.get("type") == "Link" && layer.get("attr").to_frame != frame.id ) {
+                            var targetFrameID = parseInt( layer.get("attr").to_frame, 10 ),
+                                targetFrame = this._getFrame( targetFrameID );
+                                linksFrom = [].concat( targetFrame.get("linksFrom") );
+
+                            linksTo.push( targetFrameID );
+                            linksFrom.push( frame.id );
+
+                            targetFrame.put("linksFrom", linksFrom );
+                        }
+                    }, this );
+
+                    frame.put( "linksTo", linksTo );
+                }, this );
+            }, this );
+        },
+
+        setFramePreloadArrays: function() {
+            this.sequences.each(function( sequence ) {
+                var nextSequence = sequence.get("advance_to") || false;
+
+                sequence.frames.each(function( frame ) {
+                    var nextFrame = frame.get("_next"),
+                        prevFrame = frame.get("_prev"),
+                        preloadTargets = [ nextFrame, prevFrame ];
+
+                    for ( var i = 0; i < this.options.preloadRadius - 1; i++ ) {
+                        nextFrame = nextFrame ? this._getFrame( nextFrame ).get("_next") : null;
+                        prevFrame = prevFrame ? this._getFrame( prevFrame ).get("_prev") : null;
+
+                        if ( !nextFrame && !prevFrame ) {
+                            break;
+                        }
+                        preloadTargets.push( ahead, behind );
+                    }
+
+                    if( nextSequence ) {
+                        preloadTargets.push( this.sequences.get( nextSequence ).get("frames")[0] );
+                    }
+
+                    preloadTargets = preloadTargets.filter( Boolean );
+
+                    frame.put( "preload_frames",
+                        _.union(
+                            preloadTargets, frame.get("linksTo"), frame.get("linksFrom")
+                        )
+                    );
+
+                }, this );
+            }, this );
 
         },
 
-        setPreload: function() {
-
+        _getFrame: function( frameID ) {
+            return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
         }
 
     });
