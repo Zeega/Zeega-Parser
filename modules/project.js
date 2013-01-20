@@ -43,15 +43,15 @@ function( Zeega, Sequence ) {
             this.sequences = new Sequence.Collection( this.get("sequences") );
             this.sequences.initFrames({ frames: this.get("frames"), layers: this.get("layers") });
 
-            this.generateFrameSequenceKey();
-            this.setInnerSequenceConnections();
-            this.setSequenceToSequenceConnections();
-            this.setLinkConnections();
-
-            this.setFramePreloadArrays();
+            this._generateFrameSequenceKey();
+            this._setInnerSequenceConnections();
+            this._setSequenceToSequenceConnections();
+            this._setLinkConnections();
+            this._setFramePreloadArrays();
+            this._attach();
         },
 
-        generateFrameSequenceKey: function() {
+        _generateFrameSequenceKey: function() {
             this.frameKey = {};
             this.sequences.each(function( sequence ) {
                 sequence.frames.each(function( frame ) {
@@ -60,7 +60,7 @@ function( Zeega, Sequence ) {
             }, this );
         },
 
-        setInnerSequenceConnections: function() {
+        _setInnerSequenceConnections: function() {
             this.sequences.each(function( sequence, i ) {
                 var frames = sequence.frames;
 
@@ -75,7 +75,7 @@ function( Zeega, Sequence ) {
             });
         },
 
-        setSequenceToSequenceConnections: function() {
+        _setSequenceToSequenceConnections: function() {
             this.sequences.each(function( sequence, i ) {
                 var advanceTo = sequence.get("advance_to"),
                     followingSequence = this.sequences.get( advanceTo );
@@ -90,7 +90,7 @@ function( Zeega, Sequence ) {
             }, this );
         },
 
-        setLinkConnections: function() {
+        _setLinkConnections: function() {
             this.sequences.each(function( sequence ) {
                 sequence.frames.each(function( frame ) {
                     var linksTo = [];
@@ -113,7 +113,7 @@ function( Zeega, Sequence ) {
             }, this );
         },
 
-        setFramePreloadArrays: function() {
+        _setFramePreloadArrays: function() {
             this.sequences.each(function( sequence ) {
                 var nextSequence = sequence.get("advance_to") || false;
 
@@ -129,7 +129,7 @@ function( Zeega, Sequence ) {
                         if ( !nextFrame && !prevFrame ) {
                             break;
                         }
-                        preloadTargets.push( ahead, behind );
+                        preloadTargets.push( nextFrame, prevFrame );
                     }
 
                     if( nextSequence ) {
@@ -147,6 +147,18 @@ function( Zeega, Sequence ) {
                 }, this );
             }, this );
 
+        },
+
+        _attach: function() {
+            this.sequences.each(function( sequence ) {
+                _.extend( sequence, this.options.attach );
+                sequence.frames.each(function( frame ) {
+                    _.extend( frame, this.options.attach );
+                    frame.layers.each(function( layer ) {
+                        _.extend( layer, this.options.attach );
+                    }, this );
+                }, this );
+            }, this );
         },
 
         getFrame: function( frameID ) {
