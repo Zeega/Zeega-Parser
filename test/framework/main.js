@@ -4,7 +4,8 @@ require([
 
 function( Parser ) {
   $.noConflict();
-  window.Parsed =  new Parser( window.projectJSON, {
+
+  window.Parsed =  new Parser.parse( window.projectJSON, {
     preloadRadius: 2,
     attach: {}
   });

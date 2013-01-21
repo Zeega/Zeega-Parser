@@ -2,7 +2,7 @@
 define([
     "zeega",
     "lodash",
-    // modules
+
     "zeega_parser/modules/project.model",
     "zeega_parser/data-parsers/_all"
 ],
@@ -25,7 +25,7 @@ function( Zeega, _, Project, DataParser ) {
                 parsed = p.parse( response, options );
                 return false;
             }
-        }.bind( this ));
+        }, this );
 
         if ( parsed !== undefined ) {
             return new Project( parsed, options );
