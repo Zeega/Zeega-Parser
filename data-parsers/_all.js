@@ -7,6 +7,7 @@ this should be auto generated probably!!
 */
 
 define([
+    "zeega_parser/data-parsers/zeega-project-model",
     "zeega_parser/data-parsers/zeega-project",
     "zeega_parser/data-parsers/zeega-project-published",
     "zeega_parser/data-parsers/zeega-project-collection",
@@ -15,6 +16,7 @@ define([
     "zeega_parser/data-parsers/youtube"
 ],
 function(
+    zProjectModel,
     zProject,
     zProjectPublished,
     zProjectCollection,
@@ -27,6 +29,7 @@ function(
 
     return _.extend(
         Parsers,
+        zProjectModel,
         zProject,
         zProjectPublished,
         zProjectCollection,
