@@ -1,12 +1,12 @@
 // frame.js
 define([
     "zeega",
-    "zeega_parser/modules/sequence"
+    "zeega_parser/modules/sequence.collection"
 ],
 
-function( Zeega, Sequence ) {
+function( Zeega, SequenceCollection ) {
 
-    var ProjectModel = Zeega.Backbone.Model.extend({
+    return Zeega.Backbone.Model.extend({
 
         defaults: {
             authors: null,
@@ -40,7 +40,7 @@ function( Zeega, Sequence ) {
         },
 
         parseSequences: function() {
-            this.sequences = new Sequence.Collection( this.get("sequences") );
+            this.sequences = new SequenceCollection( this.get("sequences") );
             this.sequences.initFrames({ frames: this.get("frames"), layers: this.get("layers") });
 
             this._generateFrameSequenceKey();
@@ -167,5 +167,4 @@ function( Zeega, Sequence ) {
 
     });
 
-    return ProjectModel;
 });

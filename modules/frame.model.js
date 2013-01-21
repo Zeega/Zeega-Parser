@@ -1,14 +1,11 @@
 // frame.js
 define([
-    "zeega",
-    "zeega_parser/modules/layer"
+    "zeega"
 ],
 
-function( Zeega, Layer ) {
+function( Zeega ) {
 
-    var Frame = {},
-
-    FrameModel = Zeega.Backbone.Model.extend({
+    return Zeega.Backbone.Model.extend({
 
         ready: false,
         // waiting, loading, ready, destroyed
@@ -236,20 +233,4 @@ function( Zeega, Layer ) {
         }
 
     });
-
-    Frame.Collection = Zeega.Backbone.Collection.extend({
-        model: FrameModel,
-
-        initLayers: function( layerCollection ) {
-            this.each(function( frame ) {
-                var frameLayers = layerCollection.filter(function( layer ) {
-                    return _.contains( frame.get("layers"), layer.id );
-                });
-
-                frame.layers = new Layer.Collection( frameLayers );
-            });
-        }
-    });
-
-    return Frame;
 });

@@ -3,7 +3,7 @@ define([
     "zeega",
     "lodash",
     // modules
-    "zeega_parser/modules/project",
+    "zeega_parser/modules/project.model",
     "zeega_parser/data-parsers/_all"
 ],
 
