@@ -17,6 +17,9 @@ function( Zeega, FrameModel, LayerCollection ) {
                 });
 
                 frame.layers = new LayerCollection( frameLayers );
+                frame.layers.each(function( frame ) {
+                    frame.collection = frame.layers;
+                });
             });
         }
     });

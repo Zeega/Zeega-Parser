@@ -75,7 +75,6 @@ function( Zeega ) {
             var commonLayers;
             // if frame is completely loaded, then just render it
             // else try preloading the layers
-
            if ( this.ready ) {
                 // only render non-common layers. allows for persistent layers
                 commonLayers = this.get("common_layers")[ oldID ] || [];
@@ -101,12 +100,10 @@ function( Zeega ) {
             } else {
                 this.renderOnReady = oldID;
             }
-
             /* determines the z-index of the layer in relation to other layers on the frame */
-            this.layers.each(function(layer, i){
-                layer.updateZIndex( i );
-            });
-
+            _.each( this.get("layers"), function( layerID, i ) {
+                this.layers.get( layerID ).updateZIndex( i );
+            }, this );
         },
 
         onLayerReady: function( layer ) {

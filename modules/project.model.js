@@ -49,6 +49,7 @@ function( Zeega, SequenceCollection ) {
             this._setSequenceToSequenceConnections();
             this._setLinkConnections();
             this._setFramePreloadArrays();
+            this._setFrameCommonLayers();
             this._attach();
         },
 
@@ -78,13 +79,19 @@ function( Zeega, SequenceCollection ) {
 
         _setSequenceToSequenceConnections: function() {
             this.sequences.each(function( sequence, i ) {
-                var advanceTo = sequence.get("advance_to"),
+                var a,b,
+                    advanceTo = sequence.get("advance_to"),
                     followingSequence = this.sequences.get( advanceTo );
 
                 if ( advanceTo && followingSequence ) {
-                    var a = sequence.frames.last(),
-                        b = followingSequence.frames.at( 0 );
+                    a = sequence.frames.last();
+                    b = followingSequence.frames.at( 0 );
 
+                    a.put({ _next: b.id });
+                    b.put({ _prev: a.id });
+                } else if( !advanceTo && sequence.frames.last().get('attr').advance ) {
+                    a = sequence.frames.last();
+                    b = sequence.frames.first();
                     a.put({ _next: b.id });
                     b.put({ _prev: a.id });
                 }
@@ -148,6 +155,27 @@ function( Zeega, SequenceCollection ) {
                 }, this );
             }, this );
 
+        },
+
+        _setFrameCommonLayers: function() {
+            this.sequences.each(function( sequence ) {
+                sequence.frames.each(function( frame ) {
+                    var commonLayers = {},
+                        linkedFrames = [ "_prev", "_next", "linksTo", "linksFrom" ].map(function( value ) {
+                        return frame.get( value );
+                    });
+
+                    linkedFrames = _.flatten( linkedFrames );
+
+                    _.each( _.uniq( linkedFrames ), function( frameID ) {
+                        var targetFrame = this.getFrame( frameID );
+                        
+                        commonLayers[ frameID ] = _.intersection( targetFrame.get("layers"), frame.get("layers") );
+                    }, this );
+
+                    frame.put("common_layers", commonLayers );
+                }, this );
+            }, this );
         },
 
         _attach: function() {
