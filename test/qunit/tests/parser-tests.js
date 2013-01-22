@@ -3,7 +3,6 @@
 
     TODO
 
-    - make new parser instance for each(?) test. at least some tests
     - test parser with different preloadRadius values
 
 */
@@ -61,7 +60,7 @@ asyncTest("Returns object", function() {
 
 asyncTest("Has at least one sequence", function() {
     var test;
-    console.log(' test 2')
+
     expect(1);
 
     test = function() {
@@ -75,10 +74,8 @@ asyncTest("Has at least one sequence", function() {
     };
 
     if ( window.parserReady ) {
-        console.log('go do')
         test();
     } else {
-        console.log('wait')
         $(window).bind("parser_ready", test );
     }
 });
