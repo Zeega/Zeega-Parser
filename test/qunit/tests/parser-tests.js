@@ -3,8 +3,6 @@
 
     TODO
 
-    - test parser with different preloadRadius values
-
 */
 
 
@@ -81,15 +79,16 @@ asyncTest("Has at least one sequence", function() {
 });
 
 asyncTest("Project has expected shape", function() {
-    var test, shape, compare;
+    var test;
 
     expect(1);
 
     test = function() {
-        var project = new window.ZeegaParser.parse( window.projectJSON, {
-            preloadRadius: 2,
-            attach: {}
-        });
+        var shape, compare,
+            project = new window.ZeegaParser.parse( window.projectJSON, {
+                preloadRadius: 2,
+                attach: {}
+            });
 
         shape = Object.keys( project.defaults ).sort();
         compare = Object.keys( project.toJSON() ).sort();
@@ -103,8 +102,42 @@ asyncTest("Project has expected shape", function() {
     } else {
         $(window).bind("parser_ready", test );
     }
+});
 
+asyncTest("Preload radius is effective", function() {
+    var test;
 
+    expect(1);
+
+    test = function() {
+        var a, b, aFrames, bFrames;
+
+        a = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 2,
+            attach: {}
+        });
+        b = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 3,
+            attach: {}
+        });
+
+        aFrames = getFrames( a );
+        bFrames = getFrames( b );
+
+        // aFrames and bFrames should be the same length but different preloadFrames
+        var diff = _.find( aFrames, function( frame, i ) {
+            return frame.get("preload_frames").length != bFrames[i].get("preload_frames").length;
+        });
+
+        ok( diff, "preload radius results in different reload outcomes");
+        start();
+    };
+
+    if ( window.parserReady ) {
+        test();
+    } else {
+        $(window).bind("parser_ready", test );
+    }
 });
 
 module("Sequence");
