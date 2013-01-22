@@ -8,67 +8,79 @@
 
 */
 
-var allFrames = [],
-    allLayers = [];
 
-var loadAllFrames = function() {
-    if ( allFrames.length === 0 ) {
-        window.Parsed.sequences.each(function( sequence ) {
-            allFrames.push( sequence.frames.models );
-        });
-        allFrames = _.flatten( allFrames );
-    }
-}
+var getFrames = function( project ) {
+    var allFrames = [];
 
-var loadAllLayers = function() {
-    if ( allLayers.length === 0 ) {
-        loadAllFrames();
-        _.each( allFrames, function( frame ) {
-            allLayers.push( frame.layers.models );
-        });
-        allLayers = _.flatten( allLayers );
-    }
-}
+    project.sequences.each(function( sequence ) {
+        allFrames.push( sequence.frames.models );
+    });
+    allFrames = _.flatten( allFrames );
+
+    return allFrames;
+};
+
+var getLayers = function( project ) {
+    var allLayers = [],
+        frames = getFrames( project );
+
+    _.each( frames, function( frame ) {
+        allLayers.push( frame.layers.models );
+    });
+    allLayers = _.flatten( allLayers );
+
+    return allLayers;
+};
 
 var isInt = function( n ) {
-   return typeof n === 'number' && n % 1 == 0;
-}
+    return typeof n === 'number' && n % 1 === 0;
+};
 
 module("Project");
 
 asyncTest("Returns object", function() {
-  var test;
+    var test;
+    expect(1);
 
-  expect(1);
+    test = function() {
+        var project = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 2,
+            attach: {}
+        });
+        ok( typeof project == "object", "Parser output is actually an object!");
+        start();
+    };
 
-  test = function() {
-    ok( typeof window.Parsed == "object", "Parser output is actually an object!");
-    start();
-  };
-
-  if ( window.Parsed ) {
-    test();
-  } else {
-    $(window).bind("parsed", test );
-  }
+    if ( window.parserReady ) {
+        test();
+    } else {
+        $(window).bind("parser_ready", test );
+    }
 
 });
 
 asyncTest("Has at least one sequence", function() {
-  var test;
+    var test;
+    console.log(' test 2')
+    expect(1);
 
-  expect(1);
+    test = function() {
+        var project = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 2,
+            attach: {}
+        });
 
-  test = function() {
-    ok( window.Parsed.sequences.length , "Project contains " + window.Parsed.sequences.length + " sequences");
-    start();
-  };
+        ok( project.sequences.length , "Project contains " + project.sequences.length + " sequences");
+        start();
+    };
 
-  if ( window.Parsed ) {
-    test();
-  } else {
-    $(window).bind("parsed", test );
-  }
+    if ( window.parserReady ) {
+        console.log('go do')
+        test();
+    } else {
+        console.log('wait')
+        $(window).bind("parser_ready", test );
+    }
 });
 
 asyncTest("Project has expected shape", function() {
@@ -77,18 +89,24 @@ asyncTest("Project has expected shape", function() {
     expect(1);
 
     test = function() {
-        shape = Object.keys( window.Parsed.defaults ).sort();
-        compare = Object.keys( window.Parsed.toJSON() ).sort();
+        var project = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 2,
+            attach: {}
+        });
+
+        shape = Object.keys( project.defaults ).sort();
+        compare = Object.keys( project.toJSON() ).sort();
 
         deepEqual( compare, shape, "Project has expected attribute shape");
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
+
 
 });
 
@@ -96,26 +114,37 @@ module("Sequence");
 
 asyncTest("Each sequence has at least one frame", function() {
     var test = function() {
-        expect( window.Parsed.sequences.length );
+        var project = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 2,
+            attach: {}
+        });
 
-        window.Parsed.sequences.each(function( sequence ) {
+        expect( project.sequences.length );
+
+        project.sequences.each(function( sequence ) {
             ok( sequence.frames.length, "Sequence " + sequence.id + " has " + sequence.frames.length + " frames.");
         });
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
+
 asyncTest("Sequences have expected shape", function() {
     var test = function() {
-        expect( window.Parsed.sequences.length );
+        var project = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 2,
+            attach: {}
+        });
 
-        window.Parsed.sequences.each(function( sequence ) {
+        expect( project.sequences.length );
+
+        project.sequences.each(function( sequence ) {
             var shape, compare;
 
             shape = Object.keys( sequence.defaults ).sort();
@@ -127,28 +156,34 @@ asyncTest("Sequences have expected shape", function() {
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
+
 asyncTest("Sequences have integer ids", function() {
     var test = function() {
-        expect( window.Parsed.sequences.length );
+        var project = new window.ZeegaParser.parse( window.projectJSON, {
+            preloadRadius: 2,
+            attach: {}
+        });
 
-        window.Parsed.sequences.each(function( sequence ) {
+        expect( project.sequences.length );
+
+        project.sequences.each(function( sequence ) {
             ok( isInt( sequence.id ), "Sequence ID: " + sequence.id + " is an integer");
         });
 
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
@@ -157,13 +192,17 @@ module("Frame");
 
 asyncTest("Frames have expected shape", function() {
     var test = function() {
-        var defaults, seqFrames;
+        var defaults, seqFrames, frames,
+            project = new window.ZeegaParser.parse( window.projectJSON, {
+                preloadRadius: 2,
+                attach: {}
+            });
 
-        loadAllFrames();
+        frames = getFrames( project );
 
-        expect( allFrames.length );
+        expect( frames.length );
 
-        _.each( allFrames, function( frame ) {
+        _.each( frames, function( frame ) {
             var shape, compare;
 
             shape = Object.keys( frame.defaults ).sort();
@@ -175,48 +214,59 @@ asyncTest("Frames have expected shape", function() {
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
 asyncTest("Frames have integer ids", function() {
     var test = function() {
-        loadAllFrames();
-        expect( allFrames.length );
-        _.each( allFrames, function( frame ) {
+        var frames,
+            project = new window.ZeegaParser.parse( window.projectJSON, {
+                preloadRadius: 2,
+                attach: {}
+            });
+
+        frames = getFrames( project );
+        expect( frames.length );
+        _.each( frames, function( frame ) {
             ok( isInt( frame.id ), "frame ID: "+ frame.id + " is an integer" );
         });
 
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
 asyncTest("Frames have valid `advance` value", function() {
     var test = function() {
-        var defaults, seqFrames;
+        var defaults, seqFrames, frames,
+            project = new window.ZeegaParser.parse( window.projectJSON, {
+                preloadRadius: 2,
+                attach: {}
+            });
 
-        loadAllFrames();
-        expect( allFrames.length );
-        _.each( allFrames, function( frame ) {
+        frames = getFrames( project );
+
+        expect( frames.length );
+        _.each( frames, function( frame ) {
             ok( typeof frame.get("attr").advance == "number" && frame.get("attr").advance >= 0, "frame has valid advance valid of: " + frame.get("attr").advance );
         });
 
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
@@ -224,11 +274,15 @@ module("Layers");
 
 asyncTest("Layers have expected shape", function() {
     var test = function() {
-        var defaults, seqFrames;
+        var defaults, seqFrames, layers,
+            project = new window.ZeegaParser.parse( window.projectJSON, {
+                preloadRadius: 2,
+                attach: {}
+            });
 
-        loadAllLayers();
-        expect( allLayers.length );
-        _.each( allLayers, function( layer ) {
+        layers = getLayers( project );
+        expect( layers.length );
+        _.each( layers, function( layer ) {
             var shape, compare;
 
             shape = Object.keys( layer.defaults ).sort();
@@ -238,28 +292,33 @@ asyncTest("Layers have expected shape", function() {
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
 asyncTest("Layers have integer IDs", function() {
     var test = function() {
+        var layers,
+            project = new window.ZeegaParser.parse( window.projectJSON, {
+                preloadRadius: 2,
+                attach: {}
+            });
 
-        loadAllLayers();
-        expect( allLayers.length );
-        _.each( allLayers, function( layer ) {
+        layers = getLayers( project );
+        expect( layers.length );
+        _.each( layers, function( layer ) {
             ok( isInt( layer.id ), "Layer ID: " + layer.id + " is an integer");
         });
         start();
     };
 
-    if ( window.Parsed ) {
+    if ( window.parserReady ) {
         test();
     } else {
-        $(window).bind("parsed", test );
+        $(window).bind("parser_ready", test );
     }
 });
 
