@@ -70,6 +70,7 @@ function( Zeega, LayerPlugin ) {
         onVisualReady: function() {
             this.ready = true;
             this.state = "ready";
+            this.status.emit("layer_ready", this.toJSON() );
             this.trigger("layer_ready", this.toJSON());
         },
 
