@@ -35,8 +35,9 @@ function( Zeega, FrameModel, LayerCollection ) {
                 frame.layers = new LayerCollection( frameLayers );
                 frame.layers.frame = frame;
                 frame.layers.sort({ silent: true });
-                frame.layers.each(function( frame ) {
-                    frame.collection = frame.layers;
+                // update the layer collection attribute
+                frame.layers.each(function( layer ) {
+                    layer.collection = frame.layers;
                 });
             });
         },

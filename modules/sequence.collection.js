@@ -11,10 +11,11 @@ function( Zeega, SequenceModel, FrameCollection, LayerCollection ) {
         model: SequenceModel,
 
         initFrames: function( options ) {
-            this.each(function( sequence ) {
-                var layerCollection, seqFrames;
+            var layerCollection = new LayerCollection( options.layers );
 
-                layerCollection = new LayerCollection( options.layers );
+            this.each(function( sequence ) {
+                var seqFrames;
+
                 seqFrames = options.frames.filter(function( frame ) {
                     var index = _.indexOf( sequence.get("frames"), frame.id );
 
