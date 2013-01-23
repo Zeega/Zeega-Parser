@@ -21,7 +21,7 @@ function( Zeega, LayerPlugin ) {
 
         initialize: function() {
             var layerClass = LayerPlugin[ this.get("type") ];
-if ( this.id == 81624 ) console.log( this );
+
             // init link layer type inside here
             if ( layerClass ) {
                 var newAttr;
@@ -52,7 +52,6 @@ if ( this.id == 81624 ) console.log( this );
             }
         },
 
-        
         render: function() {
             // make sure the layer class is loaded or fail gracefully
             if ( this.visualElement ) {
