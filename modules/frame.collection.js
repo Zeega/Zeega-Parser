@@ -31,7 +31,6 @@ function( Zeega, FrameModel, LayerCollection ) {
                     return false;
                 });
 
-
                 frame.layers = new LayerCollection( frameLayers );
                 frame.layers.frame = frame;
                 frame.layers.sort({ silent: true });
