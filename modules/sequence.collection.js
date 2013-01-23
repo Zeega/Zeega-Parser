@@ -12,9 +12,17 @@ function( Zeega, SequenceModel, FrameCollection, LayerCollection ) {
 
         initFrames: function( options ) {
             this.each(function( sequence ) {
-                var layerCollection = new LayerCollection( options.layers );
-                var seqFrames = options.frames.filter(function( frame ) {
-                    return _.contains( sequence.get("frames"), frame.id );
+                var layerCollection, seqFrames;
+
+                layerCollection = new LayerCollection( options.layers );
+                seqFrames = options.frames.filter(function( frame ) {
+                    var index = _.indexOf( sequence.get("frames"), frame.id );
+
+                    if ( index > -1 ) {
+                        frame._order = index;
+                        return true;
+                    }
+                    return false;
                 });
 
                 sequence.frames = new FrameCollection( seqFrames );

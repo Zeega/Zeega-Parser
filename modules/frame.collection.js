@@ -13,24 +13,36 @@ function( Zeega, FrameModel, LayerCollection ) {
         initLayers: function( layerCollection ) {
             this.each(function( frame ) {
                 var frameLayers = layerCollection.filter(function( layer ) {
-                    var contains = _.contains( frame.get("layers"), layer.id ),
-                        invalidLink = layer.get("type") == "Link" && layer.get("attr").to_frame == frame.id;
+                    var invalidLink, index;
 
-                    // remove invalid link ids from frames. this kind of sucks
-                    // have filipe rm these from the data??
+                    invalidLink = layer.get("type") == "Link" && layer.get("attr").to_frame == frame.id;
+                    index = _.indexOf( frame.get("layers"), layer.id );
+
                     if ( invalidLink ) {
+                        // remove invalid link ids from frames. this kind of sucks
+                        // have filipe rm these from the data??
                         frame.put("layers", _.without( frame.get("layers"), layer.id ) );
+                        return false;
+                    } else if ( index > -1 ) {
+                        //console.log( layer, frame, index )
+                        layer.order[ frame.id ] = index;
+                        return true;
                     }
-
-                    return contains && !invalidLink;
+                    return false;
                 });
 
 
                 frame.layers = new LayerCollection( frameLayers );
+                frame.layers.frame = frame;
+                frame.layers.sort({ silent: true });
                 frame.layers.each(function( frame ) {
                     frame.collection = frame.layers;
                 });
             });
+        },
+
+        comparator: function( frame ) {
+            return frame.get("_order");
         }
     });
 

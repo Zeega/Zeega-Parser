@@ -17,6 +17,7 @@ function( Zeega ) {
         renderOnReady: null,
 
         defaults: {
+            _order: 0,
             attr: { advance: 0 },
             // ids of frames and their common layers for loading
             common_layers: {},

@@ -10,6 +10,8 @@ function( Zeega, LayerPlugin ) {
         ready: false,
         state: "waiting", // waiting, loading, ready, destroyed, error
 
+        order: [],
+
         defaults: {
             attr: {},
             id: null,
