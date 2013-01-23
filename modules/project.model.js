@@ -105,9 +105,11 @@ function( Zeega, SequenceCollection ) {
 
                     frame.layers.each(function( layer ) {
                         if ( layer.get("type") == "Link" && layer.get("attr").to_frame != frame.id ) {
-                            var targetFrameID = parseInt( layer.get("attr").to_frame, 10 ),
-                                targetFrame = this.getFrame( targetFrameID );
-                                linksFrom = [].concat( targetFrame.get("linksFrom") );
+                            var targetFrameID, targetFrame, linksFrom;
+
+                            targetFrameID = parseInt( layer.get("attr").to_frame, 10 );
+                            targetFrame = this.getFrame( targetFrameID );
+                            linksFrom = [].concat( targetFrame.get("linksFrom") );
 
                             linksTo.push( targetFrameID );
                             linksFrom.push( frame.id );
@@ -146,6 +148,8 @@ function( Zeega, SequenceCollection ) {
 
                     preloadTargets = preloadTargets.filter( Boolean );
 
+                    this._setConnections( frame );
+
                     frame.put( "preload_frames",
                         _.union(
                             preloadTargets, frame.get("linksTo"), frame.get("linksFrom")
@@ -155,6 +159,20 @@ function( Zeega, SequenceCollection ) {
                 }, this );
             }, this );
 
+        },
+
+        _setConnections: function( frame ) {
+            var prev, next;
+
+            prev = frame.get("_prev"),
+            next = frame.get("_next");
+
+            frame.put( "_connections",
+                frame.get('attr').advance ? "none" :
+                prev & next ? "lr" :
+                prev ? "l" :
+                next ? "r" : "none"
+            );
         },
 
         _setFrameCommonLayers: function() {
