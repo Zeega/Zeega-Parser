@@ -237,6 +237,7 @@ asyncTest("Frames have expected shape", function() {
 
             shape = Object.keys( frame.defaults ).sort();
             compare = Object.keys( frame.toJSON() ).sort();
+console.log( shape, compare );
 
             deepEqual( compare, shape, "Frame has expected attribute shape");
         });
