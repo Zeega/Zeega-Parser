@@ -78,7 +78,8 @@ function( Zeega, SequenceCollection ) {
 
                         frame.put({
                             _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
-                            _prev: animationStart ? animationStart :
+                            _prev: animationStart && lastStart === null && frames.at( j - 1 ) ? frames.at( j - 1 ).id :
+                                animationStart ? animationStart :
                                 animationStart === null && lastStart !== null ? lastStart :
                                 frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
                         });
