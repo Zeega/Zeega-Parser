@@ -67,10 +67,20 @@ function( Zeega, SequenceCollection ) {
                 var frames = sequence.frames;
 
                 if ( frames.length > 1 ) {
+                    var animationStart = null;
+
                     frames.each(function( frame, j ) {
+                        var lastStart = animationStart;
+
+                        // return to the start of an animation sequence
+                        animationStart = frame.get("attr").advance && animationStart === null ? frame.id :
+                            frame.get("attr").advance && animationStart !== null ? animationStart : null;
+
                         frame.put({
                             _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
-                            _prev: frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
+                            _prev: animationStart ? animationStart :
+                                animationStart === null && lastStart !== null ? lastStart :
+                                frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
                         });
                     });
                 }
