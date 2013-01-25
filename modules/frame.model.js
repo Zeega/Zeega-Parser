@@ -62,7 +62,11 @@ function( Zeega ) {
         },
 
         preload: function() {
-            if ( !this.ready ) {
+            var isFrameReady = this.isFrameReady();
+            
+            if ( !this.ready && isFrameReady ) {
+                this.onFrameReady();
+            } else if ( !this.ready && !isFrameReady ) {
                 this.layers.each(function( layer ) {
                     if ( layer.state === "waiting" || layer.state === "loading" ) {
                         layer.on( "layer_ready", this.onLayerReady, this );
@@ -77,7 +81,7 @@ function( Zeega ) {
             var commonLayers;
             // if frame is completely loaded, then just render it
             // else try preloading the layers
-           if ( this.ready ) {
+            if ( this.ready ) {
                 // only render non-common layers. allows for persistent layers
                 commonLayers = this.get("common_layers")[ oldID ] || [];
                 // if the frame is "ready", then just render the layers
@@ -91,6 +95,7 @@ function( Zeega ) {
                 this.status.set( "current_frame",this.id );
                 // set frame timer
                 advance = this.get("attr").advance;
+
                 if ( advance ) {
                     this.startTimer( advance );
                 }
@@ -112,10 +117,6 @@ function( Zeega ) {
             if ( this.isFrameReady() && !this.ready ) {
                 this.onFrameReady();
             }
-
-            // TODO: This does nothing?
-            // trigger events on layer readiness
-            // var states = this.layers.map(function(layer){ return layer.state; });
         },
 
         onFrameReady: function() {
@@ -135,31 +136,15 @@ function( Zeega ) {
             }
         },
 
-        getLayerStates: function() {
-            var layers = _.toArray( this.layers );
-
-            return [
-                "ready", "waiting", "loading", "destroyed", "error"
-            ].reduce(function( states, which ) {
-                var filtereds = layers.filter(function( layer ) {
-                    return layer.state === which;
-                });
-
-                states[ which ] = filtereds.map(function( layer ) {
-                    return layer.attributes;
-                });
-
-                return states;
-            }, {});
-        },
-
         isFrameReady: function() {
-            var states = this.getLayerStates();
+            var states, value;
 
-            if ( (states.ready.length + states.error.length) === this.layers.length ) {
-                return true;
-            }
-            return false;
+            states = _.pluck( this.layers.models, "state");
+            value = _.find( states, function( state ) {
+                return state != "ready";
+            });
+
+            return value === undefined;
         },
 
         pause: function() {
