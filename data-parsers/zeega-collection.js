@@ -1,6 +1,6 @@
 define([
     "lodash",
-    "zeega_parser/plugins/layers/slideshow/parser",
+    "zeega_parser/plugins/layers/slideshow/parser"
 ],
 function( _, Slideshow ) {
     var type = "zeega-collection",
@@ -44,7 +44,7 @@ function( _, Slideshow ) {
                 frames: frames,
                 layers: layers
             });
-    };
+    }
 
     function parseSlideshowCollection( response, opts ) {
         var sequence, frames, layers, slideshowLayer, timebasedLayers;
