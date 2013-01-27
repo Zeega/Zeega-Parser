@@ -1,3 +1,0 @@
-[submodule "plugins/layers"]
-	path = plugins/layers
-	url = git@github.com:Zeega/Zeega-Layers.git
