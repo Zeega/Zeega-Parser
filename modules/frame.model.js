@@ -24,6 +24,8 @@ function( Zeega ) {
             _connections: "none",
             controllable: true,
             id: null,
+            // id of frame before current
+            _last: null,
             // ids of layers contained on frame
             layers: [],
             // ids of frames this frame can lead to
@@ -34,7 +36,7 @@ function( Zeega ) {
             preload_frames: [],
             // id of the next frame
             _next: null,
-            // id of the previous frame
+            // id of frame to be navigated to the left
             _prev: null,
             thumbnail_url: null
         },

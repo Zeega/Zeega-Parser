@@ -78,6 +78,7 @@ function( Zeega, SequenceCollection ) {
 
                         frame.put({
                             _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
+                            _last: frames.at( j - 1 ) ? frames.at( j - 1 ).id : null,
                             _prev: animationStart && lastStart === null && frames.at( j - 1 ) ? frames.at( j - 1 ).id :
                                 animationStart ? animationStart :
                                 animationStart === null && lastStart !== null ? lastStart :
@@ -190,7 +191,7 @@ function( Zeega, SequenceCollection ) {
             this.sequences.each(function( sequence ) {
                 sequence.frames.each(function( frame ) {
                     var commonLayers = {},
-                        linkedFrames = [ "_prev", "_next", "linksTo", "linksFrom" ].map(function( value ) {
+                        linkedFrames = [ "_prev", "_last", "_next", "linksTo", "linksFrom" ].map(function( value ) {
                         return frame.get( value );
                     });
 
