@@ -12,16 +12,16 @@ function( Zeega, _Layer ) {
         layerType: "Rectangle",
 
         attr: {
-            "citation": false,
-            "default_controls": false,
-            "height": 50,
-            "left": 25,
-            "linkable": false,
-            "opacity": 1,
-            "opacity_hover": 1,
-            "title": "Rectangle Layer",
-            "top": 25,
-            "width": 50
+            citation: false,
+            default_controls: false,
+            height: 50,
+            left: 25,
+            linkable: false,
+            opacity: 1,
+            opacity_hover: 1,
+            title: "Rectangle Layer",
+            top: 25,
+            width: 50
         }
     });
 
