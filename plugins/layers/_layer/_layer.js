@@ -180,7 +180,7 @@ function( Zeega ) {
 
         */
         updateZIndex: function( z ) {
-            this.$el.css("z-index", z);
+            this.$el.css("z-index", this.model.get("type") == "Link" ? z + 100 : z );
         },
 
         editor_onLayerEnter: function() {},
