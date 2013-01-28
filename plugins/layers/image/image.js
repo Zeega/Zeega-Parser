@@ -14,14 +14,14 @@ function( Zeega, _Layer ){
         layerType: "Image",
 
         attr: {
-            "title": "Image Layer",
-            "url": "none",
-            "left": 0,
-            "top": 0,
-            "height": 100,
-            "width": 100,
-            "opacity": 1,
-            "aspect": 1.33
+            title: "Image Layer",
+            url: "none",
+            left: 0,
+            top: 0,
+            height: 100,
+            width: 100,
+            opacity: 1,
+            aspect: 1.33
         },
 
         controls: [

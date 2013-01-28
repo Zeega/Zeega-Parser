@@ -13,22 +13,22 @@ function( Zeega, _Layer, MediaPlayer ) {
         layerType: "Video",
 
         attr: {
-            "title": "Video Layer",
-            "url": "none",
-            "left": 0,
-            "top": 0,
-            "height": 100,
-            "width": 100,
-            "volume": 0.5,
-            "cue_in": 0,
-            "cue_out": null,
-            "fade_in": 0,
-            "fade_out": 0,
-            "dissolve": false,
-            "loop": false,
-            "opacity": 1,
-            "dimension": 1.5,
-            "citation": true
+            title: "Video Layer",
+            url: "none",
+            left: 0,
+            top: 0,
+            height: 100,
+            width: 100,
+            volume: 0.5,
+            cue_in: 0,
+            cue_out: null,
+            fade_in: 0,
+            fade_out: 0,
+            dissolve: false,
+            loop: false,
+            opacity: 1,
+            dimension: 1.5,
+            citation: true
         }
     });
 

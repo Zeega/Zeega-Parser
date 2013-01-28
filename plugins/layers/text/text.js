@@ -12,13 +12,13 @@ function( Zeega, _Layer ) {
         layerType: "Text",
 
         attr: {
-            "citation": false,
-            "default_controls": true,
-            "left": 30,
-            "opacity": 1,
-            "title": "Text Layer",
-            "top": 40,
-            "width": 25
+            citation: false,
+            default_controls: true,
+            left: 30,
+            opacity: 1,
+            title: "Text Layer",
+            top: 40,
+            width: 25
         }
     });
 

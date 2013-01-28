@@ -13,19 +13,19 @@ function( Zeega, _Layer, VideoLayer ){
         layerType: "Audio",
 
         attr: {
-            "title": "Audio Layer",
-            "url": "none",
-            "left": 0,
-            "top": 0,
-            "height": 0,
-            "width": 0,
-            "volume": 0.5,
-            "cue_in": 0,
-            "cue_out": null,
-            "fade_in": 0,
-            "fade_out": 0,
-            "opacity": 0,
-            "citation": true
+            title: "Audio Layer",
+            url: "none",
+            left: 0,
+            top: 0,
+            height: 0,
+            width: 0,
+            volume: 0.5,
+            cue_in: 0,
+            cue_out: null,
+            fade_in: 0,
+            fade_out: 0,
+            opacity: 0,
+            citation: true
         }
     });
 

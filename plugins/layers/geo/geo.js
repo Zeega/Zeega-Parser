@@ -30,7 +30,7 @@ function( Zeega, _Layer ){
             streetZoom: 1,
             heading: -235,
             pitch: 17.79,
-            mapType: 'satellite'
+            mapType: "satellite"
         },
 
         controls: []
