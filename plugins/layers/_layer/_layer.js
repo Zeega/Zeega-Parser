@@ -91,8 +91,8 @@ function( Zeega ) {
         },
 
         afterRender: function() {
-            this.verifyReady();
             this.onRender();
+            this.verifyReady();
         },
 
         onRender: function() {},
