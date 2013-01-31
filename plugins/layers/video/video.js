@@ -50,7 +50,9 @@ function( Zeega, _Layer, MediaPlayer ) {
 
         onPlay: function() {
             this.ended = false;
-            this.mediaPlayer.play();
+            _.defer(function() {
+                this.mediaPlayer.play();
+            }.bind( this ));
         },
 
         onPause: function() {
