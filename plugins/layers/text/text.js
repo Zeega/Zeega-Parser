@@ -26,6 +26,12 @@ function( Zeega, _Layer ) {
 
         template: "plugins/text",
 
+        initialize: function() {
+            if ( this.model.get("attr").link ) {
+                this.template = "plugins/text-link";
+            }
+        },
+
         serialize: function() {
             return this.model.toJSON();
         },
