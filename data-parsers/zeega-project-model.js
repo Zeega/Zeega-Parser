@@ -3,23 +3,21 @@ define([
 ],
 
 function( ProjectModel ) {
-    var type = "zeega-project-model",
-        Parser = {};
 
-    Parser[ type ] = { name: type };
+    return {
 
-    Parser[ type ].validate = function( response ) {
+        name: "zeega-project-model",
+        
+        validate: function( response ) {
+            if ( response.sequences && ( response instanceof ProjectModel ) ) {
+                return true;
+            }
+            return false;
+        },
 
-        if ( response.sequences && ( response instanceof ProjectModel ) ) {
-            return true;
+        parse: function( response, opts ) {
+            return response;
         }
-        return false;
     };
 
-    // no op. projects are already formatted
-    Parser[type].parse = function( response, opts ) {
-        return response;
-    };
-
-    return Parser;
 });

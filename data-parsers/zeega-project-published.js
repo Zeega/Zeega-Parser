@@ -1,23 +1,19 @@
 define(["lodash"],
 
 function() {
-    var type = "zeega-project-published",
-        Parser = {};
 
-    Parser[ type ] = { name: type };
+    return {
+        name: "zeega-project-published",
 
-    Parser[ type ].validate = function( response ) {
+        validate: function( response ) {
+            if ( response.items && response.items[0].media_type == "project"&& response.items.length==1) {
+                return true;
+            }
+            return false;
+        },
 
-        if ( response.items && response.items[0].media_type == "project"&& response.items.length==1) {
-            return true;
+        parse: function( response, opts ) {
+            return response.items[0].text;
         }
-        return false;
     };
-
-    // no op. projects are already formatted
-    Parser[type].parse = function( response, opts ) {
-        return response.items[0].text;
-    };
-
-    return Parser;
 });

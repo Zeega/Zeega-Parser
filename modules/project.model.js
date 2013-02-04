@@ -50,7 +50,7 @@ function( Zeega, SequenceCollection ) {
             this._setLinkConnections();
             this._setFramePreloadArrays();
             this._setFrameCommonLayers();
-            this._attach();
+            this.attach( this.options.attach );
         },
 
         _generateFrameSequenceKey: function() {
@@ -207,13 +207,13 @@ function( Zeega, SequenceCollection ) {
             }, this );
         },
 
-        _attach: function() {
+        attach: function( attachments ) {
             this.sequences.each(function( sequence ) {
-                _.extend( sequence, this.options.attach );
+                _.extend( sequence, attachments );
                 sequence.frames.each(function( frame ) {
-                    _.extend( frame, this.options.attach );
+                    _.extend( frame, attachments );
                     frame.layers.each(function( layer ) {
-                        _.extend( layer, this.options.attach );
+                        _.extend( layer, attachments );
                     }, this );
                 }, this );
             }, this );

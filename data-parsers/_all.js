@@ -25,10 +25,9 @@ function(
     youtube
 ) {
     // extend the plugin object with all the layers
-    var Parsers = {};
+//    var Parsers = {};
 
-    return _.extend(
-        Parsers,
+    return [
         zProjectModel,
         zProject,
         zProjectPublished,
@@ -36,5 +35,5 @@ function(
         zCollection,
         flickr,
         youtube
-    );
+    ];
 });

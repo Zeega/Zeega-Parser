@@ -14,6 +14,7 @@ function( Zeega, _, ProjectModel, DataParser ) {
     ZeegaParser.parse = function( data, options ) {
         var parsed;
 
+console.log("parser", DataParser );
         // determine which parser to use
         _.each( DataParser, function( p ) {
             if ( p.validate( data ) ) {

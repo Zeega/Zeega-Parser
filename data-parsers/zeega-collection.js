@@ -3,26 +3,6 @@ define([
     "zeega_parser/plugins/layers/slideshow/parser"
 ],
 function( _, Slideshow ) {
-    var type = "zeega-collection",
-        Parser = {};
-
-    Parser[ type ] = { name: type };
-
-    Parser[ type ].validate = function( response ) {
-        // TODO: this works, but may not be valid with new API!!
-        if ( response.items && response.items[0] && response.items[0].child_items ) {
-            return true;
-        }
-        return false;
-    };
-
-    Parser[ type ].parse = function( response, opts ) {
-        if ( opts.layerOptions && opts.layerOptions.slideshow && opts.layerOptions.slideshow.display && response.items.length > 0 ) {
-            return parseSlideshowCollection( response, opts );
-        } else {
-            return parseStandardCollection( response, opts );
-        }
-    };
 
     function parseStandardCollection( response, opts ) {
         var sequence, frames, layers;
@@ -119,5 +99,23 @@ function( _, Slideshow ) {
         });
     }
 
-    return Parser;
+    return {
+        name: "zeega-collection",
+
+        validate: function( response ) {
+            // TODO: this works, but may not be valid with new API!!
+            if ( response.items && response.items[0] && response.items[0].child_items ) {
+                return true;
+            }
+            return false;
+        },
+
+        parse: function( response, opts ) {
+            if ( opts.layerOptions && opts.layerOptions.slideshow && opts.layerOptions.slideshow.display && response.items.length > 0 ) {
+                return parseSlideshowCollection( response, opts );
+            } else {
+                return parseStandardCollection( response, opts );
+            }
+        }
+    };
 });

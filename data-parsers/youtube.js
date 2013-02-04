@@ -2,38 +2,6 @@ define([
     "lodash"
 ],
 function() {
-    var type = "youtube",
-        Parser = {};
-
-    Parser[ type ] = { name: type };
-
-    Parser[ type ].validate = function( res ) {
-        if ( res.generator && res.generator == "http://gdata.youtube.com/" ) {
-            return true;
-        }
-        return true;
-    };
-
-    Parser[ type ].parse = function( res, opts ) {
-        // layers and frames from timebased items
-        var layers = generateLayerArrayFromItems( res.feed.entry ),
-            frames = generateFrameArrayFromItems( res.feed.entry ),
-            sequence = {
-                id: 0,
-                title: "youtube playlist",
-                persistent_layers: [],
-                frames: _.pluck( frames, "id" )
-            },
-            project = _.extend(
-            res,
-            {
-                sequences: [ sequence ],
-                frames: frames,
-                layers: layers
-            });
-        return project;
-    };
-
 
     function generateUniqueId( string ) {
         var k = 0,
@@ -83,5 +51,36 @@ function() {
         });
     }
 
-    return Parser;
+    return {
+        name: "youtube",
+
+        validate: function( res ) {
+            if ( res.generator && res.generator == "http://gdata.youtube.com/" ) {
+                return true;
+            }
+            return true;
+        },
+
+        parse: function( res, opts ) {
+            // layers and frames from timebased items
+            var layers = generateLayerArrayFromItems( res.feed.entry ),
+                frames = generateFrameArrayFromItems( res.feed.entry ),
+                sequence = {
+                    id: 0,
+                    title: "youtube playlist",
+                    persistent_layers: [],
+                    frames: _.pluck( frames, "id" )
+                },
+                project = _.extend(
+                res,
+                {
+                    sequences: [ sequence ],
+                    frames: frames,
+                    layers: layers
+                });
+            return project;
+        }
+
+    };
+
 });
