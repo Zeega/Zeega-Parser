@@ -71,7 +71,7 @@ function( Zeega ) {
             } else if ( !this.ready && !isFrameReady ) {
                 this.layers.each(function( layer ) {
                     if ( layer.state === "waiting" || layer.state === "loading" ) {
-                        layer.on( "layer_ready", this.onLayerReady, this );
+                        layer.on( "layer_preloaded", this.onLayerReady, this );
                         layer.render();
                     }
                 }, this );
@@ -129,10 +129,10 @@ function( Zeega ) {
 
             this.ready = true;
             this.state = "ready";
-            this.status.emit( "frame_ready", data );
+            this.status.emit( "frame_preloaded", data );
             if ( !_.isNull( this.renderOnReady ) ) {
 
-                this.status.emit( "can_play", data );
+                this.status.emit( "canplay", data );
                 this.render( this.renderOnReady );
                 this.renderOnReady = null;
             }

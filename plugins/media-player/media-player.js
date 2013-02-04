@@ -165,13 +165,13 @@ function(Zeega) {
 
                 if ( _this.settings.cue_in !== 0 ) {
                     this.on( "seeked", function() {
-                        model.can_play = true;
+                        model.canplay = true;
                         model.trigger( "visual_ready", _this.model.id );
                     });
                     _this.setCurrentTime( _this.settings.cue_in );
                 }
                 else {
-                    model.can_play = true;
+                    model.canplay = true;
                     model.trigger( "visual_ready", _this.model.id );
                 }
             });
@@ -194,7 +194,7 @@ function(Zeega) {
                 _this.popcorn.play();
                 _this.popcorn.pause();
 
-                model.can_play = true;
+                model.canplay = true;
                 model.trigger( "visual_ready", _this.model.id );
 
                 if ( model.get("attr").fade_in === 0 ) {
@@ -218,7 +218,7 @@ function(Zeega) {
             this.popcorn.on( "loadeddata",function() {
                 //_this.$el.spin(false);
 
-                model.can_play = true;
+                model.canplay = true;
                 model.trigger( "visual_ready", _this.model.id );
 
                 if ( model.get("attr").fade_in === 0 ) {
