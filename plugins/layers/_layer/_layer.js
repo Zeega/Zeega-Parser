@@ -199,7 +199,7 @@ function( Zeega ) {
             this.$el.css({
                 top: this.getAttr("top") + "%",
                 left: this.getAttr("left") + "%",
-                opacity: this.getAttr("dissolve") ? 0 : this.getAttr("opacity") || 1
+                opacity: this.getAttr("dissolve") ? 0 : this.getAttr("opacity")
             });
             if ( this.getAttr("dissolve") ) {
                 this.$el.animate({ "opacity": this.getAttr("opacity") }, 500 );

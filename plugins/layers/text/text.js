@@ -26,7 +26,7 @@ function( Zeega, _Layer ) {
 
         template: "plugins/text",
 
-        initialize: function() {
+        init: function() {
             if ( this.model.get("attr").link ) {
                 this.template = "plugins/text-link";
             }
