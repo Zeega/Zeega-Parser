@@ -1,7 +1,6 @@
 define([
     "zeega",
-    "libs/modernizr",
-    "vendor/popcorn/popcorn-complete"
+    "libs/modernizr"
 ],
 
 function(Zeega) {
