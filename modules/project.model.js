@@ -220,7 +220,10 @@ function( Zeega, SequenceCollection ) {
         },
 
         getFrame: function( frameID ) {
-            return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
+            if ( this.frameKey[ frameID ] ) {
+                return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
+            }
+            return false;
         }
 
     });
