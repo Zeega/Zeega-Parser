@@ -24,7 +24,6 @@ function( Zeega, FrameModel, LayerCollection ) {
                         frame.put("layers", _.without( frame.get("layers"), layer.id ) );
                         return false;
                     } else if ( index > -1 ) {
-                        //console.log( layer, frame, index )
                         layer.order[ frame.id ] = index;
                         return true;
                     }

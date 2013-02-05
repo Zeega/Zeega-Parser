@@ -1,10 +1,9 @@
 define([
     "zeega",
-    "zeega_parser/plugins/layers/_layer/_layer",
-    "zeega_parser/plugins/layers/video/video"
+    "zeega_parser/plugins/layers/_layer/_layer"
 ],
 
-function( Zeega, _Layer, VideoLayer ){
+function( Zeega, _Layer ){
 
     var Layer = Zeega.module();
 

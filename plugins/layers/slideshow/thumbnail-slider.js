@@ -97,12 +97,13 @@ function( Zeega, _Layer, Metadata ) {
             this.slide = num;
             $li.removeClass("active");
             $active.addClass("active");
+            if ( $active.length ) {
+                leftPosition = playerWidth / 2 - $active.position().left;
 
-            leftPosition = playerWidth / 2 - $active.position().left;
-
-            this.$(".slideshow-thumb-wrapper ul").stop().animate({
-                left: leftPosition
-            }, 250);
+                this.$(".slideshow-thumb-wrapper ul").stop().animate({
+                    left: leftPosition
+                }, 250);
+            }
         }
   });
 
