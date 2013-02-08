@@ -1,6 +1,6 @@
 // parser.js
 define([
-    "zeega",
+    "app",
     "lodash",
 
     "zeega_parser/modules/project.model",

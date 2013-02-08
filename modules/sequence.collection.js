@@ -1,5 +1,5 @@
 define([
-    "zeega",
+    "app",
     "zeega_parser/modules/sequence.model",
     "zeega_parser/modules/frame.collection",
     "zeega_parser/modules/layer.collection"

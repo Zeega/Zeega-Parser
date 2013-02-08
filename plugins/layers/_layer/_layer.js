@@ -1,5 +1,5 @@
 define([
-    "zeega"
+    "app"
 ],
 
 function( Zeega ) {

@@ -1,6 +1,6 @@
 // frame.js
 define([
-    "zeega",
+    "app",
     "zeega_parser/modules/frame.model",
     "zeega_parser/modules/layer.collection"
 ],

@@ -1,6 +1,6 @@
 // frame.js
 define([
-    "zeega"
+    "app"
 ],
 
 function( Zeega ) {

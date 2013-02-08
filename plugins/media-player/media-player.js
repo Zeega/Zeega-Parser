@@ -1,5 +1,5 @@
 define([
-    "zeega",
+    "app",
     "libs/modernizr",
     "vendor/popcorn/popcorn-complete"
 ],

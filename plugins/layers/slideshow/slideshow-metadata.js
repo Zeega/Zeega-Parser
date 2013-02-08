@@ -1,9 +1,8 @@
 define([
-    "zeega",
     "zeega_parser/plugins/layers/_layer/_layer"
 ],
 
-function( Zeega, _Layer ) {
+function( _Layer ) {
 
     var Metadata = {};
 

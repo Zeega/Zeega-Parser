@@ -33,7 +33,7 @@
 */
 
 define([
-    "zeega",
+    "app",
     "zeega_parser/plugins/layers/_layer/_layer",
     "zeega_parser/plugins/layers/slideshow/thumbnail-slider",
     "plugins/cycle"
