@@ -8,7 +8,6 @@ function( Zeega, Controls ) {
 
     return Zeega.Backbone.View.extend({
 
-        // className: "visual-element",
         className: function() {
             return "visual-element visual-" + this.model.get("type").toLowerCase();
         },
@@ -76,7 +75,13 @@ function( Zeega, Controls ) {
             if ( this.model.editorProperties.draggable ) {
                 this.$el.draggable({
                     stop: function( e, ui ) {
-                        console.log("drag stop", this.model, e, ui)
+                        var workspace = this.$el.closest(".ZEEGA-workspace");
+
+                        this.model.save({
+                            top: ui.position.top / workspace.height(),
+                            left: ui.position.left / workspace.width()
+                        }/*, { patch: true }*/);
+
                     }.bind( this )
                 });
             }

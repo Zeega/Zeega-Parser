@@ -24,6 +24,14 @@ function( Zeega, Layers ) {
             type: null
         },
 
+        url: function() {
+            if ( this.isNew() ) {
+                return Zeega.api + "projects/" + projectId + "/layers" + this.id;
+            } else {
+                return Zeega.api + "layers/" + this.id;
+            }
+        },
+
         initialize: function() {
             
             // var layerClass = LayerPlugin[ this.get("type") ];
