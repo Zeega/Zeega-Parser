@@ -1,13 +1,11 @@
 // layer.js
 define([
-    "app",
-    "zeega_parser/modules/layer.model"
+    "app"
 ],
 
-function( Zeega, LayerModel ) {
+function( Zeega ) {
 
     return Zeega.Backbone.Collection.extend({
-        model: LayerModel,
 
         frame: null,
 

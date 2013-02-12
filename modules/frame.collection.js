@@ -10,7 +10,8 @@ function( Zeega, FrameModel, LayerCollection ) {
     return Zeega.Backbone.Collection.extend({
         model: FrameModel,
 
-        initLayers: function( layerCollection ) {
+        initLayers: function( layerCollection, options ) {
+
             this.each(function( frame ) {
                 var frameLayers = layerCollection.filter(function( layer ) {
                     var invalidLink, index;
@@ -37,6 +38,7 @@ function( Zeega, FrameModel, LayerCollection ) {
                 // update the layer collection attribute
                 frame.layers.each(function( layer ) {
                     layer.collection = frame.layers;
+                    layer.pluginsPath = options.pluginsPath;
                 });
             });
         },

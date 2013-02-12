@@ -1,11 +1,12 @@
 define([
     "app",
-    "zeega_parser/plugins/layers/_layer/_layer",
+    "zeega_parser/modules/layer.model",
+    "zeega_parser/modules/layer.visual.view",
     //plugins
     "plugins/jquery.imagesloaded.min"
 ],
 
-function( Zeega, _Layer ){
+function( Zeega, _Layer, Visual ){
 
     var Layer = Zeega.module();
 
@@ -24,34 +25,21 @@ function( Zeega, _Layer ){
             aspect: 1.33
         },
 
-        controls: [
-            {
-                type: "checkbox",
-                property: "dissolve",
-                label: "Fade In"
-            },
-            {
-                type: "slider",
-                property: "width",
-                label: "Scale",
-                suffix: "%",
-                min: 1,
-                max: 200
-            },
-            {
-                type: "slider",
-                property: "opacity",
-                label: "Scale",
-                step: 0.01,
-                min: 0.05,
-                max: 1
-            }
-        ]
+        editorProperties: {
+            draggable: true //default
+        }
+
     });
 
-    Layer.Image.Visual = _Layer.Visual.extend({
+    Layer.Image.Visual = Visual.extend({
 
-        template: "plugins/image",
+        template: "image/image",
+
+        visualProperties: [
+            "height",
+            "width",
+            "opacity"
+        ],
 
         serialize: function() {
             return this.model.toJSON();

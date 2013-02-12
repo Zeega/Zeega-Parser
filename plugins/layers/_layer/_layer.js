@@ -52,7 +52,10 @@ function( Zeega ) {
             // Initialize done for use in async-mode
             var done;
             // Concatenate the file extension.
-            path = "app/templates/" + path + ".html";
+            path = Zeega.parserPath + "plugins/layers/" + path + ".html";
+            // remove app/templates/ via regexp // hacky? yes. probably.
+            path = path.replace("app/templates/","");
+
             // If cached, use the compiled template.
             if ( JST[ path ] ) {
                 return JST[ path ];
@@ -78,12 +81,16 @@ function( Zeega ) {
 
         beforePlayerRender: function() {},
         beforeRender: function() {
-            var target = this.model.status.target.find(".ZEEGA-player-window");
+
+            console.log("b4", this.model );
+            var target = this.model.status.target ? this.model.status.target.find(".ZEEGA-player-window") :
+                                        $(".ZEEGA-workspace");
 
             this.className = this._className + " " + this.className;
             this.beforePlayerRender();
 
-            Zeega.$( target ).append( this.el );
+            target.append( this.el );
+            //Zeega.$( target ).append( this.el );
 
             this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
             this.moveOffStage();
@@ -149,36 +156,6 @@ function( Zeega ) {
             }.bind( this ), 1000 );
         },
 
-        /*
-        TODO: Why is this special cased?
-        if there is a need for shorthanding, then I suggest writing
-        a "macro" to define many of these at initial run time:
-
-        (function( global ) {
-          var rdashAlpha = /-([\da-z])/gi,
-              camelCase = function( string ) {
-                return string.replace( rdashAlpha, function( all, letter ) {
-                  return letter.toUpperCase();
-                });
-              };
-
-          // Fake API
-          global.Util = [
-            // example list of properties to create shorthand setter api for
-            "z-index", "background-color", "height", "width"
-          ].reduce(function( api, property ) {
-            var camel = camelCase( "set-" + property );
-
-            api[ camel ] = function( value ) {
-              console.log( "Set " + property + " to: " + value );
-            };
-
-            return api;
-          }, {});
-
-        }( this ));
-
-        */
         updateZIndex: function( z ) {
             this.$el.css("z-index", z);
         },

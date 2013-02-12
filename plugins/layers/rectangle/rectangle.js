@@ -1,12 +1,13 @@
 define([
     "app",
-    "zeega_parser/plugins/layers/_layer/_layer"
+    "zeega_parser/modules/layer.model",
+    "zeega_parser/modules/layer.visual.view"
 ],
-function( Zeega, _Layer ) {
+function( Zeega, LayerModel, Visual ) {
 
     var Layer = Zeega.module();
 
-    Layer.Rectangle = _Layer.extend({
+    Layer.Rectangle = LayerModel.extend({
         // TODO: is the redundant naming necessary? If this program knows
         // this is a Layer, wouldn't "type" be sufficient?
         layerType: "Rectangle",
@@ -22,29 +23,29 @@ function( Zeega, _Layer ) {
             title: "Rectangle Layer",
             top: 25,
             width: 50
-        }
+        },
+
+        controls: ["position", "resize", "rotate", "opacity"]
+
     });
 
-    Layer.Rectangle.Visual = _Layer.Visual.extend({
+    Layer.Rectangle.Visual = Visual.extend({
 
-        template: "plugins/rectangle",
+        template: "rectangle/rectangle",
+
+        visualProperties: [
+            "backgroundColor",
+            "height",
+            "width",
+            "opacity"
+        ],
 
         // TODO: This doesn"t produce a "serialization", perhaps rename
         // to something more appropriate?
         serialize: function() {
             return this.model.toJSON();
-        },
-
-        beforePlayerRender: function() {
-            // update the rectangle style
-            var style = {
-                "background-color": this.getAttr("backgroundColor"),
-                "height": this.getAttr("height") + "%",
-                "opacity": this.getAttr("opacity")
-            };
-
-            this.$el.css( style );
         }
+
   });
 
   return Layer;

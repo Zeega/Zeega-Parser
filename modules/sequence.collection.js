@@ -2,21 +2,31 @@ define([
     "app",
     "zeega_parser/modules/sequence.model",
     "zeega_parser/modules/frame.collection",
-    "zeega_parser/modules/layer.collection"
+    "zeega_parser/modules/layer.collection",
+    "zeega_parser/plugins/layers/_all"
 ],
 
-function( Zeega, SequenceModel, FrameCollection, LayerCollection ) {
+function( Zeega, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
 
     return Zeega.Backbone.Collection.extend({
         model: SequenceModel,
 
-        initFrames: function( options ) {
-            var layerCollection = new LayerCollection( options.layers );
+        initFrames: function( frames, layers, options ) {
+            var layerCollection, classedLayers;
+
+            // generate classed layers and add their visual counterparts
+            classedLayers = _.map( layers, function( layer ) {
+                var layerModel = new LayerModels[ layer.type ]( layer );
+
+                layerModel.visual = new LayerModels[ layer.type ].Visual({ model: layerModel });
+                return layerModel;
+            });
+            layerCollection = new LayerCollection( classedLayers );
 
             this.each(function( sequence ) {
                 var seqFrames;
 
-                seqFrames = options.frames.filter(function( frame ) {
+                seqFrames = frames.filter(function( frame ) {
                     var index = _.indexOf( sequence.get("frames"), frame.id );
 
                     if ( index > -1 ) {
@@ -28,7 +38,7 @@ function( Zeega, SequenceModel, FrameCollection, LayerCollection ) {
 
                 sequence.frames = new FrameCollection( seqFrames );
                 sequence.frames.sequence = sequence;
-                sequence.frames.initLayers( layerCollection );
+                sequence.frames.initLayers( layerCollection, options );
             });
             // at this point, all frames should be loaded with layers and layer classes
         }

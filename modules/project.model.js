@@ -42,7 +42,7 @@ function( Zeega, SequenceCollection ) {
 
         parseSequences: function() {
             this.sequences = new SequenceCollection( this.get("sequences") );
-            this.sequences.initFrames({ frames: this.get("frames"), layers: this.get("layers") });
+            this.sequences.initFrames( this.get("frames"), this.get("layers"), this.options );
 
             this._generateFrameSequenceKey();
             this._setInnerSequenceConnections();
