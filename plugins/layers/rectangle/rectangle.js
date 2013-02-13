@@ -25,7 +25,12 @@ function( Zeega, LayerModel, Visual ) {
             width: 50
         },
 
-        controls: ["position", "resize", "rotate", "opacity"]
+        controls: [
+            "position",
+            "resize",
+            "rotate",
+            "opacity"
+        ]
 
     });
 
@@ -40,8 +45,6 @@ function( Zeega, LayerModel, Visual ) {
             "opacity"
         ],
 
-        // TODO: This doesn"t produce a "serialization", perhaps rename
-        // to something more appropriate?
         serialize: function() {
             return this.model.toJSON();
         }

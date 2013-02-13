@@ -14,6 +14,8 @@ function( Zeega, Controls ) {
 
         template: "",
         controls: [],
+        $visual: null,
+        $workspace: null,
 
         initialize: function() {
             this.init();
@@ -26,11 +28,16 @@ function( Zeega, Controls ) {
         },
 
         loadControls: function() {
-            this.controls = _.map( this.model.controls, function( controlName ) {
-                if ( Controls[ controlName ] ) {
-                    var control = new Controls[ controlName ]({ model: this.model });
+            this.controls = _.map( this.model.controls, function( controlType ) {
+                var control;
 
-                    this.insertView( control );
+                if ( _.isObject( controlType ) && Controls[ controlType.type ] ) {
+                    control = new Controls[ controlType.type ]({ model: this.model, options: controlType.options });
+                    this.insertView( ".controls-inline", control );
+                } else if ( Controls[ controlType ] ) {
+                    control = new Controls[ controlType ]({ model: this.model });
+                    this.insertView( ".controls-inline", control );
+
                     return control;
                 }
                 return false;
@@ -44,16 +51,19 @@ function( Zeega, Controls ) {
             } else if ( this.model.mode == "editor") {
 
             }
-            this.applyVisualProperties();
             this.visualBeforeRender();
         },
 
         afterRender: function() {
+            this.$visual = this.$(".visual-target");
+            this.$workspace = this.$el.closest(".ZEEGA-workspace");
+            
             if ( this.model.mode == "player") {
                 this.verifyReady();
             } else if ( this.model.mode == "editor") {
-                this.makeDraggable();
+                this.afterEditorRender();
             }
+            this.applyVisualProperties();
             this.visualAfterRender();
         },
 
@@ -62,31 +72,25 @@ function( Zeega, Controls ) {
             width: "%"
         },
 
+        containerAttributes: ["height", "width"],
+
         applyVisualProperties: function() {
-            var css = {};
+            var mediaTargetCSS = {},
+                containerCSS = {};
 
             _.each( this.visualProperties, function( prop ) {
-                css[ prop ] = this.getAttr( prop ) + ( this.units[ prop ] ? this.units[ prop ] : "" );
+                if ( _.contains( this.containerAttributes, prop ) ) {
+                    containerCSS[ prop ] = this.getAttr( prop ) + ( this.units[ prop ] ? this.units[ prop ] : "" );
+                } else {
+                    mediaTargetCSS[ prop ] = this.getAttr( prop ) + ( this.units[ prop ] ? this.units[ prop ] : "" );
+                }
             }, this );
-            this.$el.css( css );
+
+            this.$el.css( containerCSS );
+            this.$(".visual-target").css( mediaTargetCSS );
         },
 
-        makeDraggable: function() {
-            if ( this.model.editorProperties.draggable ) {
-                this.$el.draggable({
-                    stop: function( e, ui ) {
-                        var workspace = this.$el.closest(".ZEEGA-workspace");
-
-                        this.model.save({
-                            top: ui.position.top / workspace.height(),
-                            left: ui.position.left / workspace.width()
-                        }/*, { patch: true }*/);
-
-                    }.bind( this )
-                });
-            }
-        },
-
+        afterEditorRender: function() {},
 
         // default verify fxn. return ready immediately
         verifyReady: function() {
@@ -149,12 +153,12 @@ function( Zeega, Controls ) {
         moveOnStage: function() {
             this.$el.css({
                 top: this.getAttr("top") + "%",
-                left: this.getAttr("left") + "%",
-                opacity: this.getAttr("dissolve") ? 0 : this.getAttr("opacity") || 1
+                left: this.getAttr("left") + "%"
+                //opacity: this.getAttr("dissolve") ? 0 : this.getAttr("opacity") || 1
             });
-            if ( this.getAttr("dissolve") ) {
-                this.$el.animate({ "opacity": this.getAttr("opacity") }, 500 );
-            }
+            // if ( this.getAttr("dissolve") ) {
+            //     this.$el.animate({ "opacity": this.getAttr("opacity") }, 500 );
+            // }
 
         },
 
@@ -182,6 +186,10 @@ function( Zeega, Controls ) {
         // convenience fxn
         getAttr: function( key ) {
             return this.model.get("attr")[key];
+        },
+
+        update: function( attributes ) {
+            this.model.save( attributes );
         },
 
         /* user endpoints */

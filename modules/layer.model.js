@@ -33,6 +33,9 @@ function( Zeega, Layers ) {
         },
 
         initialize: function() {
+            var augmentAttr = _.defaults( this.toJSON().attr, this.attr );
+
+            this.set("attr", augmentAttr );
             
             // var layerClass = LayerPlugin[ this.get("type") ];
 

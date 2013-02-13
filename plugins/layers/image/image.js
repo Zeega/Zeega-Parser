@@ -19,15 +19,20 @@ function( Zeega, _Layer, Visual ){
             url: "none",
             left: 0,
             top: 0,
-            height: 100,
             width: 100,
             opacity: 1,
-            aspect: 1.33
+            aspectRatio: null
         },
 
-        editorProperties: {
-            draggable: true //default
-        }
+        controls: [
+            "position",
+            {
+                type: "resize",
+                options: { aspectRatio: true }
+            },
+            "rotate",
+            "opacity"
+        ]
 
     });
 
@@ -45,8 +50,38 @@ function( Zeega, _Layer, Visual ){
             return this.model.toJSON();
         },
 
+        afterEditorRender: function() {
+            // add height attribute if not already there
+            // this may break if the aspect ratio changes
+            if ( _.isNull( this.getAttr("aspectRatio") ) ) {
+                var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
+                    position: "absolute",
+                    top: "-1000%",
+                    left: "-1000%"
+                });
+
+                $img.imagesLoaded();
+                $img.done(function() {
+                    var pxHeight, pxWidth, height;
+
+                    pxWidth = ( this.getAttr("width") / 100 ) * this.$workspace.width();
+                    pxHeight = pxWidth * $img.height() / $img.width();
+                    height = pxHeight / this.$workspace.height() * 100;
+
+                    $img.remove();
+                    this.update({
+                        aspectRatio: $img.width()/ $img.height(),
+                        height: height
+                    });
+                    this.$el.css("height", height + "%" );
+                }.bind( this ));
+                $("body").append( $img );
+            }
+
+        },
+
         verifyReady: function() {
-            var img = Zeega.$( this.$el ).imagesLoaded();
+            var img = Zeega.$( this.$("img") ).imagesLoaded();
 
             img.done(function() {
                 this.model.trigger( "visual_ready", this.model.id );
