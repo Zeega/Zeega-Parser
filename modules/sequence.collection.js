@@ -18,7 +18,7 @@ function( Zeega, SequenceModel, FrameCollection, LayerCollection, LayerModels ) 
             classedLayers = _.map( layers, function( layer ) {
                 var layerModel = new LayerModels[ layer.type ]( layer );
 
-                layerModel.visual = new LayerModels[ layer.type ].Visual({ model: layerModel });
+                layerModel.initVisual( LayerModels[ layer.type ] );
                 return layerModel;
             });
             layerCollection = new LayerCollection( classedLayers );

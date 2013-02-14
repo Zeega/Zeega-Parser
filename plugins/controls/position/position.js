@@ -13,6 +13,7 @@ function( Zeega, ControlView ) {
 
             create: function() {
                 this.makeDraggable();
+                this.$visual.css("cursor", "move");
             },
 
             makeDraggable: function() {

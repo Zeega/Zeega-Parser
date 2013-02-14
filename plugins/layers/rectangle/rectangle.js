@@ -5,7 +5,7 @@ define([
 ],
 function( Zeega, LayerModel, Visual ) {
 
-    var Layer = Zeega.module();
+    var Layer = {};
 
     Layer.Rectangle = LayerModel.extend({
         // TODO: is the redundant naming necessary? If this program knows
@@ -13,16 +13,15 @@ function( Zeega, LayerModel, Visual ) {
         layerType: "Rectangle",
 
         attr: {
+            backgroundColor: "#FF00FF",
             citation: false,
-            default_controls: false,
-            height: 50,
-            left: 25,
+            height: 100,
+            left: 0,
             linkable: false,
-            opacity: 1,
-            opacity_hover: 1,
-            title: "Rectangle Layer",
-            top: 25,
-            width: 50
+            opacity: 0.75,
+            title: "Color Layer",
+            top: 0,
+            width: 100
         },
 
         controls: [

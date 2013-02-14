@@ -1,14 +1,15 @@
 define([
-  "app",
-  "zeega_parser/plugins/layers/_layer/_layer",
-  "zeega_parser/plugins/media-player/media-player"
+    "app",
+    "zeega_parser/modules/layer.model",
+    "zeega_parser/modules/layer.visual.view",
+    "zeega_parser/plugins/media-player/media-player"
 ],
 
-function( Zeega, _Layer, MediaPlayer ) {
+function( Zeega, LayerModel, Visual, MediaPlayer ) {
 
     var Layer = Zeega.module();
 
-    Layer.Video = _Layer.extend({
+    Layer.Video = LayerModel.extend({
 
         layerType: "Video",
 
@@ -32,7 +33,7 @@ function( Zeega, _Layer, MediaPlayer ) {
         }
     });
 
-    Layer.Video.Visual = _Layer.Visual.extend({
+    Layer.Video.Visual = Visual.extend({
 
         template: "plugins/video",
 

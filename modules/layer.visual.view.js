@@ -134,8 +134,8 @@ function( Zeega, Controls ) {
             }.bind( this ), 1000 );
         },
 
-        updateZIndex: function( z ) {
-            this.$el.css("z-index", z);
+        updateZIndex: function( zIndex ) {
+            this.$el.css("z-index", zIndex );
         },
 
         editor_onLayerEnter: function() {},

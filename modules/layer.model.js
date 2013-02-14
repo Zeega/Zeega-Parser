@@ -3,7 +3,7 @@ define([
     "app"
 ],
 
-function( Zeega, Layers ) {
+function( Zeega ) {
 
     return Zeega.Backbone.Model.extend({
         ready: false,
@@ -12,6 +12,7 @@ function( Zeega, Layers ) {
         mode: "player",
         order: [],
         controls: [],
+        visual: null,
 
         editorProperties: {
             draggable: true
@@ -26,7 +27,7 @@ function( Zeega, Layers ) {
 
         url: function() {
             if ( this.isNew() ) {
-                return Zeega.api + "projects/" + projectId + "/layers" + this.id;
+                return Zeega.api + "projects/" + Zeega.project.id + "/layers";
             } else {
                 return Zeega.api + "layers/" + this.id;
             }
@@ -36,37 +37,33 @@ function( Zeega, Layers ) {
             var augmentAttr = _.defaults( this.toJSON().attr, this.attr );
 
             this.set("attr", augmentAttr );
-            
-            // var layerClass = LayerPlugin[ this.get("type") ];
+            this.order = {};
+        },
 
-            // // init link layer type inside here
-            // if ( layerClass ) {
-            //     var newAttr;
+        initVisual: function( layerClass ) {
+            this.visual = new layerClass.Visual({
+                model: this,
+                attributes: {
+                    "data-id": this.id
+                }
+            });
+        },
 
-            //     this.layerClass = new layerClass();
+        addCollection: function( collection ) {
+            this.collection = collection;
+            this.collection.on("sort", this.onSort, this );
+        },
 
-            //     newAttr = _.defaults( this.toJSON().attr, this.layerClass.attr );
+        // when the parent collection is resorted as in a layer shuffle
+        onSort: function( collection ) {
+            var zIndex = this.order[ collection.frame.id ];
 
-            //     this.set({ attr: newAttr });
+            this.updateZIndex( zIndex );
+        },
 
-            //     // create and store the layerClass
-            //     this.visual = new layerClass.Visual({
-            //         model: this,
-            //         attributes: function() {
-            //             return _.extend( {}, _.result( this, "domAttributes" ), {
-            //                 id: "visual-element-" + this.id,
-            //                 "data-layer_id": this.id
-            //             });
-            //         }.bind( this )
-            //     });
-            //     // listen to visual element events
-            //     this.on( "visual_ready", this.onVisualReady, this );
-            //     this.on( "visual_error", this.onVisualError, this );
-            // } else {
-            //     this.ready = true;
-            //     this.state = "error";
-            //     console.log( "could not find valid layer type: ", this.get("type") );
-            // }
+        editorCleanup: function() {
+            // there should probably be more done here
+            this.visual.remove();
         },
 
         render: function() {
@@ -106,8 +103,8 @@ function( Zeega, Layers ) {
             this.trigger("layer_error", this.toJSON());
         },
 
-        updateZIndex: function(z) {
-            this.visual.updateZIndex(z);
+        updateZIndex: function( zIndex ) {
+            this.visual.updateZIndex( zIndex );
         },
 
         pause: function() {

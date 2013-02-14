@@ -1,9 +1,12 @@
 // frame.js
 define([
-    "app"
+    "app",
+    "backbone",
+    "zeega_parser/plugins/layers/_all"
+
 ],
 
-function( Zeega ) {
+function( Zeega, Backbone, Layers ) {
 
     return Zeega.Backbone.Model.extend({
 
@@ -27,6 +30,7 @@ function( Zeega ) {
             // id of frame before current
             _last: null,
             // ids of layers contained on frame
+            // come in order of z-index: bottom -> top
             layers: [],
             // ids of frames this frame can lead to
             linksTo: [],
@@ -40,6 +44,34 @@ function( Zeega ) {
             _prev: null,
             thumbnail_url: null
         },
+
+        url: function() {
+            if( this.isNew() ) {
+                return Zeega.api + 'projects/'+ projectId +'/sequences/'+ zeega.app.currentSequence.id +'/frames';
+            } else {
+                return Zeega.api + 'frames/'+ this.id;
+            }
+        },
+
+// editor
+        listenToLayers: function() {
+            this.layers.on("sort", this.onLayerSort, this );
+        },
+
+        onLayerSort: function() {
+            this.save("layers", this.layers.pluck("id") );
+        },
+
+        addLayerType: function( type ) {
+            var newLayer = new Layers[ type ]({ type: type });
+
+            newLayer.order[ this.id ] = this.layers.length;
+            newLayer.save().success(function( response ) {
+                this.layers.add( newLayer );
+            }.bind( this ));
+            
+        },
+// end editor
 
         // for convenience
         getNext: function() {
