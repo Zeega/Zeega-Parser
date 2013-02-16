@@ -23,13 +23,15 @@ function( Zeega, ControlView ) {
                             var top, left, workspace;
 
                             workspace = this.$visualContainer.closest(".ZEEGA-workspace");
-                            top = ui.position.top / workspace.height();
-                            left = ui.position.left / workspace.width();
-
+                            top = ui.position.top / workspace.height() * 100;
+                            left = ui.position.left / workspace.width() * 100;
                             this.update({
                                 top: top,
                                 left: left
                             });
+
+console.log('pos:', top, left, this.model.toJSON() )
+
                             this.convertToPercents( top, left );
                         }.bind( this )
                     });
@@ -42,8 +44,8 @@ function( Zeega, ControlView ) {
 
             convertToPercents: function( top, left ) {
                 this.$visualContainer.css({
-                    top: top * 100 + "%",
-                    left: left * 100 + "%"
+                    top: top + "%",
+                    left: left + "%"
                 });
             }
 

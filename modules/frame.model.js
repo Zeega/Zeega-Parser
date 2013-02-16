@@ -71,6 +71,18 @@ function( Zeega, Backbone, Layers ) {
             }.bind( this ));
             
         },
+
+        addLayerByItem: function( item ) {
+            var newLayer = new Layers[ item.get("layer_type") ]({
+                type: item.get("layer_type"),
+                attr: _.extend({}, item.toJSON() )
+            });
+
+            newLayer.order[ this.id ] = this.layers.length;
+            newLayer.save().success(function( response ) {
+                this.layers.add( newLayer );
+            }.bind( this ));
+        },
 // end editor
 
         // for convenience

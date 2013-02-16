@@ -35,7 +35,9 @@ function( Zeega ) {
         destroy: function() {},
 
         update: function( attributes ) {
-            this.model.save( attributes );
+            var attr = _.extend({}, this.model.get("attr"), attributes );
+
+            this.model.save("attr", attr );
         },
 
         // convenience fxn

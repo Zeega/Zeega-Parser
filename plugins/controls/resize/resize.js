@@ -20,8 +20,8 @@ function( Zeega, ControlView ) {
                     stop: function( e, ui ) {
                         var width, height;
 
-                        height = this.$visualContainer.height() / this.$workspace.height();
-                        width = this.$visualContainer.width() / this.$workspace.width();
+                        height = this.$visualContainer.height() / this.$workspace.height() * 100;
+                        width = this.$visualContainer.width() / this.$workspace.width() * 100;
 
                         this.update({
                             height: height,
@@ -40,8 +40,8 @@ function( Zeega, ControlView ) {
 
             convertToPercents: function( width, height ) {
                 this.$visualContainer.css({
-                    width: width * 100 + "%",
-                    height: height * 100 + "%"
+                    width: width + "%",
+                    height: height + "%"
                 });
             }
 

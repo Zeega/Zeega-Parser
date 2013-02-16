@@ -18,6 +18,7 @@ function( Zeega, Layers ) {
         },
 
         onAdd: function( layer ) {
+            layer.addCollection( this );
             layer.initVisual( Layers[ layer.get("type") ]);
         },
 
