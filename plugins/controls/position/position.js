@@ -30,8 +30,6 @@ function( Zeega, ControlView ) {
                                 left: left
                             });
 
-console.log('pos:', top, left, this.model.toJSON() )
-
                             this.convertToPercents( top, left );
                         }.bind( this )
                     });
