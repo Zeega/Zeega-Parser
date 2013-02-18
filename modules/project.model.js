@@ -1,4 +1,3 @@
-// frame.js
 define([
     "app",
     "zeega_parser/modules/sequence.collection"
@@ -32,6 +31,10 @@ function( Zeega, SequenceCollection ) {
         defaultOptions: {
             preloadRadius: 2,
             attach: {}
+        },
+
+        url : function() {
+            return Zeega.api +'projects/' + this.id;
         },
 
         initialize: function( data, options ) {

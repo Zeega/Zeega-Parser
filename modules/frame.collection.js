@@ -44,6 +44,23 @@ function( Zeega, FrameModel, LayerCollection ) {
             });
         },
 
+        // add frame at a specified index.
+        // omit index to append frame
+        addFrame: function( index ) {
+            var newFrame = new FrameModel();
+
+            newFrame.save().success(function() {
+                if ( _.isUndefined( index ) ) {
+                    this.push( newFrame );
+                } else {
+                    this.add( newFrame, { at: index });
+                }
+                console.log('add frame to sequence', this, newFrame );
+            }.bind( this ));
+
+
+        },
+
         comparator: function( frame ) {
             return frame.get("_order");
         }

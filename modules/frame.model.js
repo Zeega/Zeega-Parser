@@ -47,7 +47,7 @@ function( Zeega, Backbone, Layers ) {
 
         url: function() {
             if( this.isNew() ) {
-                return Zeega.api + 'projects/'+ projectId +'/sequences/'+ zeega.app.currentSequence.id +'/frames';
+                return Zeega.api + 'projects/'+ Zeega.project.id +'/sequences/'+ Zeega.status.get("currentSequence").id +'/frames';
             } else {
                 return Zeega.api + 'frames/'+ this.id;
             }
