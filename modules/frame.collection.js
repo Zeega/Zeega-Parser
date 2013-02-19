@@ -49,15 +49,17 @@ function( Zeega, FrameModel, LayerCollection ) {
         addFrame: function( index ) {
             var newFrame = new FrameModel();
 
+            newFrame.status = Zeega.status;
+            newFrame.layers = new LayerCollection();
+            newFrame.layers.frame = newFrame;
+
             newFrame.save().success(function() {
                 if ( _.isUndefined( index ) ) {
                     this.push( newFrame );
                 } else {
                     this.add( newFrame, { at: index });
                 }
-                console.log('add frame to sequence', this, newFrame );
             }.bind( this ));
-
 
         },
 

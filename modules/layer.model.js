@@ -56,6 +56,7 @@ function( Zeega ) {
 
         // when the parent collection is resorted as in a layer shuffle
         onSort: function( collection ) {
+            console.log('on sort', collection, this)
             var zIndex = this.order[ collection.frame.id ];
             this.updateZIndex( zIndex );
         },

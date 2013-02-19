@@ -3,7 +3,6 @@ define([
     "app",
     "backbone",
     "zeega_parser/plugins/layers/_all"
-
 ],
 
 function( Zeega, Backbone, Layers ) {
