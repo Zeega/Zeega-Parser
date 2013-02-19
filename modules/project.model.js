@@ -222,6 +222,23 @@ function( Zeega, SequenceCollection ) {
             }, this );
         },
 
+        getProjectJSON: function() {
+            var frames = [], layers = [];
+
+            this.sequences.each(function( sequence ) {
+                frames = frames.concat( sequence.frames.toJSON() );
+                sequence.frames.each(function( frame ) {
+                    layers = layers.concat( frame.layers.toJSON() );
+                });
+            });
+
+            return _.extend({}, this.toJSON(), {
+                sequences: this.sequences.toJSON(),
+                frames: frames,
+                layers: _.uniq( layers )
+            });
+        },
+
         getFrame: function( frameID ) {
             return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
         }
