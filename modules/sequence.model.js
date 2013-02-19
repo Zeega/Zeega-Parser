@@ -22,6 +22,19 @@ function( Zeega ) {
             } else {
                 return Zeega.api +'sequences/' + this.id;
             }
+        },
+
+        initialize: function() {
+            this.on("change:frames", this.onFrameSort, this );
+        },
+
+        onFrameSort: function() {
+            console.log( this.get("frames"), this.frames, this )
+            _.each( this.get("frames"), function( frameID, i ) {
+                console.log('frameid', frameID )
+                this.frames.get( frameID ).set("_order", i );
+            }, this );
+            this.frames.sort();
         }
 
     });
