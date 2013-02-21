@@ -16,7 +16,7 @@ function() {
 
     // no op. projects are already formatted
     Parser[type].parse = function( response, opts ) {
-        return response.items[0].text;
+        return response.items[0].text.project || response.items[0].text;
     };
 
     return Parser;

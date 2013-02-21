@@ -24,6 +24,7 @@ function( Zeega, _, ProjectModel, DataParser ) {
 
                 // parse the data
                 parsed = p.parse( data, options );
+                console.log("parsed", parsed )
                 return false;
             }
         }, this );
