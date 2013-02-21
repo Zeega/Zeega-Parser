@@ -279,7 +279,7 @@ function(Zeega) {
             // pause if player gets to the cue out point
 
             if ( cueOut === 0 ) {
-                this.settings.cue_out = cueOut = his.getDuration();
+                this.settings.cue_out = cueOut = this.getDuration();
             }
 
             if ( cueOut !== null && this.popcorn.currentTime() >= cueOut ) {
