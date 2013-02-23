@@ -10,6 +10,10 @@ function( Zeega, FrameModel, LayerCollection ) {
     return Zeega.Backbone.Collection.extend({
         model: FrameModel,
 
+        initialize: function() {
+            this.on("remove", this.onFrameRemove, this );
+        },
+
         initLayers: function( layerCollection, options ) {
 
             this.each(function( frame ) {
@@ -61,6 +65,14 @@ function( Zeega, FrameModel, LayerCollection ) {
                 }
             }.bind( this ));
 
+        },
+
+        onFrameRemove: function( frameModel ) {
+            // console.log('on frame Remove', frameModel )
+            this.sort();
+            if ( this.length == 0 ) {
+                this.addFrame();
+            }
         },
 
         comparator: function( frame ) {

@@ -19,12 +19,34 @@ function( Zeega, Controls ) {
 
         initialize: function() {
             this.init();
+
+            this.model.off("blur focus");
+            this.model.on("focus", this.onFocus, this );
+            Zeega.on("layersBlur", this.onBlur, this );
+        },
+
+        events: {},
+        editorEvents: {
+            "click": "onClick"
+        },
+
+        onClick: function() {
+            Zeega.trigger("layersBlur");
+            this.model.trigger("focus");
         },
 
         /* editor fxns */
-
         enterEditorMode: function() {
             this.loadControls();
+            this.delegateEvents( _.extend( this.events, this.editorEvents ));
+        },
+
+        onFocus: function() {
+            this.$el.addClass('active');
+        },
+
+        onBlur: function() {
+            this.$el.removeClass('active');
         },
 
         loadControls: function() {

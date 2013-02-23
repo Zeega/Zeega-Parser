@@ -15,11 +15,16 @@ function( Zeega, Layers ) {
                 this.onAdd( layer );
             }, this );
             this.on("add", this.onAdd, this );
+            this.on("remove", this.onAdd, this );
         },
 
         onAdd: function( layer ) {
             layer.addCollection( this );
             layer.initVisual( Layers[ layer.get("type") ]);
+        },
+
+        onRemove: function( layer ) {
+            console.log('layer removed', layer, this)
         },
 
         editorCleanup: function() {
