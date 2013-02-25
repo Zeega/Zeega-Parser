@@ -4,9 +4,9 @@ define([
     "jqueryUI"
 ],
 
-function( Zeega ) {
+function( app ) {
 
-    return Zeega.Backbone.View.extend({
+    return app.Backbone.View.extend({
 
         propertyName: "",
         $visual: null,
@@ -53,7 +53,7 @@ function( Zeega ) {
             // Initialize done for use in async-mode
             var done;
             // Concatenate the file extension.
-            path = Zeega.parserPath + "plugins/controls/" + path + ".html";
+            path = app.parserPath + "plugins/controls/" + path + ".html";
             // remove app/templates/ via regexp // hacky? yes. probably.
             path = path.replace("app/templates/","");
 
@@ -64,7 +64,7 @@ function( Zeega ) {
                 // Put fetch into `async-mode`.
                 done = this.async();
                 // Seek out the template asynchronously.
-                return Zeega.$.ajax({ url: Zeega.root + path }).then(function( contents ) {
+                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
                     done(
                       JST[ path ] = _.template( contents )
                     );

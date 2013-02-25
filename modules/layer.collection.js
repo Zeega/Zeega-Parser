@@ -4,9 +4,9 @@ define([
     "zeega_parser/plugins/layers/_all"
 ],
 
-function( Zeega, Layers ) {
+function( app, Layers ) {
 
-    return Zeega.Backbone.Collection.extend({
+    return app.Backbone.Collection.extend({
 
         frame: null,
 
@@ -19,9 +19,16 @@ function( Zeega, Layers ) {
         },
 
         onAdd: function( layer ) {
-            layer.addCollection( this );
-            layer.initVisual( Layers[ layer.get("type") ]);
-            Zeega.trigger("layer_added", layer );
+            if ( layer ) {
+                layer.addCollection( this );
+                layer.initVisual( Layers[ layer.get("type") ]);
+                app.trigger("layer_added", layer );
+            } else {
+                this.each(function( layer ){
+                    layer.addCollection( this );
+                    layer.initVisual( Layers[ layer.get("type") ]);
+                });
+            }
         },
 
         onRemove: function( layer ) {

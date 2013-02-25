@@ -5,9 +5,9 @@ define([
     "zeega_parser/plugins/layers/_all"
 ],
 
-function( Zeega, Backbone, Layers ) {
+function( app, Backbone, Layers ) {
 
-    return Zeega.Backbone.Model.extend({
+    return app.Backbone.Model.extend({
 
         ready: false,
         // waiting, loading, ready, destroyed
@@ -46,9 +46,9 @@ function( Zeega, Backbone, Layers ) {
 
         url: function() {
             if( this.isNew() ) {
-                return Zeega.api + 'projects/'+ Zeega.project.id +'/sequences/'+ Zeega.status.get("currentSequence").id +'/frames';
+                return app.api + 'projects/'+ app.project.id +'/sequences/'+ app.status.get("currentSequence").id +'/frames';
             } else {
-                return Zeega.api + 'frames/'+ this.id;
+                return app.api + 'frames/'+ this.id;
             }
         },
 

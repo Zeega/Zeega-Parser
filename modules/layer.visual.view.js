@@ -4,9 +4,9 @@ define([
     "zeega_parser/plugins/controls/_all-controls"
 ],
 
-function( Zeega, Controls ) {
+function( app, Controls ) {
 
-    return Zeega.Backbone.View.extend({
+    return app.Backbone.View.extend({
 
         className: function() {
             return "visual-element visual-" + this.model.get("type").toLowerCase();
@@ -22,7 +22,7 @@ function( Zeega, Controls ) {
 
             this.model.off("blur focus");
             this.model.on("focus", this.onFocus, this );
-            Zeega.on("layersBlur", this.onBlur, this );
+            app.on("layersBlur", this.onBlur, this );
         },
 
         events: {},
@@ -31,7 +31,7 @@ function( Zeega, Controls ) {
         },
 
         onClick: function() {
-            Zeega.trigger("layersBlur");
+            app.trigger("layersBlur");
             this.model.trigger("focus");
         },
 
@@ -224,7 +224,7 @@ function( Zeega, Controls ) {
             // Initialize done for use in async-mode
             var done;
             // Concatenate the file extension.
-            path = Zeega.parserPath + "plugins/layers/" + path + ".html";
+            path = app.parserPath + "plugins/layers/" + path + ".html";
             // remove app/templates/ via regexp // hacky? yes. probably.
             path = path.replace("app/templates/","");
 
@@ -235,7 +235,7 @@ function( Zeega, Controls ) {
                 // Put fetch into `async-mode`.
                 done = this.async();
                 // Seek out the template asynchronously.
-                return Zeega.$.ajax({ url: Zeega.root + path }).then(function( contents ) {
+                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
                     done(
                       JST[ path ] = _.template( contents )
                     );

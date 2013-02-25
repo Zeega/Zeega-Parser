@@ -3,9 +3,9 @@ define([
     "zeega_parser/plugins/layers/_all"
 ],
 
-function( Zeega, Layers ) {
+function( app, Layers ) {
 
-    return Zeega.Backbone.Model.extend({
+    return app.Backbone.Model.extend({
 
         defaults: {
             advance_to: null,
@@ -21,9 +21,9 @@ function( Zeega, Layers ) {
 
         url : function() {
             if ( this.isNew() ) {
-                return Zeega.api + 'projects/'+ Zeega.project.id +'/sequences';
+                return app.api + 'projects/'+ app.project.id +'/sequences';
             } else {
-                return Zeega.api +'sequences/' + this.id;
+                return app.api +'sequences/' + this.id;
             }
         },
 
@@ -109,6 +109,12 @@ function( Zeega, Layers ) {
             } else {
                 this.persistLayer( layer );
             }
+        },
+
+        continueLayerToNextFrame: function( layer ) {
+            // find index of current frame
+            // find next frame
+            // if it exists then add it to the frame
         }
 
     });

@@ -5,9 +5,9 @@ define([
     "zeega_parser/modules/layer.collection"
 ],
 
-function( Zeega, FrameModel, LayerCollection ) {
+function( app, FrameModel, LayerCollection ) {
 
-    return Zeega.Backbone.Collection.extend({
+    return app.Backbone.Collection.extend({
         model: FrameModel,
 
         initialize: function() {
@@ -51,10 +51,19 @@ function( Zeega, FrameModel, LayerCollection ) {
         // add frame at a specified index.
         // omit index to append frame
         addFrame: function( index ) {
-            var newFrame = new FrameModel();
+            var newFrame, continuingLayers = [];
+            // if the sequence has persistent layers then add them to new frames!
+            if ( this.sequence.get("persistent_layers").length ) {
+                _.each( this.sequence.get("persistent_layers"), function( layerID ) {
+                    console.log( app.project.getLayer( layerID ) );
+                    continuingLayers.push( app.project.getLayer( layerID ) );
+                });
+            }
 
-            newFrame.status = Zeega.status;
-            newFrame.layers = new LayerCollection();
+            newFrame = new FrameModel({ layers: this.sequence.get("persistent_layers").reverse() });
+
+            newFrame.status = app.status;
+            newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
             newFrame.layers.frame = newFrame;
 
             newFrame.save().success(function() {
@@ -63,12 +72,14 @@ function( Zeega, FrameModel, LayerCollection ) {
                 } else {
                     this.add( newFrame, { at: index });
                 }
-                Zeega.trigger("frame_add", newFrame );
+//                 console.log("new frame save", newFrame, this );
+
+                app.trigger("frame_add", newFrame );
             }.bind( this ));
         },
 
         onFrameRemove: function( frameModel ) {
-            Zeega.trigger("frame_remove", frameModel );
+            app.trigger("frame_remove", frameModel );
             // console.log('on frame Remove', frameModel )
             this.sort();
             if ( this.length == 0 ) {

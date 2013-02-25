@@ -3,9 +3,9 @@ define([
     "app"
 ],
 
-function( Zeega ) {
+function( app ) {
 
-    return Zeega.Backbone.Model.extend({
+    return app.Backbone.Model.extend({
         ready: false,
         state: "waiting", // waiting, loading, ready, destroyed, error
 
@@ -27,9 +27,9 @@ function( Zeega ) {
 
         url: function() {
             if ( this.isNew() ) {
-                return Zeega.api + "projects/" + Zeega.project.id + "/layers";
+                return app.api + "projects/" + app.project.id + "/layers";
             } else {
-                return Zeega.api + "layers/" + this.id;
+                return app.api + "layers/" + this.id;
             }
         },
 

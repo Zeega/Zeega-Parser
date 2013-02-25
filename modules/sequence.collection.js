@@ -6,9 +6,9 @@ define([
     "zeega_parser/plugins/layers/_all"
 ],
 
-function( Zeega, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
+function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
 
-    return Zeega.Backbone.Collection.extend({
+    return app.Backbone.Collection.extend({
         model: SequenceModel,
 
         initFrames: function( frames, layers, options ) {

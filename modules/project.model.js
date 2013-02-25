@@ -3,9 +3,9 @@ define([
     "zeega_parser/modules/sequence.collection"
 ],
 
-function( Zeega, SequenceCollection ) {
+function( app, SequenceCollection ) {
 
-    return Zeega.Backbone.Model.extend({
+    return app.Backbone.Model.extend({
 
         defaults: {
             authors: null,
@@ -34,7 +34,7 @@ function( Zeega, SequenceCollection ) {
         },
 
         url : function() {
-            return Zeega.api +'projects/' + this.id;
+            return app.api +'projects/' + this.id;
         },
 
         initialize: function( data, options ) {
@@ -241,6 +241,24 @@ function( Zeega, SequenceCollection ) {
 
         getFrame: function( frameID ) {
             return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
+        },
+
+        // this is not the best. cache these somewhere in a big collection?
+        getLayer: function( layerID ) {
+            var layerModel;
+
+            this.sequences.each(function( sequence ) {
+                sequence.frames.each(function( frame ) {
+                    var layer = frame.layers.get( layerID );
+
+                    if ( layer ) {
+                        layerModel = layer
+                        return false;
+                    }
+                });
+            });
+
+            return layerModel;
         }
 
     });
