@@ -15,7 +15,7 @@ function( Zeega, Layers ) {
                 this.onAdd( layer );
             }, this );
             this.on("add", this.onAdd, this );
-            this.on("remove", this.onAdd, this );
+            this.on("remove", this.onRemove, this );
         },
 
         onAdd: function( layer ) {
@@ -25,6 +25,7 @@ function( Zeega, Layers ) {
         },
 
         onRemove: function( layer ) {
+            layer.editorCleanup();
             app.trigger("layer_remove", layer );
             console.log('layer removed', layer, this)
         },

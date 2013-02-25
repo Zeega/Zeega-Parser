@@ -94,10 +94,20 @@ function( Zeega, Layers ) {
             if ( _.contains( this.get("persistent_layers"), layer.id ) ) {
                 var pLayers = _.without( this.get("persistent_layers"), layer.id );
 
-                this.save("persistent_layers", pLayers ); //save
+                this.set("persistent_layers", pLayers ); //save
                 this.frames.each(function( frame ) {
                     frame.layers.remove( layer );
                 });
+            }
+        },
+
+        togglePersistance: function( layer ) {
+            var isPersistant = _.contains( this.get("persistent_layers"), layer.id );
+
+            if( isPersistant ) {
+                this.unpersistLayer( layer );
+            } else {
+                this.persistLayer( layer );
             }
         }
 

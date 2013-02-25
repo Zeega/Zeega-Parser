@@ -63,12 +63,12 @@ function( Zeega, FrameModel, LayerCollection ) {
                 } else {
                     this.add( newFrame, { at: index });
                 }
-                app.trigger("frame_add", newFrame );
+                Zeega.trigger("frame_add", newFrame );
             }.bind( this ));
         },
 
         onFrameRemove: function( frameModel ) {
-            app.trigger("frame_remove", frameModel );
+            Zeega.trigger("frame_remove", frameModel );
             // console.log('on frame Remove', frameModel )
             this.sort();
             if ( this.length == 0 ) {
