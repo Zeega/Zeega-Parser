@@ -25,6 +25,7 @@ function( Zeega, Layers ) {
         },
 
         onRemove: function( layer ) {
+            app.trigger("layer_remove", layer );
             console.log('layer removed', layer, this)
         },
 
