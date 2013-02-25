@@ -40,6 +40,22 @@ function( Zeega ) {
             this.order = {};
         },
 
+        getAttr: function( attrName ) {
+            return this.get("attr")[ attrName ];
+        },
+
+        setAttr: function( attrObj ) {
+            var attr = this.get("attr");
+
+            this.set("attr", _.extend( attr, attrObj ) );
+        },
+
+        saveAttr: function( attrObj ) {
+            var attr = this.get("attr");
+
+            this.save("attr", _.extend( attr, attrObj ) );
+        },
+
         initVisual: function( layerClass ) {
             this.visual = new layerClass.Visual({
                 model: this,

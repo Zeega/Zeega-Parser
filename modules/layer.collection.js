@@ -21,6 +21,7 @@ function( Zeega, Layers ) {
         onAdd: function( layer ) {
             layer.addCollection( this );
             layer.initVisual( Layers[ layer.get("type") ]);
+            Zeega.trigger("layer_added", layer );
         },
 
         onRemove: function( layer ) {
