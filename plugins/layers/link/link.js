@@ -25,10 +25,15 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
             blink_on_start: true,
             glow_on_hover: true,
             citation: false,
-            link_type: "default",
+            link_type: "arrow_up",
             linkable: false,
             default_controls: false
-        }
+        },
+
+        controls: [
+            "position",
+            "resize"
+        ]
     });
 
   Layer.Link.Visual = Visual.extend({
@@ -53,27 +58,32 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
         if ( this.getAttr("to_frame") === null ) {
             this.startFrameChooser();
         }
+        this.setLinkImage();
     },
 
     startFrameChooser: function() {
-      $("body").append( this.frameChooser.el );
-      this.frameChooser.render();
+        $("body").append( this.frameChooser.el );
+        this.frameChooser.render();
     },
 
-    // beforePlayerRender: function() {
-    //   style = {
-    //       "border-radius": "0",
-    //       "height": this.getAttr("height") + "%",
-    //       "background": this.getAttr("backgroundColor"),
-    //       "opacity": this.getAttr("opacity"),
-    //       "box-shadow": "0 0 10px rgba(255,255,255,"+ this.getAttr("opacity") + ")"
-    //   };
+    beforePlayerRender: function() {
+        style = {
+            "border-radius": "0",
+            "height": this.getAttr("height") + "%",
+            "background": this.getAttr("backgroundColor"),
+            "opacity": this.getAttr("opacity"),
+            "box-shadow": "0 0 10px rgba(255,255,255,"+ this.getAttr("opacity") + ")"
+        };
 
-    //   this.$el.attr("data-glowOnHover", this.getAttr("glow_on_hover") );
+        this.$el.attr("data-glowOnHover", this.getAttr("glow_on_hover") );
 
-    //   this.$el.addClass("link-type-" + this.getAttr("link_type") );
-    //   this.$(".ZEEGA-link-inner").css( style );
-    // },
+        this.setLinkImage();
+        this.$(".ZEEGA-link-inner").css( style );
+    },
+
+    setLinkImage: function() {
+        this.$el.addClass("link-type-" + this.getAttr("link_type") );
+    },
 
     events: {
         "click a": "goClick",
