@@ -34,8 +34,8 @@ function( app ) {
         },
 
         initialize: function() {
-            var augmentAttr = _.defaults( this.toJSON().attr, this.attr );
-
+            var augmentAttr = _.defaults( this.attr, this.toJSON().attr );
+console.log("init layer", this.toJSON().attr, this.attr, augmentAttr)
             this.set("attr", augmentAttr );
             this.order = {};
         },

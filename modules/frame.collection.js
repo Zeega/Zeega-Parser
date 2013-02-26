@@ -11,6 +11,7 @@ function( app, FrameModel, LayerCollection ) {
         model: FrameModel,
 
         initialize: function() {
+            this.on("add", this.onFrameAdd, this );
             this.on("remove", this.onFrameRemove, this );
         },
 
@@ -77,6 +78,10 @@ function( app, FrameModel, LayerCollection ) {
             }.bind( this ));
 
             return newFrame;
+        },
+
+        onFrameAdd: function( frame ) {
+            this.sequence.save("frames", this.pluck("id") );
         },
 
         onFrameRemove: function( frameModel ) {
