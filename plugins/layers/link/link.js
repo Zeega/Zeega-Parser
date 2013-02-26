@@ -1,9 +1,11 @@
 define([
     "app",
-    "zeega_parser/plugins/layers/_layer/_layer"
+    "zeega_parser/modules/layer.model",
+    "zeega_parser/modules/layer.visual.view",
+    "zeega_parser/plugins/layers/link/frame-chooser"
 ],
 
-function( Zeega, _Layer ) {
+function( Zeega, _Layer, Visual, FrameChooser ) {
 
     var Layer = Zeega.module();
 
@@ -13,10 +15,7 @@ function( Zeega, _Layer ) {
 
         attr: {
             title: "Link Layer",
-            //to_sequence: null,
             to_frame: null,
-            //from_frame: null,
-            //from_sequence: null,
             left: 25,
             top: 25,
             height: 50,
@@ -32,28 +31,49 @@ function( Zeega, _Layer ) {
         }
     });
 
-  Layer.Link.Visual = _Layer.Visual.extend({
+  Layer.Link.Visual = Visual.extend({
 
-    template: "plugins/link",
+    template: "link/link",
+
+    visualProperties: [
+        "height",
+        "width",
+        "opacity"
+    ],
 
     serialize: function() {
         return this.model.toJSON();
     },
 
-    beforePlayerRender: function() {
-      style = {
-          "border-radius": "0",
-          "height": this.getAttr("height") + "%",
-          "background": this.getAttr("backgroundColor"),
-          "opacity": this.getAttr("opacity"),
-          "box-shadow": "0 0 10px rgba(255,255,255,"+ this.getAttr("opacity") + ")"
-      };
-
-      this.$el.attr("data-glowOnHover", this.getAttr("glow_on_hover") );
-
-      this.$el.addClass("link-type-" + this.getAttr("link_type") );
-      this.$(".ZEEGA-link-inner").css( style );
+    init: function() {
+        this.frameChooser = new FrameChooser({ model: this.model });
     },
+
+    afterEditorRender: function() {
+        if ( this.getAttr("to_frame") === null ) {
+            this.startFrameChooser();
+        }
+    },
+
+    startFrameChooser: function() {
+      $("body").append( this.frameChooser.el );
+      this.frameChooser.render();
+    },
+
+    // beforePlayerRender: function() {
+    //   style = {
+    //       "border-radius": "0",
+    //       "height": this.getAttr("height") + "%",
+    //       "background": this.getAttr("backgroundColor"),
+    //       "opacity": this.getAttr("opacity"),
+    //       "box-shadow": "0 0 10px rgba(255,255,255,"+ this.getAttr("opacity") + ")"
+    //   };
+
+    //   this.$el.attr("data-glowOnHover", this.getAttr("glow_on_hover") );
+
+    //   this.$el.addClass("link-type-" + this.getAttr("link_type") );
+    //   this.$(".ZEEGA-link-inner").css( style );
+    // },
 
     events: {
         "click a": "goClick",

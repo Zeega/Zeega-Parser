@@ -72,10 +72,11 @@ function( app, FrameModel, LayerCollection ) {
                 } else {
                     this.add( newFrame, { at: index });
                 }
-//                 console.log("new frame save", newFrame, this );
 
                 app.trigger("frame_add", newFrame );
             }.bind( this ));
+
+            return newFrame;
         },
 
         onFrameRemove: function( frameModel ) {
