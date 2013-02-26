@@ -112,9 +112,11 @@ function( app, Layers ) {
         },
 
         continueLayerToNextFrame: function( layer ) {
-            // find index of current frame
-            // find next frame
-            // if it exists then add it to the frame
+            var currentIndex = _.indexOf( _.toArray( this.frames ), this.status.get("currentFrame") );
+
+            if ( currentIndex != -1 && this.frames.length > currentIndex + 1 ) {
+                this.frames.at( currentIndex + 1 ).layers.push( layer );
+            }
         }
 
     });
