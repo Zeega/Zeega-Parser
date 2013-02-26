@@ -252,7 +252,7 @@ function( app, SequenceCollection ) {
                     var layer = frame.layers.get( layerID );
 
                     if ( layer ) {
-                        layerModel = layer
+                        layerModel = layer;
                         return false;
                     }
                 });

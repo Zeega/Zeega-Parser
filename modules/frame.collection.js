@@ -82,7 +82,7 @@ function( app, FrameModel, LayerCollection ) {
             app.trigger("frame_remove", frameModel );
             // console.log('on frame Remove', frameModel )
             this.sort();
-            if ( this.length == 0 ) {
+            if ( this.length === 0 ) {
                 this.addFrame();
             }
         },

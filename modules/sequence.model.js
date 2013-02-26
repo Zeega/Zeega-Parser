@@ -62,7 +62,7 @@ function( app, Layers ) {
             newLayer.save().success(function( response ) {
                 var attr = this.get("attr");
 
-                attr.soundtrack = newLayer.id
+                attr.soundtrack = newLayer.id;
                 this.set("attr", attr ); //save
                 this.persistLayer( newLayer );
                 view.setSoundtrackLayer( newLayer );

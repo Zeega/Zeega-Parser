@@ -34,7 +34,6 @@ function( app, Layers ) {
         onRemove: function( layer ) {
             layer.editorCleanup();
             app.trigger("layer_remove", layer );
-            console.log('layer removed', layer, this)
         },
 
         editorCleanup: function() {
