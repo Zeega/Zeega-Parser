@@ -18,6 +18,8 @@ function( app ) {
         },
 
         initialize: function() {
+            console.log('init:', this.propertyName )
+            this.off( "change:" + this.propertyName );
             this.model.on("change:" + this.propertyName , this.onPropertyUpdate, this );
             this.init();
         },
@@ -37,7 +39,19 @@ function( app ) {
         update: function( attributes ) {
             var attr = _.extend({}, this.model.get("attr"), attributes );
 
+            this.model.trigger("change:" + this.propertyName, this.model, attributes[ this.propertyName ] );
             this.model.save("attr", attr );
+        },
+
+        lazyUpdate: _.debounce(function( value ) {
+            var attr = {};
+            
+            attr[ this.propertyName ] = value;
+            this.update( attr );
+        }, 500 ),
+
+        updateVisual: function( value ) {
+            this.$visual.css( this.propertyName, value );
         },
 
         // convenience fxn
