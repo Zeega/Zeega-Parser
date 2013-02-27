@@ -34,7 +34,7 @@ function( app ) {
         },
 
         initialize: function() {
-            var augmentAttr = _.defaults( this.attr, this.toJSON().attr );
+            var augmentAttr = _.extend({}, this.attr, this.toJSON().attr );
 
             this.set("attr", augmentAttr );
             this.order = {};
