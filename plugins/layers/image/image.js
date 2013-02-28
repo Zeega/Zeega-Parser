@@ -31,6 +31,7 @@ function( Zeega, _Layer, Visual ){
                 options: { aspectRatio: true }
             },
             "rotate",
+            "dissolve",
             "opacity"
         ]
 

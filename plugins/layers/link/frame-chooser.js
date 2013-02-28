@@ -23,13 +23,15 @@ function( app ) {
 
         closeThis: function() {
             this.$el.fadeOut(function() {
+                this.$el.attr("style", "");
                 this.remove();
             }.bind( this ));
         },
 
         submit: function() {
             if ( this.selectedFrame !== null ) {
-                this.model.saveAttr({ link_to: this.selectedFrame });
+                this.model.saveAttr({ to_frame: this.selectedFrame });
+                this.model.trigger("change:to_frame", this.model, this.selectedFrame );
             }
             this.closeThis();
         },
@@ -52,7 +54,8 @@ function( app ) {
         },
 
         onNewFrameSave: function( newFrame ) {
-            this.model.saveAttr({ link_to: newFrame.id });
+            this.model.saveAttr({ to_frame: newFrame.id });
+            this.model.trigger("change:to_frame", this.model, newFrame.id );
         },
 
         afterRender: function() {
@@ -63,14 +66,15 @@ function( app ) {
                 fv.addClass("frame")
                     .data("id", frame.id )
                     .css({
-                        background: frame.get("thumbnail_url")
+                        background: "url(" + frame.get("thumbnail_url") +") no-repeat center center",
+                        "-webkit-background-size": "cover"
                     });
 
                 if ( app.status.get("currentFrame").id == frame.id ) {
                     fv.addClass("inactive");
                 }
 
-                if ( this.model.getAttr("link_to") ) {
+                if ( this.model.getAttr("to_frame") == frame.id ) {
                     fv.addClass("active");
                 }
 

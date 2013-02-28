@@ -27,8 +27,16 @@ function( Zeega, LayerModel, Visual ) {
         controls: [
             "position",
             "resize",
+            "dissolve",
             "rotate",
-            "opacity"
+            "opacity",
+            {
+                type: "color",
+                options: {
+                    title: "color",
+                    property: "backgroundColor"
+                }
+            }
         ]
 
     });

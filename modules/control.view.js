@@ -8,13 +8,20 @@ function( app ) {
 
     return app.Backbone.View.extend({
 
+        parentName: "",
         propertyName: "",
         $visual: null,
         $visualContainer: null,
         $workspace: null,
 
         className: function() {
-            return "control control-" + this.propertyName;
+            var className = "control control-" + this.propertyName;
+            
+            if ( this.parentName !== "" ) {
+                className = className + " control-" + this.parentName;
+            }
+
+            return className;
         },
 
         initialize: function() {
@@ -54,13 +61,15 @@ function( app ) {
             this.$visual.css( this.propertyName, value );
         },
 
+        onPropertyUpdate: function() {},
+
         // convenience fxn
         getAttr: function( key ) {
             return this.model.get("attr")[key];
         },
 
         serialize: function() {
-            return this.model.toJSON();
+            return _.extend({}, this.model.toJSON(), { _propertyName: !_.isUndefined( this.options.options ) ? this.options.options.title : this.propertyName });
         },
 
         fetch: function( path ) {
