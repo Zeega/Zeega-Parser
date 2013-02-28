@@ -25,7 +25,6 @@ function( app ) {
         },
 
         initialize: function() {
-            console.log('init:', this.propertyName )
             this.off( "change:" + this.propertyName );
             this.model.on("change:" + this.propertyName , this.onPropertyUpdate, this );
             this.init();

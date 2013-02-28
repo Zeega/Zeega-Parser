@@ -40,6 +40,7 @@ function( Zeega, ControlView ) {
                 });
 
                 $input.on("keyup", function( e ) {
+                    var val;
 
                     if ( e.which == 13 ) { // enter
                         $input.blur();
@@ -47,7 +48,7 @@ function( Zeega, ControlView ) {
                         $input.val( Math.floor( this.getAttr("opacity") * 100 ) );
                         $input.blur();
                     } else if ( e.which == 38 ) { // arrow up
-                        var val = (parseInt( $input.val(), 10 ) + 1) / 100;
+                        val = (parseInt( $input.val(), 10 ) + 1) / 100;
 
                         if ( val <= this.options.max ) {
                             this.updateVisual( val );
@@ -56,7 +57,7 @@ function( Zeega, ControlView ) {
                             $input.val( val * 100 );
                         }
                     } else if ( e.which == 40 ) { // arrow up
-                        var val = ( parseInt( $input.val(), 10 ) - 1 )/ 100;
+                        val = ( parseInt( $input.val(), 10 ) - 1 )/ 100;
 
                         if ( val >= this.options.min ) {
                             this.updateVisual( val );
