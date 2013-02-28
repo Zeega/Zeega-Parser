@@ -12,7 +12,8 @@ define([
     "zeega_parser/plugins/controls/resize/resize",
     "zeega_parser/plugins/controls/dissolve/dissolve",
     "zeega_parser/plugins/controls/color/color",
-    "zeega_parser/plugins/controls/linkto/linkto"
+    "zeega_parser/plugins/controls/linkto/linkto",
+    "zeega_parser/plugins/controls/linkimage/linkimage"
 ],
 function(
     Position,
@@ -20,7 +21,8 @@ function(
     Resize,
     Dissolve,
     Color,
-    LinkTo
+    LinkTo,
+    LinkImage
 ) {
 
     return _.extend(
@@ -29,6 +31,7 @@ function(
         Resize,
         Dissolve,
         Color,
-        LinkTo
+        LinkTo,
+        LinkImage
     );
 });
