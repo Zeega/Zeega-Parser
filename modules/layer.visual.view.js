@@ -34,6 +34,7 @@ function( app, Controls ) {
         onClick: function() {
             app.trigger("layersBlur");
             this.model.trigger("focus");
+            app.status.set("currentLayer", this.model );
         },
 
         /* editor fxns */
