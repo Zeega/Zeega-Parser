@@ -14,6 +14,7 @@ function( app, Controls ) {
 
         template: "",
         controls: [],
+        _allowedControls: [ "resize", "position" ],
         $visual: null,
         $workspace: null,
 
@@ -51,16 +52,19 @@ function( app, Controls ) {
 
         loadControls: function() {
             this.controls = _.map( this.model.controls, function( controlType ) {
-                var control;
 
-                if ( _.isObject( controlType ) && Controls[ controlType.type ] ) {
-                    control = new Controls[ controlType.type ]({ model: this.model, options: controlType.options });
-                    this.insertView( ".controls-inline", control );
-                } else if ( Controls[ controlType ] ) {
-                    control = new Controls[ controlType ]({ model: this.model });
-                    this.insertView( ".controls-inline", control );
+                if ( _.contains( this._allowedControls, controlType ) || _.contains( this._allowedControls, controlType.type ) ) {
+                    var control;
 
-                    return control;
+                    if ( _.isObject( controlType ) && Controls[ controlType.type ] ) {
+                        control = new Controls[ controlType.type ]({ model: this.model, options: controlType.options });
+                        this.insertView( ".controls-inline", control );
+                    } else if ( Controls[ controlType ] ) {
+                        control = new Controls[ controlType ]({ model: this.model });
+                        this.insertView( ".controls-inline", control );
+
+                        return control;
+                    }
                 }
                 return false;
             }, this );
