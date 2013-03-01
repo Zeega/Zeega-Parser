@@ -44,7 +44,7 @@ function( app, ControlView ) {
                     values: [ cueIn, 0 , cueOut ],
 
                     slide: function( e, ui ) {
-                        this.verifyValues( ui )
+                        this.verifyValues( ui );
 
                     }.bind( this ),
                     
@@ -53,7 +53,7 @@ function( app, ControlView ) {
                     }.bind( this ),
 
                     stop: function( e, ui ) {
-                        this.verifyValues( ui )
+                        this.verifyValues( ui );
                         this.updateElapsed();
                         this.cueAudio( ui.values[1] );
                         this.dragging = false;
@@ -116,7 +116,7 @@ function( app, ControlView ) {
                 this.$(".ui-slider-range").css({
                     left: ( cue / width * 100 ) + "%",
                     width: ( (elap - cue) / width * 100 ) + "%"
-                })
+                });
 
             }, 200),
 

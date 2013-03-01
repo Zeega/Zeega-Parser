@@ -303,7 +303,8 @@ function( app, SequenceCollection ) {
             this.sequences.each(function( sequence ) {
 
                 if ( maxFrames !== null && ( maxFrames -= sequence.frames.length ) < 0 ) {
-                    return valid = false
+                    valid = false;
+                    return false;
                 }
 
                 sequence.frames.each(function( frame ) {
@@ -312,13 +313,15 @@ function( app, SequenceCollection ) {
                         var layerTypeValid = _.contains( validLayerTypes, layer.get("type") );
 
                         if ( !layerTypeValid ) {
-                            return valid = false;
+                            valid = false;
+                            return false;
                         }
 
                         // dupe layer. ignore
                         if ( !_.contains( layers, layer.id ) && layer.get("type") == "Audio" && maxFrames-- < 0 ) {
                             layers.push( layer.id );
-                            return valid = false;
+                            valid = false;
+                            return false;
                         } else if ( !_.contains( layers, layer.id ) && layer.get("type") == "Audio" ) {
                             layers.push( layer.id );
                         }
