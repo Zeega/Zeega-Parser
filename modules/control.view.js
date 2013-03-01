@@ -26,7 +26,11 @@ function( app ) {
 
         initialize: function() {
             this.off( "change:" + this.propertyName );
+
+            this.stopListening( this.model );
             this.model.on("change:" + this.propertyName , this.onPropertyUpdate, this );
+            this.model.on("focus", this.onFocus, this );
+            this.model.on("blur", this.onBlur, this );
             this.init();
         },
 
@@ -38,15 +42,20 @@ function( app ) {
             this.create();
         },
 
+        onFocus: function() {},
+        onBlur: function() {},
+
         init: function() {},
         create: function() {},
         destroy: function() {},
 
         update: function( attributes ) {
-            var attr = _.extend({}, this.model.get("attr"), attributes );
+            if ( !_.isEmpty( attributes ) ) {
+                var attr = _.extend({}, this.model.get("attr"), attributes );
 
-            this.model.trigger("change:" + this.propertyName, this.model, attributes[ this.propertyName ] );
-            this.model.save("attr", attr );
+                this.model.trigger("change:" + this.propertyName, this.model, attributes[ this.propertyName ] );
+                this.model.save("attr", attr );
+            }
         },
 
         lazyUpdate: _.debounce(function( value ) {

@@ -1,0 +1,48 @@
+.control-av {
+    width: 400px;
+
+    .playpause {
+        float: left;
+        margin-right: 10px;
+    }
+
+    .av-slider {
+        float:left;
+        width: 300px;
+        height: 2px;
+        background: rgba(255,255,255,0.5);
+        top: 6px;
+
+        .handle-playhead {
+            border-radius: 12px;
+            width: 12px;
+            height: 12px;
+            top: -6px;
+            border: 2px solid white;
+        }
+
+        .handle-cueIn {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid limegreen;
+            border-bottom: 7px solid limegreen;
+            border-top: 7px solid transparent;
+            background: transparent;
+            outline: none;
+            margin-left: -12px;
+        }
+
+        .handle-cueOut {
+            width: 0;
+            height: 0;
+            border-left: 7px solid orangered;
+            border-right: 7px solid transparent;
+            border-bottom: 7px solid orangered;
+            border-top: 7px solid transparent;
+            background: transparent;
+            outline: none;
+            margin: 0;
+        }
+    }
+}

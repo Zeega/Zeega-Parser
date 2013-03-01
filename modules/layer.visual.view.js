@@ -23,7 +23,7 @@ function( app, Controls ) {
 
             this.model.off("blur focus");
             this.model.on("focus", this.onFocus, this );
-            app.on("layersBlur", this.onBlur, this );
+            this.model.on("blur", this.onBlur, this );
         },
 
         events: {},
@@ -32,9 +32,7 @@ function( app, Controls ) {
         },
 
         onClick: function() {
-            app.trigger("layersBlur");
-            this.model.trigger("focus");
-            app.status.set("currentLayer", this.model );
+            app.status.setCurrentLayer( this.model );
         },
 
         /* editor fxns */

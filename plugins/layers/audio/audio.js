@@ -4,9 +4,9 @@ define([
     "zeega_parser/modules/layer.visual.view"
 ],
 
-function( Zeega, _Layer, Visual ){
+function( app, _Layer, Visual ){
 
-    var Layer = Zeega.module();
+    var Layer = app.module();
 
     Layer.Audio = _Layer.extend({
 
@@ -28,7 +28,11 @@ function( Zeega, _Layer, Visual ){
             opacity: 0,
             citation: true,
             soundtrack: false
-        }
+        },
+
+        controls: [
+            "av"
+        ]
     });
 
     Layer.Audio.Visual = Visual.extend({
@@ -76,6 +80,11 @@ function( Zeega, _Layer, Visual ){
 
                 this.audio.load();
             }
+        },
+
+        getAudio: function() {
+            this.setAudio();
+            return this.audio;
         },
 
         listen: function() {
