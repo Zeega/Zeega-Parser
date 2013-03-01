@@ -9,6 +9,7 @@ function( Zeega, ControlView ) {
 
         position: ControlView.extend({
 
+            type: "position",
             propertyName: "position",
 
             create: function() {

@@ -9,6 +9,8 @@ function( app, ControlView ) {
     return {
         av: ControlView.extend({
 
+            type: "av",
+
             audio: null,
             $avSlider: null,
             playing: false,
@@ -22,16 +24,31 @@ function( app, ControlView ) {
             },
 
             create: function() {
-                var cueIn, cueOut, max, $avSlider;
+                this.listen();
 
-                cueIn = this.getAttr("cue_in") || 0;
-                cueOut = this.getAttr("cue_out") !== null ? this.getAttr("cue_out") :
-                    this.getAttr("duration") !== null ? this.getAttr("duration") : 60;
-                max = this.getAttr("duration") || 60;
-
-                if ( this.getAttr("cue_out") === null ) {
-                    this.update({ cue_out: cueOut });
+                if ( this.getAttr("duration") === null ) {
+                    this.model.off("canplay");
+                    this.model.on("canplay", this.createSlider, this );
+                } else {
+                    this.createSlider();
                 }
+            },
+
+            createSlider: function() {
+                var cueIn, cueOut, max, $avSlider, cues = {};
+
+                cueIn = this.getAttr("cue_in");
+                cueOut = this.getAttr("cue_out");
+                duration = this.getAttr("duration");
+
+                if ( this.getAttr("duration") == null ) {
+                    cues.duration = max =  this.audio.duration;
+                }
+                if ( this.getAttr("cue_out") == null ) {
+                    cues.cue_out = cueOut = this.audio.duration;
+                }
+
+                this.update( cues );
 
                 this.$avSlider = this.$(".av-slider");
 
@@ -72,7 +89,6 @@ function( app, ControlView ) {
                 $( handles[2] ).addClass("handle-cueOut");
 
                 this.updateElapsed();
-                this.listen();
             },
 
             verifyValues: _.debounce(function( ui ) {
@@ -132,11 +148,12 @@ function( app, ControlView ) {
             },
             
             onBlur: function() {
+                this.audio.pause();
                 this.$avSlider.slider("destroy");
             },
 
             onFocus: function() {
-                this.create();
+                console.log("on focus")
             },
             
             onPlay: function( obj ) {

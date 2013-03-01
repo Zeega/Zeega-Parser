@@ -8,6 +8,8 @@ function( app ) {
 
     return app.Backbone.View.extend({
 
+
+        type: "",
         parentName: "",
         propertyName: "",
         $visual: null,

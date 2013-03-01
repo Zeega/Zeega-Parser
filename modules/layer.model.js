@@ -1,9 +1,10 @@
 // layer.js
 define([
-    "app"
+    "app",
+    "zeega_parser/plugins/controls/_all-controls"
 ],
 
-function( app ) {
+function( app, Controls ) {
 
     return app.Backbone.Model.extend({
         ready: false,
@@ -101,9 +102,27 @@ function( app ) {
         // editor mode skips preload and renders immediately
         enterEditorMode: function() {
             this.mode = "editor",
+            this.loadControls();
             this.visual.render();
             this.visual.enterEditorMode();
             this.visual.moveOnStage();
+        },
+
+        loadControls: function() {
+            this._controls = _.map( this.controls, function( controlType ) {
+                var control = false;
+
+                if ( _.isObject( controlType ) && Controls[ controlType.type ] ) {
+                    control = new Controls[ controlType.type ]({ model: this, options: controlType.options });
+                } else if ( Controls[ controlType ] ) {
+                    control = new Controls[ controlType ]({ model: this });
+                }
+
+                return control;
+            }, this );
+            this._controls = _.compact( this._controls );
+
+            return this._controls;
         },
 
         onVisualReady: function() {

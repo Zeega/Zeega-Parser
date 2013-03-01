@@ -12,6 +12,8 @@ function( app, _Layer, Visual ){
 
         layerType: "Audio",
 
+        canplay: false,
+
         attr: {
             title: "Audio Layer",
             url: "none",
@@ -22,6 +24,7 @@ function( app, _Layer, Visual ){
             volume: 0.5,
             cue_in: 0,
             cue_out: null,
+            duration: null,
             fade_in: 0,
             fade_out: 0,
             loop: false,
@@ -91,6 +94,7 @@ function( app, _Layer, Visual ){
             $(this.audio).on("canplay", function() {
                 this.model.trigger( "visual_ready", this.model.id );
                 this.model.trigger( "canplay", this.model );
+                this.model.canplay = true;
             }.bind( this ));
 
             _.each( ["play", "pause", "timeupdate"], function( e ) {

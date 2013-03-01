@@ -66,6 +66,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
 
+console.log("add layer by type:", type, newLayer );
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );

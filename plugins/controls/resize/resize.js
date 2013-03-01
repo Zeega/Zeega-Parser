@@ -9,6 +9,7 @@ function( Zeega, ControlView ) {
 
         resize: ControlView.extend({
 
+            type: "resize",
             propertyName: "resize",
 
             create: function() {
@@ -35,6 +36,7 @@ function( Zeega, ControlView ) {
             },
 
             destroy: function() {
+                console.log('destroy resize')
                 this.$visualContainer.resizable( "destroy" );
             },
 

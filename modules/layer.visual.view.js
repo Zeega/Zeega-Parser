@@ -50,24 +50,11 @@ function( app, Controls ) {
         },
 
         loadControls: function() {
-            this.controls = _.map( this.model.controls, function( controlType ) {
-
-                if ( _.contains( this._allowedControls, controlType ) || _.contains( this._allowedControls, controlType.type ) ) {
-                    var control;
-
-                    if ( _.isObject( controlType ) && Controls[ controlType.type ] ) {
-                        control = new Controls[ controlType.type ]({ model: this.model, options: controlType.options });
-                        this.insertView( ".controls-inline", control );
-                    } else if ( Controls[ controlType ] ) {
-                        control = new Controls[ controlType ]({ model: this.model });
-                        this.insertView( ".controls-inline", control );
-
-                        return control;
-                    }
+            _.each( this.model._controls, function( control ) {
+                if ( _.contains( this._allowedControls, control.type ) ) {
+                    this.insertView( ".controls-inline", control );
                 }
-                return false;
             }, this );
-            this.controls = _.compact( this.controls );
         },
 
         beforeRender: function() {
