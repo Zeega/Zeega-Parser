@@ -7,6 +7,8 @@ function( app, SequenceCollection ) {
 
     return app.Backbone.Model.extend({
 
+        updated: false,
+
         defaults: {
             authors: null,
             cover_image: null,
@@ -259,6 +261,72 @@ function( app, SequenceCollection ) {
             });
 
             return layerModel;
+        },
+
+        /* editor */
+
+        publishProject: function() {
+
+            if ( this.get("date_updated") != this.get("date_published") || this.updated ) {
+                var mobile = this.validateMobile();
+                
+                this.updated = false;
+                this.once("sync", this.onProjectPublish, this);
+
+                if ( !this.get("published") ) {
+                     this.set({ published: true });
+                }
+                this.save({
+                    publish_update: 1,
+                    mobile: mobile
+                });
+                console.log("already published. published again");
+            } else {
+                this.trigger("update_buttons");
+            }
+        },
+
+        onProjectPublish: function( model, response ) {
+            this.set({ publish_update: 0 });
+        },
+
+        validateMobile: function() {
+            var layers, validLayerTypes, maxAudioLayers, valid;
+            
+            layers = [];
+            validLayerTypes = ["Image", "Audio", "Text", "Link", "Rectangle"];
+            maxAudioLayers = 1;
+            maxFrames = null;
+            valid = true;
+
+
+            this.sequences.each(function( sequence ) {
+
+                if ( maxFrames !== null && ( maxFrames -= sequence.frames.length ) < 0 ) {
+                    return valid = false
+                }
+
+                sequence.frames.each(function( frame ) {
+                    frame.layers.each(function( layer ) {
+
+                        var layerTypeValid = _.contains( validLayerTypes, layer.get("type") );
+
+                        if ( !layerTypeValid ) {
+                            return valid = false;
+                        }
+
+                        // dupe layer. ignore
+                        if ( !_.contains( layers, layer.id ) && layer.get("type") == "Audio" && maxFrames-- < 0 ) {
+                            layers.push( layer.id );
+                            return valid = false;
+                        } else if ( !_.contains( layers, layer.id ) && layer.get("type") == "Audio" ) {
+                            layers.push( layer.id );
+                        }
+                    });
+                });
+            });
+
+            return valid;
         }
 
     });
