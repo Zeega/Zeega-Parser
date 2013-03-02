@@ -27,20 +27,27 @@ function( Zeega, LayerModel, Visual ) {
         controls: [
             "position",
             "resize",
-            {
-                type: "checkbox",
+            { type: "checkbox",
                 options: {
                     title: "fade in",
                     propertyName: "dissolve"
                 }
             },
             "rotate",
-            "opacity",
-            {
-                type: "color",
+            { type: "slider",
+                options: {
+                    title: "opacity",
+                    propertyName: "opacity",
+                    min: 0,
+                    max: 1,
+                    step: 0.001,
+                    css: true
+                }
+            },
+            { type: "color",
                 options: {
                     title: "color",
-                    property: "backgroundColor"
+                    propertyName: "backgroundColor"
                 }
             }
         ]

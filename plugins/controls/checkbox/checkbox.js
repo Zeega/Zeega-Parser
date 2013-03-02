@@ -14,7 +14,6 @@ function( Zeega, ControlView ) {
             template: "checkbox/checkbox",
 
             serialize: function() {
-                console.log('CB', _.extend({}, this.model.toJSON(), this._userOptions ), this._userOptions );
                 return _.extend({}, this.model.toJSON(), this._userOptions );
             },
 

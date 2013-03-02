@@ -26,7 +26,7 @@ function( app, ControlView ) {
             create: function() {
                 this.listen();
 
-                if ( this.getAttr("duration") === null ) {
+                if ( !this.model.canplay ) {
                     this.model.off("canplay");
                     this.model.on("canplay", this.createSlider, this );
                 } else {
@@ -42,7 +42,7 @@ function( app, ControlView ) {
                 duration = this.getAttr("duration");
 
                 if ( this.getAttr("duration") == null ) {
-                    cues.duration = max =  this.audio.duration;
+                    cues.duration = max = this.audio.duration;
                 }
                 if ( this.getAttr("cue_out") == null ) {
                     cues.cue_out = cueOut = this.audio.duration;

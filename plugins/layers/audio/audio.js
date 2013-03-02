@@ -41,6 +41,16 @@ function( app, _Layer, Visual ){
                     propertyName: "loop"
                 }
             },
+            { type: "slider",
+                options: {
+                    title: "vol",
+                    propertyName: "volume",
+                    min: 0,
+                    max: 1,
+                    step: 0.001,
+                    css: false
+                }
+            },
             "av"
         ]
     });
@@ -113,6 +123,16 @@ function( app, _Layer, Visual ){
                     });
                 }.bind( this ));
             }, this );
+
+            // listen for volume changes
+            this.model.on("change:volume", this.onVolumeChange, this );
+        },
+
+        onVolumeChange: function( model, vol ) {
+            console.log('on vol change', vol );
+            if ( this.audio ) {
+                this.audio.volume = vol;
+            }
         },
 
         verifyReady: function() {

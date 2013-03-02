@@ -8,7 +8,7 @@ this should be auto generated probably!!
 
 define([
     "zeega_parser/plugins/controls/position/position",
-    "zeega_parser/plugins/controls/opacity/opacity",
+    "zeega_parser/plugins/controls/slider/slider",
     "zeega_parser/plugins/controls/resize/resize",
     "zeega_parser/plugins/controls/checkbox/checkbox",
     "zeega_parser/plugins/controls/color/color",
@@ -18,7 +18,7 @@ define([
 ],
 function(
     Position,
-    Opacity,
+    Slider,
     Resize,
     Checkbox,
     Color,
@@ -29,7 +29,7 @@ function(
 
     return _.extend(
         Position,
-        Opacity,
+        Slider,
         Resize,
         Checkbox,
         Color,

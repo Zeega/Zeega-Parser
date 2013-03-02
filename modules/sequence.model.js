@@ -40,9 +40,12 @@ function( app, Layers ) {
 
         setSoundtrack: function( item, view ) {
             var newLayer;
-
+console.log("set sndtrack", this.get("attr").soundtrack, this );
             if ( this.get("attr").soundtrack ) {
-                this.removeSoundtrack(); // does not work
+                var layer = app.project.getLayer( this.get("attr").soundtrack );
+
+                console.log("rm sndtrack", this.get("attr").soundtrack, layer );
+                this.removeSoundtrack( layer, false ); // does not work
             }
 
             newLayer = new Layers[ item.get("layer_type") ]({
@@ -69,11 +72,15 @@ function( app, Layers ) {
             }.bind( this ));
         },
 
-        removeSoundtrack: function( layer ) {
+        removeSoundtrack: function( layer, save ) {
             var attr = this.get("attr");
 
             attr.soundtrack = false;
-            this.set("attr", attr ); //save
+
+            this.set("attr", attr );
+            if ( save ) {
+                this.save();
+            }
             this.unpersistLayer( layer );
         },
 
