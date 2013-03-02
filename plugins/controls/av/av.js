@@ -41,10 +41,10 @@ function( app, ControlView ) {
                 cueOut = this.getAttr("cue_out");
                 duration = this.getAttr("duration");
 
-                if ( this.getAttr("duration") == null ) {
+                if ( this.getAttr("duration") === null ) {
                     cues.duration = max = this.audio.duration;
                 }
-                if ( this.getAttr("cue_out") == null ) {
+                if ( this.getAttr("cue_out") === null ) {
                     cues.cue_out = cueOut = this.audio.duration;
                 }
 
@@ -152,9 +152,7 @@ function( app, ControlView ) {
                 this.$avSlider.slider("destroy");
             },
 
-            onFocus: function() {
-                console.log("on focus")
-            },
+            onFocus: function() {},
             
             onPlay: function( obj ) {
                 this.$(".playpause i")

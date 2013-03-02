@@ -33,7 +33,7 @@ function( app ) {
             this._userOptions = _.extend({}, this._userOptions, opt.options );
 
             if ( opt.options && opt.options.propertyName ) {
-                this.propertyName = opt.options.propertyName
+                this.propertyName = opt.options.propertyName;
             }
 
             this.off( "change:" + this.propertyName );

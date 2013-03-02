@@ -36,7 +36,6 @@ function( Zeega, ControlView ) {
             },
 
             destroy: function() {
-                console.log('destroy resize')
                 this.$visualContainer.resizable( "destroy" );
             },
 
