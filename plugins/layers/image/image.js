@@ -31,7 +31,13 @@ function( Zeega, _Layer, Visual ){
                 options: { aspectRatio: true }
             },
             "rotate",
-            "dissolve",
+            {
+                type: "checkbox",
+                options: {
+                    title: "fade in",
+                    propertyName: "dissolve"
+                }
+            },
             "opacity"
         ]
 

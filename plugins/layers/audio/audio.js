@@ -34,6 +34,13 @@ function( app, _Layer, Visual ){
         },
 
         controls: [
+            {
+                type: "checkbox",
+                options: {
+                    title: "loop",
+                    propertyName: "loop"
+                }
+            },
             "av"
         ]
     });

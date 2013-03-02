@@ -1,4 +1,3 @@
-// layer.js
 define([
     "app",
     "jqueryUI"
@@ -12,6 +11,9 @@ function( app ) {
         type: "",
         parentName: "",
         propertyName: "",
+
+        _userOptions: {},
+
         $visual: null,
         $visualContainer: null,
         $workspace: null,
@@ -26,7 +28,14 @@ function( app ) {
             return className;
         },
 
-        initialize: function() {
+        initialize: function( opt ) {
+
+            this._userOptions = _.extend({}, this._userOptions, opt.options );
+
+            if ( opt.options && opt.options.propertyName ) {
+                this.propertyName = opt.options.propertyName
+            }
+
             this.off( "change:" + this.propertyName );
 
             this.stopListening( this.model );
