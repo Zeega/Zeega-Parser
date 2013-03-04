@@ -38,7 +38,16 @@ function( Zeega, _Layer, Visual ){
                     propertyName: "dissolve"
                 }
             },
-            "opacity"
+            { type: "slider",
+                options: {
+                    title: "<i class='icon-eye-open icon-white'></i>",
+                    propertyName: "opacity",
+                    min: 0,
+                    max: 1,
+                    step: 0.001,
+                    css: true
+                }
+            },
         ]
 
     });
