@@ -47,7 +47,7 @@ function( Zeega, _Layer, Visual ){
                     step: 0.001,
                     css: true
                 }
-            },
+            }
         ]
 
     });

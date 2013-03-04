@@ -58,7 +58,7 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
                     title: "glow",
                     propertyName: "blink_on_start"
                 }
-            },
+            }
         ]
     });
 
