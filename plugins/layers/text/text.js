@@ -54,7 +54,8 @@ function( Zeega, _Layer, Visual ) {
                     title: "color",
                     propertyName: "color"
                 }
-            }
+            },
+            "textbar"
         ]
     });
 
@@ -62,13 +63,18 @@ function( Zeega, _Layer, Visual ) {
 
         template: "text/text",
 
+        visualProperties: [
+            "top",
+            "left",
+            "width",
+            "opacity"
+        ],
+
         serialize: function() {
             return this.model.toJSON();
         },
 
         afterEditorRender: function() {
-            console.log('AR text', this)
-            // using jquery because it provides a few vendor prefix styles
             this.$el.css({
                 color: this.model.get("attr").color,
                 fontSize: this.model.get("attr").fontSize + "%"
@@ -88,7 +94,28 @@ function( Zeega, _Layer, Visual ) {
 
         makeDraggable: function() {
             this.$el.draggable({
-                handle: ".drag-handle"
+                handle: ".drag-handle",
+                stop: function( e, ui ) {
+                    var top, left, workspace;
+
+                    workspace = this.$el.closest(".ZEEGA-workspace");
+                    top = ui.position.top / workspace.height() * 100;
+                    left = ui.position.left / workspace.width() * 100;
+
+                    this.model.saveAttr({
+                        top: top,
+                        left: left
+                    });
+
+                    this.convertToPercents( top, left );
+                }.bind( this )
+            });
+        },
+
+        convertToPercents: function( top, left ) {
+            this.$el.css({
+                top: top + "%",
+                left: left + "%"
             });
         },
 
@@ -100,7 +127,6 @@ function( Zeega, _Layer, Visual ) {
                 this.lazyUpdate({ content: this.$('.visual-target').text() });
             }.bind( this ))
             .bind('paste', function(e){
-                console.log('something was pasted!');
                 _.delay(function() {
                     this.$('.visual-target').html( this.$('.visual-target').text() );
                     this.lazyUpdate({ content: this.$('.visual-target').text() });
