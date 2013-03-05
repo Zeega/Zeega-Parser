@@ -13,15 +13,19 @@ function( app, ControlView ) {
             template: "color/color",
 
             init: function() {
-                this.propertyName = this.options.options.property;
+                this.propertyName = this.options.options.propertyName;
+            },
+
+            serialize: function() {
+                return _.extend({}, this.model.toJSON(), { _propertyName: !_.isUndefined( this.options.options ) ? this.options.options.title : this.propertyName });
             },
 
             create: function() {
                 /* plugin: http://www.eyecon.ro/colorpicker/#about */
-
+console.log("COLOR:",this.propertyName, this.model.getAttr( this.propertyName ))
                 this.$('.color-selector').ColorPicker({
                     
-                    color: this.model.getAttr("backgroundColor"),
+                    color: this.model.getAttr( this.propertyName ),
                     
                     onShow: function (colpkr) {
                         $( colpkr ).fadeIn(500);
@@ -36,7 +40,7 @@ function( app, ControlView ) {
                     onChange: function (hsb, hex, rgb) {
                         var hexValue = "#" + hex;
 
-                        this.$('.color-preview').css('backgroundColor', hexValue );
+                        this.$('.color-preview').css("backgroundColor", hexValue );
                         this.updateVisual( hexValue );
                         this.lazyUpdate( hexValue );
                     }.bind( this )

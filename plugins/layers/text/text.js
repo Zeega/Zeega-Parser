@@ -48,6 +48,12 @@ function( Zeega, _Layer, Visual ) {
                     step: 0.001,
                     css: true
                 }
+            },
+            { type: "color",
+                options: {
+                    title: "color",
+                    propertyName: "color"
+                }
             }
         ]
     });
@@ -61,6 +67,7 @@ function( Zeega, _Layer, Visual ) {
         },
 
         afterEditorRender: function() {
+            console.log('AR text', this)
             // using jquery because it provides a few vendor prefix styles
             this.$el.css({
                 color: this.model.get("attr").color,
