@@ -19,16 +19,15 @@ function( Zeega, ControlView ) {
             makeResizable: function() {
                 var args = {
                     stop: function( e, ui ) {
-                        var width, height;
+                        var attr = {}, width, height;
 
-                        height = this.$visualContainer.height() / this.$workspace.height() * 100;
-                        width = this.$visualContainer.width() / this.$workspace.width() * 100;
-
-                        this.update({
-                            height: height,
-                            width: width
-                        });
-                        this.convertToPercents( width, height );
+                        attr["width"] = this.$visualContainer.width() / this.$workspace.width() * 100;
+                        if ( this.options.options != "e" ) {
+                            attr["height"] = this.$visualContainer.height() / this.$workspace.height() * 100;
+                        }
+                       
+                        this.update( attr );
+                        this.updateCSS( attr );
                     }.bind( this )
                 };
 
@@ -39,11 +38,11 @@ function( Zeega, ControlView ) {
                 this.$visualContainer.resizable( "destroy" );
             },
 
-            convertToPercents: function( width, height ) {
-                this.$visualContainer.css({
-                    width: width + "%",
-                    height: height + "%"
-                });
+            updateCSS: function( attr ) {
+
+                this.$visualContainer.css( _.map( attr, function( a ) {
+                    return a + "%";
+                }) );
             }
 
         }) // end control
