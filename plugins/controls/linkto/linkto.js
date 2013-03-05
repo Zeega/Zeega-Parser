@@ -12,6 +12,8 @@ function( app, ControlView ) {
             template: "linkto/linkto",
 
             serialize: function() {
+                console.log("link to", this.getAttr("to_frame") )
+                // var targetFrame = 
                 return app.project.getFrame( this.getAttr("to_frame") ).toJSON();
             },
 

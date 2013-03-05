@@ -68,6 +68,7 @@ function( app, FrameModel, LayerCollection ) {
             newFrame.layers.frame = newFrame;
 
             newFrame.save().success(function() {
+                app.project.addFrameToKey( newFrame.id, this.sequence.id );
                 if ( _.isUndefined( index ) ) {
                     this.push( newFrame );
                 } else {

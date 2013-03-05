@@ -67,6 +67,11 @@ function( app, SequenceCollection ) {
             }, this );
         },
 
+        addFrameToKey: function( frameId, sequenceId ) {
+            this.frameKey[ frameId ] = sequenceId;
+            console.log('add frame to key', frameId, sequenceId, this.frameKey)
+        },
+
         _setInnerSequenceConnections: function() {
             this.sequences.each(function( sequence, i ) {
                 var frames = sequence.frames;
@@ -243,6 +248,8 @@ function( app, SequenceCollection ) {
 
         getFrame: function( frameID ) {
             console.log( frameID, this.sequences, this.frameKey )
+            var sequence = this.sequences.get( this.frameKey[ frameID ] )
+            // if ( )
             return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
         },
 
