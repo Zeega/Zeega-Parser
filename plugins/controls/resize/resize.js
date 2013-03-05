@@ -21,9 +21,9 @@ function( Zeega, ControlView ) {
                     stop: function( e, ui ) {
                         var attr = {}, width, height;
 
-                        attr["width"] = this.$visualContainer.width() / this.$workspace.width() * 100;
+                        attr.width = this.$visualContainer.width() / this.$workspace.width() * 100;
                         if ( this.options.options != "e" ) {
-                            attr["height"] = this.$visualContainer.height() / this.$workspace.height() * 100;
+                            attr.height = this.$visualContainer.height() / this.$workspace.height() * 100;
                         }
                        
                         this.update( attr );
@@ -39,10 +39,18 @@ function( Zeega, ControlView ) {
             },
 
             updateCSS: function( attr ) {
+                var workspace = this.$visualContainer.closest(".ZEEGA-workspace");
 
-                this.$visualContainer.css( _.map( attr, function( a ) {
-                    return a + "%";
-                }) );
+                var css = {
+                    top: this.$visualContainer.position().top / workspace.height() * 100 + "%",
+                    left: this.$visualContainer.position().left / workspace.width() * 100 + "%"
+                };
+
+                _.each( attr, function( value, key ) {
+                    css[ key ] = value + "%";
+                });
+
+                this.$visualContainer.css( css );
             }
 
         }) // end control

@@ -139,7 +139,7 @@ function( Zeega, _Layer, Visual ) {
             
             attr[ this.propertyName ] = value;
             this.model.saveAttr( attr );
-        }, 500 ),
+        }, 500 )
   });
 
   return Layer;

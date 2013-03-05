@@ -242,6 +242,7 @@ function( app, SequenceCollection ) {
         },
 
         getFrame: function( frameID ) {
+            console.log( frameID, this.sequences, this.frameKey )
             return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
         },
 
