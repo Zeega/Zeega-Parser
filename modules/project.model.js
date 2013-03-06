@@ -69,7 +69,6 @@ function( app, SequenceCollection ) {
 
         addFrameToKey: function( frameId, sequenceId ) {
             this.frameKey[ frameId ] = sequenceId;
-            console.log('add frame to key', frameId, sequenceId, this.frameKey)
         },
 
         _setInnerSequenceConnections: function() {
@@ -247,10 +246,13 @@ function( app, SequenceCollection ) {
         },
 
         getFrame: function( frameID ) {
-            console.log( frameID, this.sequences, this.frameKey )
-            var sequence = this.sequences.get( this.frameKey[ frameID ] )
-            // if ( )
-            return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
+            var sequence = this.sequences.get( this.frameKey[ frameID ] );
+
+            if ( sequence ) {
+                return this.sequences.get( this.frameKey[ frameID ] ).frames.get( frameID );
+            } else {
+                return false;
+            }
         },
 
         // this is not the best. cache these somewhere in a big collection?

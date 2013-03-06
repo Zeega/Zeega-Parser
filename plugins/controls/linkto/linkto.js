@@ -12,9 +12,13 @@ function( app, ControlView ) {
             template: "linkto/linkto",
 
             serialize: function() {
-                console.log("link to", this.getAttr("to_frame") )
-                // var targetFrame = 
-                return app.project.getFrame( this.getAttr("to_frame") ).toJSON();
+                var targetFrame = app.project.getFrame( this.getAttr("to_frame") );
+
+                if ( targetFrame === false ) {
+                    return { thumbnail_url: ""};
+                } else {
+                    return targetFrame.toJSON();
+                }
             },
 
             onPropertyUpdate: function( value ) {
