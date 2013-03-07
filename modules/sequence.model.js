@@ -75,6 +75,8 @@ function( app, Layers ) {
                 this.persistLayer( newLayer );
                 view.setSoundtrackLayer( newLayer );
 
+console.log("new layer save", newLayer)
+
                 this.save();
             }.bind( this ));
         },
