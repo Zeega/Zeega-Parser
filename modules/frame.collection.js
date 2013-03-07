@@ -66,6 +66,7 @@ function( app, FrameModel, LayerCollection ) {
             newFrame.status = app.status;
             newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
             newFrame.layers.frame = newFrame;
+            newFrame.listenToLayers();
 
             newFrame.save().success(function() {
                 app.project.addFrameToKey( newFrame.id, this.sequence.id );

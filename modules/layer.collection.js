@@ -33,6 +33,7 @@ function( app, Layers ) {
 
         onRemove: function( layer ) {
             layer.editorCleanup();
+            layer.destroy();
             app.trigger("layer_remove", layer );
         },
 

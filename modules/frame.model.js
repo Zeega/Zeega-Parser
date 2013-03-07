@@ -55,13 +55,18 @@ function( app, Backbone, Layers, ThumbWorker ) {
 // editor
         listenToLayers: function() {
             this.layers.on("sort", this.onLayerSort, this );
-            this.layers.on("add remove", this.updateThumb, this );
+            this.layers.on("add remove", this.onLayerAddRemove, this );
         },
 
-        onLayerSort: function() {
+        onLayerAddRemove: function() {
+            this.updateThumb();
+            this.onLayerSort();
+        },
+
+        onLayerSort: _.debounce(function() {
             this.save("layers", this.layers.pluck("id") );
             this.updateThumb();
-        },
+        }, 100 ),
 
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
