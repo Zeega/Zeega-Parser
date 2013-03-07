@@ -99,7 +99,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
         // debounce the thumbworker so it's not killing the thumb server!
 
         startThumbWorker: _.debounce(function() {
-            var worker = new Worker( "/" + app.root + "assets/thumb-worker.js" );
+            var worker = new Worker( "/" + app.root + "assets/js/thumb-worker.js" );
             
             worker.addEventListener("message", function(e) {
 
