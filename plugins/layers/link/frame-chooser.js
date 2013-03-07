@@ -62,7 +62,7 @@ function( app ) {
             this.$(".frame-chooser-list").empty();
             app.status.get("currentSequence").frames.each(function( frame ) {
                 var fv = $("<li>"),
-                    bg = frame.get("thumbnail_url") == "" ? "black" :
+                    bg = frame.get("thumbnail_url") === "" ? "black" :
                         "url(" + frame.get("thumbnail_url") +") no-repeat center center";
 
 

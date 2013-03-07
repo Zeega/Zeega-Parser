@@ -66,7 +66,7 @@ console.log("set sndtrack", this.get("attr").soundtrack, this );
                 var attr = this.get("attr");
 
                 attr.soundtrack = newLayer.id;
-                this.set("attr", attr ); //save
+                this.save("attr", attr ); //save
                 this.persistLayer( newLayer );
                 view.setSoundtrackLayer( newLayer );
             }.bind( this ));
