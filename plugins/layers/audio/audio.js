@@ -97,7 +97,7 @@ function( app, _Layer, Visual ){
             if ( this.audio === null ) {
                 this.audio = document.getElementById("audio-el-" + this.model.id );
                 this.listen();
-
+console.log(this, this.el)
                 this.audio.load();
             }
         },

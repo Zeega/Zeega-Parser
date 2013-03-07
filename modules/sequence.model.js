@@ -65,6 +65,10 @@ console.log("set sndtrack", this.get("attr").soundtrack, this );
             newLayer.save().success(function( response ) {
                 var attr = this.get("attr");
 
+                if ( _.isArray( attr ) ) {
+                    attr = {};
+                }
+
                 attr.soundtrack = newLayer.id;
                 this.save("attr", attr ); //save
                 this.persistLayer( newLayer );
