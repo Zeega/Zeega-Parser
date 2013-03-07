@@ -28,6 +28,7 @@ function( app, Layers ) {
         },
 
         initialize: function() {
+            this.on("sync", function(){ console.log("SYNC SEQ", this )}, this)
             // this.on("change:frames", this.onFrameSort, this );
         },
 
@@ -40,11 +41,10 @@ function( app, Layers ) {
 
         setSoundtrack: function( item, view ) {
             var newLayer;
-console.log("set sndtrack", this.get("attr").soundtrack, this );
+
             if ( this.get("attr").soundtrack ) {
                 var layer = app.project.getLayer( this.get("attr").soundtrack );
 
-                console.log("rm sndtrack", this.get("attr").soundtrack, layer );
                 this.removeSoundtrack( layer, false ); // does not work
             }
 
@@ -70,22 +70,21 @@ console.log("set sndtrack", this.get("attr").soundtrack, this );
                 }
 
                 attr.soundtrack = newLayer.id;
-                this.save("attr", attr ); //save
+
+                this.set("attr", attr );
                 this.persistLayer( newLayer );
                 view.setSoundtrackLayer( newLayer );
+
+                this.save();
             }.bind( this ));
         },
 
-        removeSoundtrack: function( layer, save ) {
+        removeSoundtrack: function( layer ) {
             var attr = this.get("attr");
 
-            attr.soundtrack = false;
-
-            this.set("attr", attr );
-            if ( save ) {
-                this.save();
-            }
             this.unpersistLayer( layer );
+            attr.soundtrack = false;
+            this.set("attr", attr );
         },
 
         persistLayer: function( layer ) {
@@ -93,6 +92,7 @@ console.log("set sndtrack", this.get("attr").soundtrack, this );
                 var pLayers = this.get("persistent_layers");
 
                 pLayers.push( layer.id );
+
                 this.set("persistent_layers", pLayers ); //save
                 this.frames.each(function( frame ) {
                     layer.order[ frame.id ] = frame.layers.length;
@@ -105,7 +105,7 @@ console.log("set sndtrack", this.get("attr").soundtrack, this );
             if ( _.contains( this.get("persistent_layers"), layer.id ) ) {
                 var pLayers = _.without( this.get("persistent_layers"), layer.id );
 
-                this.set("persistent_layers", pLayers ); //save
+                this.set("persistent_layers", pLayers );
                 this.frames.each(function( frame ) {
                     frame.layers.remove( layer );
                 });
