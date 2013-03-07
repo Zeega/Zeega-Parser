@@ -61,12 +61,15 @@ function( app ) {
         afterRender: function() {
             this.$(".frame-chooser-list").empty();
             app.status.get("currentSequence").frames.each(function( frame ) {
-                var fv = $("<li>");
+                var fv = $("<li>"),
+                    bg = frame.get("thumbnail_url") == "" ? "black" :
+                        "url(" + frame.get("thumbnail_url") +") no-repeat center center";
+
 
                 fv.addClass("frame")
                     .data("id", frame.id )
                     .css({
-                        background: "url(" + frame.get("thumbnail_url") +") no-repeat center center",
+                        background: bg,
                         "-webkit-background-size": "cover"
                     });
 
