@@ -52,21 +52,58 @@ function( app, Backbone, Layers, ThumbWorker ) {
             }
         },
 
+        lazySave: null,
+        startThumbWorker: null,
+
+        initialize: function() {
+            this.off("sync");
+            this.on("sync", function(){console.log("SYNCFRAME",this.id, this)}, this );
+
+            this.lazySave = _.debounce(function() {
+                this.save();
+            }.bind( this ), 250 );
+
+            this.startThumbWorker = _.debounce(function() {
+                var worker = new Worker( app.root + "assets/js/thumb-worker.js" );
+                
+                worker.addEventListener("message", function(e) {
+
+                    if( e.data ) {
+                        this.set("thumbnail_url", e.data );
+                        this.lazySave();
+                    } else {
+                        this.trigger('thumbUpdateFail');
+                    }
+                    worker.terminate();
+                }.bind( this ), false);
+
+                worker.postMessage({
+                    cmd: 'capture',
+                    msg: app.api + "frames/" + this.id + "/thumbnail"
+                });
+
+            }, 1000)
+        },
+
 // editor
         listenToLayers: function() {
+            this.stopListening( this.layers );
             this.layers.on("sort", this.onLayerSort, this );
             this.layers.on("add remove", this.onLayerAddRemove, this );
         },
 
         onLayerAddRemove: function() {
+            console.log('on layer add remove', this.id, this)
             this.updateThumb();
             this.onLayerSort();
         },
 
-        onLayerSort: _.debounce(function() {
-            this.save("layers", this.layers.pluck("id") );
+        onLayerSort: function() {
+            console.log("on layer sort:", this.id, this )
+            this.set("layers", this.layers.pluck("id") );
+            this.lazySave();
             this.updateThumb();
-        }, 100 ),
+        },
 
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
@@ -96,28 +133,6 @@ function( app, Backbone, Layers, ThumbWorker ) {
             this.startThumbWorker();
         },
 
-        // debounce the thumbworker so it's not killing the thumb server!
-
-        startThumbWorker: _.debounce(function() {
-            var worker = new Worker( "/" + app.root + "assets/js/thumb-worker.js" );
-            
-            worker.addEventListener("message", function(e) {
-
-                if( e.data ) {
-                    this.save("thumbnail_url", e.data );
-                } else {
-                    this.trigger('thumbUpdateFail');
-                }
-                worker.terminate();
-            }.bind( this ), false);
-
-            worker.postMessage({
-                cmd: 'capture',
-                msg: app.api + "frames/" + this.id + "/thumbnail"
-            });
-
-        }, 1000),
-
         saveAttr: function( attrObj ) {
             var attr = this.get("attr");
 
@@ -125,7 +140,8 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 attr = {};
             }
 
-            this.save("attr", _.extend( attr, attrObj ) );
+            this.set("attr", _.extend( attr, attrObj ) );
+            this.lazySave();
         },
 
 // end editor
