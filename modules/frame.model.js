@@ -80,7 +80,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
                     msg: app.api + "frames/" + this.id + "/thumbnail"
                 });
 
-            }, 1000)
+            }, 1000);
         },
 
 // editor

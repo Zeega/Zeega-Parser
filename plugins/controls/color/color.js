@@ -22,7 +22,7 @@ function( app, ControlView ) {
 
             create: function() {
                 /* plugin: http://www.eyecon.ro/colorpicker/#about */
-                this.$('.color-selector').ColorPicker({
+                $( this.$('.color-selector') ).ColorPicker({
                     
                     color: this.model.getAttr( this.propertyName ),
                     
