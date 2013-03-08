@@ -174,13 +174,20 @@ function( Zeega, SequenceCollection ) {
         },
 
         _setConnections: function( frame ) {
-            var prev, next;
+            var prev, next, hasLink = false;
 
             prev = frame.get("_prev"),
             next = frame.get("_next");
 
+            frame.layers.each(function( layer ) {
+                if ( layer.get("type") == "Link" ) {
+                    hasLink = true;
+                    return false;
+                }
+            });
+
             frame.put( "_connections",
-                frame.get('attr').advance ? "none" :
+                frame.get('attr').advance || hasLink ? "none" :
                 prev & next ? "lr" :
                 prev ? "l" :
                 next ? "r" : "none"
