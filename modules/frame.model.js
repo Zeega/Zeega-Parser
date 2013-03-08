@@ -56,12 +56,10 @@ function( app, Backbone, Layers, ThumbWorker ) {
         startThumbWorker: null,
 
         initialize: function() {
-            this.off("sync");
-            this.on("sync", function(){console.log("SYNCFRAME",this.id, this)}, this );
 
             this.lazySave = _.debounce(function() {
                 this.save();
-            }.bind( this ), 250 );
+            }.bind( this ), 1000 );
 
             this.startThumbWorker = _.debounce(function() {
                 var worker = new Worker( app.root + "assets/js/thumb-worker.js" );
@@ -93,13 +91,11 @@ function( app, Backbone, Layers, ThumbWorker ) {
         },
 
         onLayerAddRemove: function() {
-            console.log('on layer add remove', this.id, this)
             this.updateThumb();
             this.onLayerSort();
         },
 
         onLayerSort: function() {
-            console.log("on layer sort:", this.id, this )
             this.set("layers", this.layers.pluck("id") );
             this.lazySave();
             this.updateThumb();

@@ -30,12 +30,10 @@ function( app, Layers ) {
         lazySave: null,
 
         initialize: function() {
-            this.on("sync", function(){ console.log("SYNC SEQ", this )}, this)
-            // this.on("change:frames", this.onFrameSort, this );
 
             this.lazySave = _.debounce(function() {
                 this.save();
-            }.bind( this ), 250 );
+            }.bind( this ), 1000 );
         },
 
         onFrameSort: function() {
@@ -46,13 +44,11 @@ function( app, Layers ) {
         },
 
         setSoundtrack: function( item, view ) {
-            var newLayer;
+            var newLayer, oldlayer;
 
-            if ( this.get("attr").soundtrack ) {
-                var layer = app.project.getLayer( this.get("attr").soundtrack );
-
-                console.log("layer to remove", layer);
-                this.removeSoundtrack( layer );
+            oldLayer = app.project.getLayer( this.get("attr").soundtrack );
+            if ( this.get("attr").soundtrack && oldLayer ) {
+                this.removeSoundtrack( oldLayer );
             }
 
             newLayer = new Layers[ item.get("layer_type") ]({
@@ -77,12 +73,9 @@ function( app, Layers ) {
                 }
 
                 attr.soundtrack = newLayer.id;
-console.log("NEWLAYER SAVED", attr)
                 this.set("attr", attr );
                 this.persistLayer( newLayer );
                 view.setSoundtrackLayer( newLayer );
-
-                console.log("new layer save", newLayer);
 
                 this.lazySave();
             }.bind( this ));
@@ -90,11 +83,10 @@ console.log("NEWLAYER SAVED", attr)
 
         removeSoundtrack: function( layer ) {
             var attr = this.get("attr");
-console.log("REMOVE SOUNDTRACK", layer.id)
+
             this.unpersistLayer( layer );
             attr.soundtrack = false;
             this.set("attr", attr );
-            // this.lazySave();
         },
 
         persistLayer: function( layer ) {
@@ -102,10 +94,8 @@ console.log("REMOVE SOUNDTRACK", layer.id)
                 var pLayers = this.get("persistent_layers");
 
                 pLayers.push( layer.id );
-
-                this.set("persistent_layers", pLayers ); //save
+                this.set("persistent_layers", pLayers );
                 this.frames.each(function( frame ) {
-                    console.log("perisst to frame", frame.id, frame)
                     layer.order[ frame.id ] = frame.layers.length;
                     frame.layers.add( layer );
                 });
