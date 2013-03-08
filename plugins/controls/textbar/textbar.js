@@ -60,7 +60,8 @@ function( Zeega, ControlView ) {
             loadFonts: function() {
                 this.$(".font-list").empty();
                 _.each( this.fontList, function( fontName ) {
-                    this.$(".font-list").append("<option value=" + fontName + ">" + fontName + "</option>");
+                    console.log("FONT LIST:", fontName )
+                    this.$(".font-list").append("<option value='" + fontName + "'>" + fontName + "</option>");
                 }, this );
             },
 
