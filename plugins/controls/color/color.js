@@ -17,11 +17,16 @@ function( app, ControlView ) {
             },
 
             serialize: function() {
-                return _.extend({}, this.model.toJSON(), { _propertyName: !_.isUndefined( this.options.options ) ? this.options.options.title : this.propertyName });
+                return _.extend({}, this.model.toJSON(), {
+                    _title: this.options.options.title,
+                    _propertyName: this.propertyName
+                });
             },
 
             create: function() {
                 /* plugin: http://www.eyecon.ro/colorpicker/#about */
+
+                console.log("color control", this.model.getAttr( this.propertyName ), this.model)
                 $( this.$('.color-selector') ).ColorPicker({
                     
                     color: this.model.getAttr( this.propertyName ),
