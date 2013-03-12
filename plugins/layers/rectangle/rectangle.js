@@ -21,7 +21,8 @@ function( Zeega, LayerModel, Visual ) {
             opacity: 0.75,
             title: "Color Layer",
             top: 0,
-            width: 100
+            width: 100,
+            dissolve: true
         },
 
         controls: [

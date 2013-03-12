@@ -22,7 +22,8 @@ function( Zeega, _Layer, Visual ) {
             opacity: 1,
             title: "Text Layer",
             top: 40,
-            width: 25
+            width: 25,
+            dissolve: true
         },
 
         controls: [

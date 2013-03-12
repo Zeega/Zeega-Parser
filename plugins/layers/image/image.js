@@ -21,7 +21,8 @@ function( Zeega, _Layer, Visual ){
             top: 0,
             width: 100,
             opacity: 1,
-            aspectRatio: null
+            aspectRatio: null,
+            dissolve: true
         },
 
         controls: [
