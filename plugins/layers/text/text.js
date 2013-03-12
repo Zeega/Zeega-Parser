@@ -76,6 +76,17 @@ function( Zeega, _Layer, Visual ) {
             return this.model.toJSON();
         },
 
+        saveContent: null,
+
+        init: function() {
+            this.saveContent = _.debounce(function() {
+                this.model.saveAttr({
+                    title: this.$(".visual-target").text(),
+                    content: this.$(".visual-target").html()
+                });
+            }.bind( this ), 1000);
+        },
+
         afterEditorRender: function() {
             this.$el.css({
                 color: this.model.get("attr").color,
@@ -122,19 +133,27 @@ function( Zeega, _Layer, Visual ) {
         },
 
         listen: function() {
-            this.$('.visual-target').keyup(function(e){
-                if ( e.which == 27 ) {
-                    this.$('.visual-target').blur();
-                }
-                this.lazyUpdate({ content: this.$('.visual-target').text() });
-            }.bind( this ))
-            .bind('paste', function(e){
-                _.delay(function() {
-                    this.$('.visual-target').html( this.$('.visual-target').text() );
-                    this.lazyUpdate({ content: this.$('.visual-target').text() });
-                }, 500);
+            this.$(".visual-target")
+                .keyup(function(e){
+                    if ( e.which == 27 ) {
+                        this.$(".visual-target").blur();
+                    }
+                    this.saveContent();
+                }.bind( this ))
+
+                .bind("paste", function(e){
+                    _.delay(function() {
+                        this.$(".visual-target").html( this.$(".visual-target").text() );
+                        this.lazyUpdate({ content: this.$(".visual-target").text() });
+                    }, 500);
+                }.bind( this ));
+
+            this.$(".visual-target").blur(function() {
+                this.saveContent();
             }.bind( this ));
         },
+
+        
 
         lazyUpdate: _.debounce(function( value ) {
             var attr = {};

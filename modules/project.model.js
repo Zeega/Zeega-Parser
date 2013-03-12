@@ -130,12 +130,15 @@ function( app, SequenceCollection ) {
 
                             targetFrameID = parseInt( layer.get("attr").to_frame, 10 );
                             targetFrame = this.getFrame( targetFrameID );
-                            linksFrom = [].concat( targetFrame.get("linksFrom") );
 
-                            linksTo.push( targetFrameID );
-                            linksFrom.push( frame.id );
+                            if ( targetFrame ) {
+                                linksFrom = [].concat( targetFrame.get("linksFrom") );
 
-                            targetFrame.put("linksFrom", linksFrom );
+                                linksTo.push( targetFrameID );
+                                linksFrom.push( frame.id );
+
+                                targetFrame.put("linksFrom", linksFrom );
+                            }
                         }
                     }, this );
 
