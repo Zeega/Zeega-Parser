@@ -25,8 +25,6 @@ function( app, ControlView ) {
 
             create: function() {
                 /* plugin: http://www.eyecon.ro/colorpicker/#about */
-
-                console.log("color control", this.model.getAttr( this.propertyName ), this.model)
                 $( this.$('.color-selector') ).ColorPicker({
                     
                     color: this.model.getAttr( this.propertyName ),
