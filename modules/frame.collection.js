@@ -88,7 +88,6 @@ function( app, FrameModel, LayerCollection ) {
 
         onFrameRemove: function( frameModel ) {
             app.trigger("frame_remove", frameModel );
-            console.log('on frame Remove', frameModel )
             frameModel.destroy();
             this.sort();
             if ( this.length === 0 ) {

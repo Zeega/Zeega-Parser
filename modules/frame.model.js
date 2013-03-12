@@ -308,18 +308,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
         unrender: function( newID ) {
             // not sure I need this
-        },
-
-        // manages the removal of all child layers
-        // destroy: function() {
-        //     // do not attempt to destroy if the layer is waiting or destroyed
-        //     if ( this.state !== "waiting" && this.state !== "destroyed" ) {
-        //         this.layers.each(function( layer ) {
-        //             layer.destroy();
-        //         });
-        //         this.state = "destroyed";
-        //     }
-        // }
+        }
 
     });
 });
