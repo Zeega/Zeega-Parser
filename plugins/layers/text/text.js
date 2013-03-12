@@ -16,7 +16,7 @@ function( Zeega, _Layer, Visual ) {
             citation: false,
             color: "#F0F",
             content: "text",
-            fontSize: 500,
+            fontSize: 200,
             default_controls: true,
             left: 30,
             opacity: 1,
