@@ -107,7 +107,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
-                app.status.set("currentLayer", newLayer );
+                app.status.setCurrentLayer( newLayer );
                 newLayer.trigger("focus", newLayer );
             }.bind( this ));
             
@@ -122,7 +122,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
-                app.status.set("currentLayer", newLayer );
+                app.status.setCurrentLayer( newLayer );
                 newLayer.trigger("focus", newLayer );
             }.bind( this ));
         },
