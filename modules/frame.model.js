@@ -56,7 +56,7 @@ function( Zeega ) {
                 next = this.get("_next");
 
             this.set( "connections",
-                this.get('attr').advance ? "none" :
+                this.get("attr").advance ? "none" :
                 prev & next ? "lr" :
                 prev ? "l" :
                 next ? "r" : "none"
@@ -108,6 +108,7 @@ function( Zeega ) {
 
             } else {
                 this.renderOnReady = oldID;
+                Zeega.spinner.spin( Zeega.$(".ZEEGA-player")[0] );
             }
             /* determines the z-index of the layer in relation to other layers on the frame */
             _.each( this.get("layers"), function( layerID, i ) {
@@ -131,8 +132,8 @@ function( Zeega ) {
             this.state = "ready";
             this.status.emit( "frame_preloaded", data );
             if ( !_.isNull( this.renderOnReady ) ) {
-
                 this.status.emit( "canplay", data );
+                Zeega.spinner.stop();
                 this.render( this.renderOnReady );
                 this.renderOnReady = null;
             }
