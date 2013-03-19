@@ -108,6 +108,7 @@ function( Zeega ) {
 
             } else {
                 this.renderOnReady = oldID;
+                Zeega.spinner.spin( Zeega.$(".ZEEGA-player")[0] );
             }
             /* determines the z-index of the layer in relation to other layers on the frame */
             _.each( this.get("layers"), function( layerID, i ) {
@@ -131,7 +132,7 @@ function( Zeega ) {
             this.state = "ready";
             this.status.emit( "frame_preloaded", data );
             if ( !_.isNull( this.renderOnReady ) ) {
-
+                Zeega.spinner.stop();
                 this.status.emit( "canplay", data );
                 this.render( this.renderOnReady );
                 this.renderOnReady = null;
