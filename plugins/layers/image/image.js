@@ -19,7 +19,7 @@ function( Zeega, _Layer, Visual ){
             url: "none",
             left: 0,
             top: 0,
-            width: 100,
+            width: null,
             opacity: 1,
             aspectRatio: null,
             dissolve: true
@@ -70,6 +70,7 @@ function( Zeega, _Layer, Visual ){
         afterEditorRender: function() {
             // add height attribute if not already there
             // this may break if the aspect ratio changes
+            console.log("AFTER IMAGE RENDER", this.model.toJSON() );
             if ( _.isNull( this.getAttr("aspectRatio") ) ) {
                 var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
                     position: "absolute",
@@ -79,18 +80,43 @@ function( Zeega, _Layer, Visual ){
 
                 $img.imagesLoaded();
                 $img.done(function() {
-                    var pxHeight, pxWidth, height;
+                    var width, height, top, left, imgRatio, workspaceRatio;
 
-                    pxWidth = ( this.getAttr("width") / 100 ) * this.$workspace.width();
-                    pxHeight = pxWidth * $img.height() / $img.width();
-                    height = pxHeight / this.$workspace.height() * 100;
+                    imgRatio = $img.width()/ $img.height();
+                    workspaceRatio = this.$workspace.width() / this.$workspace.height();
+
+                    if ( imgRatio > workspaceRatio ) {
+                        width = this.$workspace.width();
+                        height = width / imgRatio;
+                    } else {
+                        height = this.$workspace.height();
+                        width = height * imgRatio;
+                    }
+
+                    width = width / this.$workspace.width() * 100;
+                    height = height / this.$workspace.height() * 100;
+                    top = (100 - height) / 2;
+                    left = (100 - width) / 2;
+
 
                     $img.remove();
-                    this.update({
-                        aspectRatio: $img.width()/ $img.height(),
-                        height: height
+
+                    var attr = {
+                        aspectRatio: imgRatio,
+                        height: height,
+                        width: width,
+                        top: top,
+                        left: left
+                    }
+                    console.log("sdlkjf", attr )
+
+                    this.model.saveAttr( attr );
+                    this.$el.css({
+                        height: height + "%",
+                        width: width + "%",
+                        top: top + "%",
+                        left: left + "%"
                     });
-                    this.$el.css("height", height + "%" );
                 }.bind( this ));
                 $("body").append( $img );
             }
