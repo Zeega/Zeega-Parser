@@ -182,7 +182,7 @@ function( Zeega, SequenceCollection ) {
 /*
             frame.layers.each(function( layer ) {
                 if ( layer.get("type") == "Link" ) {
-                    hasLink = true;d
+                    hasLink = true;
                     return false;
                 }
             });
