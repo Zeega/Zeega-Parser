@@ -100,16 +100,14 @@ function( Zeega, _Layer, Visual ){
 
                     $img.remove();
 
-                    var attr = {
+                    this.model.saveAttr({
                         aspectRatio: imgRatio,
                         height: height,
                         width: width,
                         top: top,
                         left: left
-                    }
-                    console.log("sdlkjf", attr )
+                    });
 
-                    this.model.saveAttr( attr );
                     this.$el.css({
                         height: height + "%",
                         width: width + "%",
