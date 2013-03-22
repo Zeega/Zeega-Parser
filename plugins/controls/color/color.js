@@ -1,7 +1,7 @@
 define([
     "app",
     "zeega_parser/modules/control.view",
-    "colorpicker"
+    "simpleColorPicker"
 ],
 
 function( app, ControlView ) {
@@ -24,29 +24,17 @@ function( app, ControlView ) {
             },
 
             create: function() {
-                /* plugin: http://www.eyecon.ro/colorpicker/#about */
-                $( this.$('.color-selector') ).ColorPicker({
-                    
-                    color: this.model.getAttr( this.propertyName ),
-                    
-                    onShow: function (colpkr) {
-                        $( colpkr ).fadeIn(500);
-                        
-                        return false;
-                    },
-                    onHide: function (colpkr) {
-                        $( colpkr ).fadeOut(500);
+                /* plugin: https://github.com/recurser/jquery-simple-color */
+                var $colorPicker = this.$(".simple_color");
 
-                        return false;
-                    },
-                    onChange: function (hsb, hex, rgb) {
-                        var hexValue = "#" + hex;
+                $colorPicker
+                    .simpleColor()
+                    .bind("change", function(e) {
+                        var hexValue = $colorPicker.val();
 
-                        this.$('.color-preview').css("backgroundColor", hexValue );
                         this.updateVisual( hexValue );
                         this.lazyUpdate( hexValue );
-                    }.bind( this )
-                });
+                    }.bind( this ));
             }
 
         })
