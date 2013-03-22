@@ -108,7 +108,6 @@ function( app, Backbone, Layers, ThumbWorker ) {
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
                 app.status.setCurrentLayer( newLayer );
-                newLayer.trigger("focus", newLayer );
             }.bind( this ));
             
         },
@@ -123,8 +122,18 @@ function( app, Backbone, Layers, ThumbWorker ) {
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
                 app.status.setCurrentLayer( newLayer );
-                newLayer.trigger("focus", newLayer );
             }.bind( this ));
+        },
+
+        pasteLayer: function( layer ) {
+            var newLayer = new Layers[ layer.get("type") ]( _.extend({}, layer.toJSON(), { id: null } ) );
+
+            newLayer.order[ this.id ] = this.layers.length;
+            newLayer.save().success(function( response ) {
+                this.layers.add( newLayer );
+                app.status.setCurrentLayer( newLayer );
+            }.bind( this ));
+
         },
 
         //update the frame thumbnail

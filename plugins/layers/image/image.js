@@ -70,7 +70,6 @@ function( Zeega, _Layer, Visual ){
         afterEditorRender: function() {
             // add height attribute if not already there
             // this may break if the aspect ratio changes
-            console.log("AFTER IMAGE RENDER", this.model.toJSON() );
             if ( _.isNull( this.getAttr("aspectRatio") ) ) {
                 var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
                     position: "absolute",
