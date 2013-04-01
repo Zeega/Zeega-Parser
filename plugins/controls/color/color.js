@@ -14,6 +14,7 @@ function( app, ControlView ) {
 
             init: function() {
                 this.propertyName = this.options.options.propertyName;
+                this.model.on("change", this.onChange, this );
             },
 
             serialize: function() {
@@ -29,11 +30,25 @@ function( app, ControlView ) {
 
                 $colorPicker
                     .simpleColor({
-                        callback: function( hex ) {
+                        livePreview: true,
+                        onCellEnter: function( hex ) {
                             this.updateVisual( "#" + hex );
-                            this.lazyUpdate( "#" + hex );
+                        }.bind( this ),
+                        onClose: function() {
+                            this.onChange();
+                        }.bind( this ),
+                        callback: function( hex ) {
+                            var attr = {};
+
+                            attr[ this.propertyName ] = "#" + hex;
+                            this.updateVisual( "#" + hex );
+                            this.update( attr );
                         }.bind( this )
                     });
+            },
+
+            onChange: function() {
+                this.updateVisual( this.getAttr( this.propertyName ) );
             }
 
         })
