@@ -28,13 +28,12 @@ function( app, ControlView ) {
                 var $colorPicker = this.$(".simple_color");
 
                 $colorPicker
-                    .simpleColor()
-                    .bind("change", function(e) {
-                        var hexValue = $colorPicker.val();
-
-                        this.updateVisual( hexValue );
-                        this.lazyUpdate( hexValue );
-                    }.bind( this ));
+                    .simpleColor({
+                        callback: function( hex ) {
+                            this.updateVisual( "#" + hex );
+                            this.lazyUpdate( "#" + hex );
+                        }.bind( this )
+                    });
             }
 
         })
