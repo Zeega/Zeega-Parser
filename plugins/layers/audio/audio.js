@@ -41,16 +41,6 @@ function( app, _Layer, Visual ){
                     propertyName: "loop"
                 }
             },
-            { type: "slider",
-                options: {
-                    title: "vol",
-                    propertyName: "volume",
-                    min: 0,
-                    max: 1,
-                    step: 0.001,
-                    css: false
-                }
-            },
             "av"
         ]
     });
@@ -83,9 +73,20 @@ function( app, _Layer, Visual ){
             this.audio.pause();
         },
 
+        editor_onLayerEnter: function() {
+            // this.render();
+        },
+
+        editor_onLayerExit: function() {
+            console.log("audio exit", this.$("audio"))
+            this.$("audio").attr("src", "");
+            this.audio = null;
+            this.render();
+        },
+
         playPause: function() {
             this.setAudio();
-
+console.log("AUDIO", this.audio)
             if ( this.audio.paused ) {
                 this.audio.play();
             } else {

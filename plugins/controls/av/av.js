@@ -36,7 +36,7 @@ function( app, ControlView ) {
 
             createSlider: function() {
                 var cueIn, cueOut, max, $avSlider, cues = {};
-
+console.log("create Slider", this.cid)
                 cueIn = this.getAttr("cue_in");
                 cueOut = this.getAttr("cue_out");
                 duration = this.getAttr("duration");
@@ -141,20 +141,35 @@ function( app, ControlView ) {
             },
 
             listen: function() {
+
                 this.audio = this.model.visual.getAudio();
+
+                console.log("LISTEN", this.audio)
+
+                // if ( !this.audio ) {
+                //     this.audio = this.model.visual.getAudio();
+                // }
                 this.model.on("play", this.onPlay, this );
                 this.model.on("pause", this.onPause, this );
                 this.model.on("timeupdate", this.onTimeupdate, this );
             },
             
             onBlur: function() {
+                console.log("AV BLUR")
                 this.audio.pause();
                 this.$avSlider.slider("destroy");
+                this.$avSlider.empty();
+                // if ( this.$avSlider.slider ) {
+                //     this.$avSlider.slider("destroy");
+                // }
             },
 
             onFocus: function() {},
             
             onPlay: function( obj ) {
+
+                console.log( this.cid );
+
                 this.$(".playpause i")
                     .addClass("icon-pause")
                     .removeClass("icon-play");
@@ -181,6 +196,7 @@ function( app, ControlView ) {
             },
 
             playpause: function() {
+                console.log('playpause')
                 this.model.visual.playPause();
             }
 

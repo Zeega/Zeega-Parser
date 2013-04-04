@@ -20,10 +20,14 @@ function( app, Controls ) {
 
         initialize: function() {
             this.init();
-
             this.model.off("blur focus");
             this.model.on("focus", this.onFocus, this );
             this.model.on("blur", this.onBlur, this );
+
+            this.listenToFrame = _.once(function() {
+                this.model.collection.frame.on("focus", this.editor_onLayerEnter, this );
+                this.model.collection.frame.on("blur", this.editor_onLayerExit, this );
+            }.bind( this ));
         },
 
         events: {},
@@ -37,9 +41,13 @@ function( app, Controls ) {
 
         /* editor fxns */
         enterEditorMode: function() {
+            this.listenToFrame();
+
             this.loadControls();
             this.delegateEvents( _.extend( this.events, this.editorEvents ));
         },
+
+        listenToFrame: null,
 
         onFocus: function() {
             this.$el.addClass('active');

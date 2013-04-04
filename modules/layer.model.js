@@ -109,18 +109,23 @@ function( app, Controls ) {
         },
 
         loadControls: function() {
-            this._controls = _.map( this.controls, function( controlType ) {
-                var control = false;
+            if ( !this._controls ) {
 
-                if ( _.isObject( controlType ) && Controls[ controlType.type ] ) {
-                    control = new Controls[ controlType.type ]({ model: this, options: controlType.options });
-                } else if ( Controls[ controlType ] ) {
-                    control = new Controls[ controlType ]({ model: this });
-                }
+            console.log("load controls", this.id)
 
-                return control;
-            }, this );
-            this._controls = _.compact( this._controls );
+                this._controls = _.map( this.controls, function( controlType ) {
+                    var control = false;
+
+                    if ( _.isObject( controlType ) && Controls[ controlType.type ] ) {
+                        control = new Controls[ controlType.type ]({ model: this, options: controlType.options });
+                    } else if ( Controls[ controlType ] ) {
+                        control = new Controls[ controlType ]({ model: this });
+                    }
+
+                    return control;
+                }, this );
+                this._controls = _.compact( this._controls );
+            }
 
             return this._controls;
         },
@@ -151,6 +156,7 @@ function( app, Controls ) {
         },
 
         exit: function() {
+            console.log("EXIT", this)
             if ( this.layerClass ) {
                 this.visual.player_onExit();
             }
