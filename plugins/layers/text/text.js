@@ -14,9 +14,10 @@ function( Zeega, _Layer, Visual ) {
 
         attr: {
             citation: false,
-            color: "#F0F",
+            color: "#FFF",
             content: "text",
             fontSize: 200,
+            fontFamily: "Archivo Black",
             default_controls: true,
             left: 30,
             opacity: 1,
@@ -91,7 +92,8 @@ function( Zeega, _Layer, Visual ) {
         afterEditorRender: function() {
             this.$el.css({
                 color: this.model.get("attr").color,
-                fontSize: this.model.get("attr").fontSize + "%"
+                fontSize: this.model.get("attr").fontSize + "%",
+                fontFamily: this.model.get("attr").fontFamily
             });
 
             this.$(".visual-target").attr("contenteditable", "true");
