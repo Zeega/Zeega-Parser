@@ -12,16 +12,17 @@ function( app ) {
         serialize: function() {
             return this.model.toJSON();
         },
-        className: "frame-chooser overlay-dimmer modal",
+        className: "frame-chooser overlay-dimmer ZEEGA-modal",
 
         events: {
-            "click .close": "closeThis",
+            "click .modal-close": "closeThis",
             "click .submit": "submit",
             "click .frame" : "selectFrame",
             "click .link-new-frame": "linkToNewFrame"
         },
 
         closeThis: function() {
+            $("#main").removeClass("modal");
             this.$el.fadeOut(function() {
                 this.$el.attr("style", "");
                 this.remove();
@@ -59,6 +60,7 @@ function( app ) {
         },
 
         afterRender: function() {
+            $("#main").addClass("modal");
             this.$(".frame-chooser-list").empty();
             app.status.get("currentSequence").frames.each(function( frame ) {
                 var fv = $("<li>"),

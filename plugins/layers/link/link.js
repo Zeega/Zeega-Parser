@@ -34,31 +34,7 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
             "position",
             "resize",
             "linkto",
-            "linkimage",
-            {
-                type: "checkbox",
-                options: {
-                    title: "hover",
-                    propertyName: "glow_on_hover"
-                }
-            },
-            { type: "slider",
-                options: {
-                    title: "hover opacity",
-                    propertyName: "opacity_hover",
-                    min: 0,
-                    max: 1,
-                    step: 0.001,
-                    css: false
-                }
-            },
-            {
-                type: "checkbox",
-                options: {
-                    title: "glow",
-                    propertyName: "blink_on_start"
-                }
-            }
+            "linkimage"
         ]
     });
 
