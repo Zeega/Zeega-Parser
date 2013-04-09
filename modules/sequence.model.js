@@ -23,7 +23,8 @@ function( app, Layers ) {
             if ( this.isNew() ) {
                 return app.api + 'projects/'+ app.project.id +'/sequences';
             } else {
-                return app.api +'sequences/' + this.id;
+                console.log("yo");
+                return app.api + 'projects/'+ app.project.id + '/sequences/' + this.id;
             }
         },
 
