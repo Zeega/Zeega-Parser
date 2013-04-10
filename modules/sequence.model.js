@@ -91,7 +91,9 @@ function( app, Layers ) {
         },
 
         persistLayer: function( layer ) {
-            if ( !_.contains( layer.id, this.get("persistent_layers") ) ) {
+            console.log(layer);
+            console.log(this.get("persistent_layers"));
+            if ( !_.contains( this.get("persistent_layers"), layer.id ) ) {
                 var pLayers = this.get("persistent_layers");
 
                 pLayers.push( layer.id );
