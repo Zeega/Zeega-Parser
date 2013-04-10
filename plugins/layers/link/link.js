@@ -25,7 +25,7 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
             blink_on_start: true,
             glow_on_hover: true,
             citation: false,
-            link_type: "arrow_up",
+            link_type: "default",
             linkable: false,
             default_controls: false
         },
