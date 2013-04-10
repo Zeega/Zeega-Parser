@@ -155,6 +155,7 @@ function( Zeega, SequenceCollection ) {
                     }
 
                     if( nextSequence ) {
+                        console.log(this, nextSequence );
                         preloadTargets.push( this.sequences.get( nextSequence ).get("frames")[0] );
                     }
 
