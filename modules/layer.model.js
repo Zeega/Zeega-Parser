@@ -30,7 +30,7 @@ function( app, Controls ) {
             if ( this.isNew() ) {
                 console.log(this);
                 //return app.api + "projects/" + app.project.id + "/layers";
-                return app.api + 'projects/'+ app.project.id + '/sequences/' + app.status.get("currentSequence").id + '/frames/'+ app.status.get("currentFrame").id + "/layers";
+                return app.api + 'projects/'+ app.project.id + '/frames/'+ app.status.get("currentFrame").id + "/layers";
             } else {
                 return app.api + 'projects/'+ app.project.id + "/layers/" + this.id;
             }
