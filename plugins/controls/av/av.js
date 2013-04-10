@@ -36,7 +36,7 @@ function( app, ControlView ) {
 
             createSlider: function() {
                 var cueIn, cueOut, max, $avSlider, cues = {};
-console.log("create Slider", this.cid)
+
                 cueIn = this.getAttr("cue_in");
                 cueOut = this.getAttr("cue_out");
                 duration = this.getAttr("duration");
@@ -144,7 +144,6 @@ console.log("create Slider", this.cid)
 
                 this.audio = this.model.visual.getAudio();
 
-                console.log("LISTEN", this.audio)
 
                 // if ( !this.audio ) {
                 //     this.audio = this.model.visual.getAudio();
@@ -155,7 +154,6 @@ console.log("create Slider", this.cid)
             },
             
             onBlur: function() {
-                console.log("AV BLUR")
                 this.audio.pause();
                 this.$avSlider.slider("destroy");
                 this.$avSlider.empty();
@@ -196,7 +194,6 @@ console.log("create Slider", this.cid)
             },
 
             playpause: function() {
-                console.log('playpause')
                 this.model.visual.playPause();
             }
 

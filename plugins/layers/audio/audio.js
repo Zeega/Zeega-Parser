@@ -78,7 +78,6 @@ function( app, _Layer, Visual ){
         },
 
         editor_onLayerExit: function() {
-            console.log("audio exit", this.$("audio"))
             this.$("audio").attr("src", "");
             this.audio = null;
             this.render();
@@ -86,7 +85,6 @@ function( app, _Layer, Visual ){
 
         playPause: function() {
             this.setAudio();
-console.log("AUDIO", this.audio)
             if ( this.audio.paused ) {
                 this.audio.play();
             } else {
