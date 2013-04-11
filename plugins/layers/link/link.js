@@ -56,7 +56,7 @@ function( Zeega, _Layer ) {
     },
 
     events: {
-        "click a": "goClick",
+        "click": "goClick",
         "mouseover": "onMouseOver",
         "mouseout": "onMouseOut"
     },
