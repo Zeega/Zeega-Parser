@@ -36,13 +36,6 @@ function( Zeega, _Layer, Visual ) {
                 }
             },
             "rotate",
-            {
-                type: "checkbox",
-                options: {
-                    title: "fade in",
-                    propertyName: "dissolve"
-                }
-            },
             { type: "slider",
                 options: {
                     title: "<i class='icon-eye-open icon-white'></i>",
