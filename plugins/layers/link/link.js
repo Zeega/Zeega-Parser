@@ -102,7 +102,11 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
     },
 
     goClick: function() {
-        this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+        if ( this.model.mode == "editor" ) {
+            Zeega.status.setCurrentLayer( this.model );
+        } else {
+            this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+        }
         return false;
     }
 
