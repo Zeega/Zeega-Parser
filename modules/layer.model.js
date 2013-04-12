@@ -111,7 +111,7 @@ function( app, Controls ) {
         loadControls: function() {
             if ( !this._controls ) {
 
-            console.log("load controls", this.id)
+            
 
                 this._controls = _.map( this.controls, function( controlType ) {
                     var control = false;
@@ -156,7 +156,7 @@ function( app, Controls ) {
         },
 
         exit: function() {
-            console.log("EXIT", this)
+
             if ( this.layerClass ) {
                 this.visual.player_onExit();
             }
