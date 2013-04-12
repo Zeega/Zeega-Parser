@@ -49,7 +49,7 @@ function( Zeega, _Layer ) {
           "box-shadow": "0 0 10px rgba(255,255,255,"+ this.getAttr("opacity") + ")"
       };
 
-      if ( this.getAttr("link_type" == "default") ) {
+      if ( this.getAttr("link_type") == "default" ) {
         this.$el.attr("data-glowOnHover", this.getAttr("glow_on_hover") );
       }
       

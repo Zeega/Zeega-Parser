@@ -117,7 +117,7 @@ function( Zeega ) {
         },
 
         player_onPlay: function() {
-            if ( this.getAttr("blink_on_start") ) {
+            if ( this.getAttr("blink_on_start") && this.getAttr("link_type") == "default" ) {
                 this.glowOnFrameStart();
             }
             this.onPlay();
