@@ -1,0 +1,43 @@
+<a href="#" class="modal-close">&times;</a>
+<div class="modal-content">
+    <div class="modal-title">Edit your text</div>
+    <div class="modal-body">
+
+        <textarea rows="4" cols="59" maxlength="140" ><%= attr.content %></textarea>
+
+        <div class="text-controls clearfix">
+            <div class="color-selector">
+                <input class="simple-color" value="#<%= attr.color %>"/>
+            </div>
+            <a href="#" class="btnz text-btn-bold"><i class="icon-bold"></i></a>
+            <a href="#" class="btnz text-btn-italic"><i class="icon-italic"></i></a>
+            <a href="#" class="btnz text-btn-align-left"><i class="icon-align-left"></i></a>
+            <a href="#" class="btnz text-btn-align-center"><i class="icon-align-center"></i></a>
+            <a href="#" class="btnz text-btn-align-right"><i class="icon-align-right"></i></a>
+
+            <select class="font-list" style=""></select>
+            <select class="size-list" style="">
+                <option value="100">8</option>
+                <option value="125">10</option>
+                <option value="150">12</option>
+                <option value="175">14</option>
+                <option value="200">18</option>
+                <option value="250">24</option>
+                <option value="375">36</option>
+                <option value="500">48</option>
+                <option value="800">72</option>
+                <option value="1600">144</option>
+                <option value="2400">200</option>
+                <option value="3600">300</option>
+            </select>
+            
+        </div>
+
+        <div class="sample-header">sample</div>
+        <div class="text-sample"><%= attr.content %></div>
+
+        <div class="bottom-chooser">
+            <a href="#" class="submit">OK</a>
+        </div>
+    </div>
+</div>
