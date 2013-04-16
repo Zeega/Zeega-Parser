@@ -28,12 +28,6 @@ function( Zeega, LayerModel, Visual ) {
         controls: [
             "position",
             "resize",
-            { type: "checkbox",
-                options: {
-                    title: "fade in",
-                    propertyName: "dissolve"
-                }
-            },
             "rotate",
             { type: "slider",
                 options: {

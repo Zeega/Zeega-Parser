@@ -18,9 +18,14 @@ function( Zeega, ControlView ) {
 
             makeResizable: function() {
                 var args = {
+                    start: function( e, ui ) {
+                        this.model.visual.transforming = true;
+                        Zeega.status.setCurrentLayer( this.model );
+                    }.bind( this ),
                     stop: function( e, ui ) {
                         var attr = {}, width, height;
 
+                        this.model.visual.transforming = false;
                         attr.width = this.$visualContainer.width() / this.$workspace.width() * 100;
                         if ( this.options.options != "e" ) {
                             attr.height = this.$visualContainer.height() / this.$workspace.height() * 100;

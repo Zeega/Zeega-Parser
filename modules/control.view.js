@@ -40,8 +40,8 @@ function( app ) {
 
             this.stopListening( this.model );
             this.model.on("change:" + this.propertyName , this.onPropertyUpdate, this );
-            this.model.on("focus", this.onFocus, this );
-            this.model.on("blur", this.onBlur, this );
+            this.model.on("focus", this._onFocus, this );
+            this.model.on("blur", this._onBlur, this );
             this.init();
         },
 
@@ -51,6 +51,14 @@ function( app ) {
             this.$workspace = this.model.visual.$el.closest(".ZEEGA-workspace");
 
             this.create();
+        },
+
+        _onFocus: function() {
+            this.onFocus();
+        },
+
+        _onBlur: function() {
+            this.onBlur();
         },
 
         onFocus: function() {},
