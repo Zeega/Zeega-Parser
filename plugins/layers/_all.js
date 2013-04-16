@@ -15,7 +15,8 @@ define([
     "zeega_parser/plugins/layers/rectangle/rectangle",
     "zeega_parser/plugins/layers/text/text",
     "zeega_parser/plugins/layers/popup/popup",
-    "zeega_parser/plugins/layers/geo/geo"
+    "zeega_parser/plugins/layers/geo/geo",
+    "zeega_parser/plugins/layers/text_v2/text"
 ],
 function(
     image,
@@ -26,7 +27,8 @@ function(
     rectangle,
     text,
     popup,
-    geo
+    geo,
+    textV2
 ) {
     var Plugins = {};
     // extend the plugin object with all the layers
@@ -40,6 +42,7 @@ function(
         rectangle,
         text,
         popup,
-        geo
+        geo,
+        textV2
     );
 });
