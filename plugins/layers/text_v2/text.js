@@ -91,6 +91,7 @@ function( Zeega, _Layer, Visual, TextModal ) {
     Layer.TextV2.Visual = Visual.extend({
 
         textModal: null,
+        transforming: false,
 
         template: "text_v2/text",
 
@@ -134,10 +135,15 @@ function( Zeega, _Layer, Visual, TextModal ) {
                 fontFamily: this.model.get("attr").fontFamily
             });
 
-            this.$el.click(function() {
-                console.log("launch text modal");
-                $("body").append( this.textModal.el );
-                this.textModal.render();
+            this.$el.unbind("mouseup");
+
+            this.$el.bind("mouseup", function() {
+
+                if ( !this.transforming ) {
+                    console.log("launch text modal");
+                    $("body").append( this.textModal.el );
+                    this.textModal.render();
+                }
 
             }.bind( this ));
 

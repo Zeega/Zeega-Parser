@@ -20,8 +20,13 @@ function( Zeega, ControlView ) {
             makeDraggable: function() {
                 if ( this.model.editorProperties.draggable ) {
                     this.$visualContainer.draggable({
+                        start: function( e, ui ) {
+                            this.model.visual.transforming = true;
+                        }.bind( this ),
                         stop: function( e, ui ) {
                             var top, left, workspace;
+
+                            this.model.visual.transforming = false;
 
                             workspace = this.$visualContainer.closest(".ZEEGA-workspace");
                             top = ui.position.top / workspace.height() * 100;
