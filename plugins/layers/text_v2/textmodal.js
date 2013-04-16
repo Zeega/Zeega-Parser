@@ -1,11 +1,10 @@
 define([
-    "app",
-    "simpleColorPicker"
+    "zeega"
 ],
 
-function( app ) {
+function( zeega ) {
 
-    return app.Backbone.View.extend({
+    return zeega.Backbone.View.extend({
 
         template: "text_v2/textmodal",
         serialize: function() {
@@ -177,29 +176,6 @@ function( app ) {
 
         updateVisualElement: function() {
             this.model.visual.updateStyle();
-        },
-
-        fetch: function( path ) {
-            // Initialize done for use in async-mode
-            var done;
-            // Concatenate the file extension.
-            path = app.parserPath + "plugins/layers/" + path + ".html";
-            // remove app/templates/ via regexp // hacky? yes. probably.
-            path = path.replace("app/templates/","");
-
-            // If cached, use the compiled template.
-            if ( JST[ path ] ) {
-                return JST[ path ];
-            } else {
-                // Put fetch into `async-mode`.
-                done = this.async();
-                // Seek out the template asynchronously.
-                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
-                    done(
-                      JST[ path ] = _.template( contents )
-                    );
-                });
-            }
         }
     });
 

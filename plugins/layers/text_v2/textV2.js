@@ -1,10 +1,9 @@
 define([
-    "app",
-    "zeega_parser/modules/layer.model",
-    "zeega_parser/modules/layer.visual.view",
+    "zeega",
+    "zeega_parser/plugins/layers/_layer/_layer",
     "zeega_parser/plugins/layers/text_v2/textmodal"
 ],
-function( Zeega, _Layer, Visual, TextModal ) {
+function( Zeega, _Layer, TextModal ) {
 
     var Layer = Zeega.module();
 
@@ -88,12 +87,12 @@ function( Zeega, _Layer, Visual, TextModal ) {
         ],
     });
 
-    Layer.TextV2.Visual = Visual.extend({
+    Layer.TextV2.Visual = _Layer.Visual.extend({
 
         textModal: null,
         transforming: false,
 
-        template: "text_v2/text",
+        template: "plugins/textV2",
 
         visualProperties: [
             "top",
@@ -108,17 +107,20 @@ function( Zeega, _Layer, Visual, TextModal ) {
 
         saveContent: null,
 
+        onRender: function() {
+            this.updateStyle();
+        },
+
         updateStyle: function() {
-            console.log("update style", this.model.getAttr("content"), this.model.toJSON() )
-            this.$(".visual-target").text( this.model.getAttr("content") );
+            this.$(".visual-target").text( this.model.get("attr").content );
             
             this.$el.css({
                     color: "#" + this.model.get("attr").color,
-                    fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
-                    fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
-                    fontFamily: this.model.getAttr("fontFamily"),
-                    fontSize: this.model.getAttr("fontSize") + "%",
-                    textAlign: this.model.getAttr("textAlign")
+                    fontWeight: this.model.get("attr").bold ? "bold" : "normal",
+                    fontStyle: this.model.get("attr").italic ? "italic" : "normal",
+                    fontFamily: this.model.get("attr").fontFamily,
+                    fontSize: this.model.get("attr").fontSize + "%",
+                    textAlign: this.model.get("attr").textAlign
                 });
                 
         },

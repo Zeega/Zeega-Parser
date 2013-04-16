@@ -16,7 +16,7 @@ define([
     "zeega_parser/plugins/layers/text/text",
     "zeega_parser/plugins/layers/popup/popup",
     "zeega_parser/plugins/layers/geo/geo",
-    "zeega_parser/plugins/layers/text_v2/text"
+    "zeega_parser/plugins/layers/text_v2/textV2"
 ],
 function(
     image,
