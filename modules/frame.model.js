@@ -106,6 +106,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
+                this.set( "advance", -1 ); //adding a link layer removes default advance
                 this.layers.add( newLayer );
                 app.status.setCurrentLayer( newLayer );
             }.bind( this ));
