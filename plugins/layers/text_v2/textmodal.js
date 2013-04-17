@@ -44,7 +44,8 @@ function( app ) {
                 });
 
             this.$("textarea").bind("input propertychange", function() {
-                this.$(".text-sample").text( this.$("textarea").val() );
+                console.log( this.$("textarea").html() );
+                this.$(".text-sample").text( this.$("textarea").html() );
             }.bind( this )),
 
             $("#main").addClass("modal");
@@ -144,7 +145,8 @@ function( app ) {
             _.each( this.model.fontList, function( fontName ) {
                 this.$(".font-list").append("<option value='" + fontName + "'>" + fontName + "</option>");
             }, this );
-            this.$(".size-list").val( this.model.getAttr("fontFamily") );
+
+            this.$(".font-list").val( this.model.getAttr("fontFamily") );
         },
 
         loadSize: function() {
