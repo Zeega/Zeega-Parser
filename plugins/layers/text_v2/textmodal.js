@@ -43,6 +43,10 @@ function( app ) {
                     }.bind( this )
                 });
 
+            this.$("textarea").bind("input propertychange", function() {
+                this.$(".text-sample").text( this.$("textarea").val() );
+            }.bind( this )),
+
             $("#main").addClass("modal");
             this.loadFonts();
             this.loadSize();
@@ -117,8 +121,6 @@ function( app ) {
         },
 
         onKeypress: function( e ) {
-            console.log(e.which)
-
             this.saveContent();
         },
 
@@ -128,13 +130,11 @@ function( app ) {
                 this.$el.attr("style", "");
                 this.remove();
             }.bind( this ));
+            this.$("input").unbind("input propertychange");
         },
 
         submit: function() {
-            if ( this.selectedFrame !== null ) {
-                this.model.saveAttr({ to_frame: this.selectedFrame });
-                this.model.trigger("change:to_frame", this.model, this.selectedFrame );
-            }
+            this.model.saveAttr({ content: this.$("textarea").val() });
             this.closeThis();
             this.updateVisualElement();
         },
