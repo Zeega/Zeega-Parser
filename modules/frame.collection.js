@@ -30,7 +30,6 @@ function( app, FrameModel, LayerCollection ) {
                         frame.put("layers", _.without( frame.get("layers"), layer.id ) );
                         return false;
                     } else if ( index > -1 ) {
-                        //console.log( layer, frame, index )
                         layer.order[ frame.id ] = index;
                         return true;
                     }
@@ -56,12 +55,14 @@ function( app, FrameModel, LayerCollection ) {
             // if the sequence has persistent layers then add them to new frames!
             if ( this.sequence.get("persistent_layers").length ) {
                 _.each( this.sequence.get("persistent_layers"), function( layerID ) {
-                    console.log( app.project.getLayer( layerID ) );
                     continuingLayers.push( app.project.getLayer( layerID ) );
                 });
             }
 
-            newFrame = new FrameModel({ layers: this.sequence.get("persistent_layers").reverse() });
+            newFrame = new FrameModel({
+                layers: this.sequence.get("persistent_layers").reverse(),
+                _order: index
+            });
 
             newFrame.status = app.status;
             newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
@@ -70,11 +71,16 @@ function( app, FrameModel, LayerCollection ) {
 
             newFrame.save().success(function() {
                 app.project.addFrameToKey( newFrame.id, this.sequence.id );
+
                 if ( _.isUndefined( index ) ) {
                     this.push( newFrame );
                 } else {
                     this.add( newFrame, { at: index });
                 }
+
+                this.each(function( frame, i ) {
+                    frame.set("_order", i );
+                });
 
                 app.trigger("frame_add", newFrame );
             }.bind( this ));
