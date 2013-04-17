@@ -109,11 +109,10 @@ function( Zeega, _Layer, Visual, TextModal ) {
         saveContent: null,
 
         updateStyle: function() {
-            console.log("update style", this.model.getAttr("content"), this.model.toJSON() )
             this.$(".visual-target").text( this.model.getAttr("content") );
             
             this.$el.css({
-                    color: "#" + this.model.get("attr").color,
+                    color: this.model.get("attr").color,
                     fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
                     fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
                     fontFamily: this.model.getAttr("fontFamily"),
@@ -130,7 +129,7 @@ function( Zeega, _Layer, Visual, TextModal ) {
             }
 
             this.$el.css({
-                color: "#" + this.model.get("attr").color,
+                color: this.model.get("attr").color,
                 fontSize: this.model.get("attr").fontSize + "%",
                 fontFamily: this.model.get("attr").fontFamily
             });
@@ -140,7 +139,6 @@ function( Zeega, _Layer, Visual, TextModal ) {
             this.$el.bind("mouseup", function() {
 
                 if ( !this.transforming ) {
-                    console.log("launch text modal");
                     $("body").append( this.textModal.el );
                     this.textModal.render();
                 }

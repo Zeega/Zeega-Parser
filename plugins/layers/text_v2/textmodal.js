@@ -35,17 +35,13 @@ function( app ) {
                                 color: "#" + hex,
                             });
                     }.bind( this ),
-                    // onClose: function() {
-                    //     this.onChange();
-                    // }.bind( this ),
                     callback: function( hex ) {
                         this.onChangeColor( hex );
                     }.bind( this )
                 });
 
             this.$("textarea").bind("input propertychange", function() {
-                console.log( this.$("textarea").html() );
-                this.$(".text-sample").text( this.$("textarea").html() );
+                this.$(".text-sample").text( this.$("textarea").val() );
             }.bind( this )),
 
             $("#main").addClass("modal");
@@ -71,12 +67,11 @@ function( app ) {
         },
 
         onChangeColor: function( hex ) {
-            this.model.saveAttr({ color: hex });
+            this.model.saveAttr({ color: "#" + hex });
             this.updateSample();
         },
 
         onChangeSize: function( e ) {
-            console.log("change size:", $( e.target ).val() );
             this.model.setAttr({ fontSize: $( e.target ).val() });
 
             this.model.saveAttr({ fontSize: $( e.target ).val() });
