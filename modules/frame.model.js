@@ -103,9 +103,11 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
-
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
+                if( type == "Link" ){
+                    this.set( "attr", { "advance" : 10000 } ); //needs update in player – adding a link layer removes default advance
+                }
                 this.layers.add( newLayer );
                 app.status.setCurrentLayer( newLayer );
             }.bind( this ));
