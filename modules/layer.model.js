@@ -103,15 +103,13 @@ function( app, Controls ) {
         enterEditorMode: function() {
             this.mode = "editor",
             this.loadControls();
-            this.visual.render();
             this.visual.enterEditorMode();
             this.visual.moveOnStage();
         },
 
         loadControls: function() {
-            if ( !this._controls ) {
 
-            
+            if ( !this._controls ) {
 
                 this._controls = _.map( this.controls, function( controlType ) {
                     var control = false;

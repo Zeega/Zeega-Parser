@@ -43,7 +43,7 @@ function( app, Controls ) {
         enterEditorMode: function() {
             this.listenToFrame();
 
-            this.loadControls();
+            // this.loadControls();
             this.delegateEvents( _.extend( this.events, this.editorEvents ));
         },
 
@@ -60,7 +60,9 @@ function( app, Controls ) {
         loadControls: function() {
             _.each( this.model._controls, function( control ) {
                 if ( _.contains( this._allowedControls, control.type ) ) {
-                    this.insertView( ".controls-inline", control );
+                    this.$(".controls-inline").append( control.el );
+                    control.render();
+                    // this.insertView( ".controls-inline", control );
                 }
             }, this );
         },
@@ -82,6 +84,7 @@ function( app, Controls ) {
                 this.verifyReady();
             } else if ( this.model.mode == "editor") {
                 this.afterEditorRender();
+                this.loadControls();
             }
             this.applyVisualProperties();
             this.visualAfterRender();
