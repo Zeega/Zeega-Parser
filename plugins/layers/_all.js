@@ -10,7 +10,7 @@ define([
     "zeega_parser/plugins/layers/image/image",
     "zeega_parser/plugins/layers/link/link",
     "zeega_parser/plugins/layers/slideshow/slideshow",
-    "zeega_parser/plugins/layers/video/video",
+    "zeega_parser/plugins/layers/youtube/youtube",
     "zeega_parser/plugins/layers/audio/audio",
     "zeega_parser/plugins/layers/rectangle/rectangle",
     "zeega_parser/plugins/layers/text/text",

@@ -115,6 +115,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
         },
 
         addLayerByItem: function( item ) {
+            console.log("layer_type",item.get("layer_type"))
             var newLayer = new Layers[ item.get("layer_type") ]({
                 type: item.get("layer_type"),
                 attr: _.extend({}, item.toJSON() )
