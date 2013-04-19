@@ -33,8 +33,8 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
         controls: [
             "position",
             "resize",
-            "linkto",
-            "linkimage"
+            "linkto"
+            //"linkimage"
         ]
     });
 
