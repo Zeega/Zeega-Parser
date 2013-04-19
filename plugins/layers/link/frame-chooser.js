@@ -23,10 +23,9 @@ function( app ) {
 
         closeThis: function() {
 
-            if ( this.model.getAttr("to_frame") === null ) {
+            if ( this.model.getAttr("to_frame") === null && this.selectedFrame != "NEW_FRAME" ) {
                 this.model.collection.remove( this.model );
             }
-
 
             $("#main").removeClass("modal");
             this.$el.fadeOut(function() {
@@ -75,6 +74,7 @@ function( app ) {
         onNewFrameSave: function( newFrame ) {
             this.model.saveAttr({ to_frame: newFrame.id });
             this.model.trigger("change:to_frame", this.model, newFrame.id );
+            console.log('on new frame save', newFrame, this.model );
         },
 
         afterRender: function() {
