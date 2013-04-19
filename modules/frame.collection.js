@@ -93,9 +93,23 @@ function( app, FrameModel, LayerCollection ) {
         },
 
         onFrameRemove: function( frameModel ) {
+            var frameID = frameModel.id;
+
             app.trigger("frame_remove", frameModel );
             frameModel.destroy();
             this.sort();
+
+            // remove link layers targeting the deleted frame
+            app.project.sequences.each(function( sequence ) {
+                sequence.frames.each(function( frame ) {
+                    frame.layers.each( function( layer ) {
+                        if ( layer.get("type") == "Link" && layer.get("attr").to_frame == frameID ) {
+                            layer.collection.remove( layer );
+                        }
+                    });
+                });
+            });
+
             if ( this.length === 0 ) {
                 this.addFrame();
             } else {
