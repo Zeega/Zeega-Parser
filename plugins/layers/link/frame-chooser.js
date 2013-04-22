@@ -12,16 +12,21 @@ function( app ) {
         serialize: function() {
             return this.model.toJSON();
         },
-        className: "frame-chooser overlay-dimmer ZEEGA-modal",
+        className: "page-chooser overlay-dimmer ZEEGA-modal",
 
         events: {
             "click .modal-close": "closeThis",
             "click .submit": "submit",
-            "click .frame" : "selectFrame",
-            "click .link-new-frame": "linkToNewFrame"
+            "click .page" : "selectPage",
+            "click .link-new-page": "selectNewPage"
         },
 
         closeThis: function() {
+
+            if ( this.model.getAttr("to_frame") === null && this.selectedFrame != "NEW_FRAME" ) {
+                this.model.collection.remove( this.model );
+            }
+
             $("#main").removeClass("modal");
             this.$el.fadeOut(function() {
                 this.$el.attr("style", "");
@@ -30,24 +35,36 @@ function( app ) {
         },
 
         submit: function() {
-            if ( this.selectedFrame !== null ) {
+            if ( this.selectedFrame !== null && this.selectedFrame == "NEW_FRAME" ) {
+                this.linkToNewPage();
+                this.closeThis();
+            } else if ( this.selectedFrame !== null ) {
                 this.model.saveAttr({ to_frame: this.selectedFrame });
                 this.model.trigger("change:to_frame", this.model, this.selectedFrame );
+                this.closeThis();
             }
-            this.closeThis();
         },
 
-        selectFrame: function( e ) {
+        selectPage: function( e ) {
             var $frameLI = $(e.target).closest("li");
 
             if ( !$frameLI.hasClass("inactive") ) {
-                this.$(".frame-chooser-list li.active").removeClass("active");
+                this.$(".page-chooser-list li.active, .link-new-page").removeClass("active");
                 $frameLI.addClass("active");
                 this.selectedFrame = $frameLI.data("id");
             }
+
+            this.$(".submit").removeClass("btnz-inactive");
         },
 
-        linkToNewFrame: function() {
+        selectNewPage: function() {
+            this.$(".page-chooser-list li.active").removeClass("active");
+            this.$(".link-new-page").addClass("active");
+            this.selectedFrame = "NEW_FRAME";
+            this.$(".submit").removeClass("btnz-inactive");
+        },
+
+        linkToNewPage: function() {
             var newFrame = app.status.get("currentSequence").frames.addFrame();
 
             newFrame.once("sync", this.onNewFrameSave, this );
@@ -57,18 +74,18 @@ function( app ) {
         onNewFrameSave: function( newFrame ) {
             this.model.saveAttr({ to_frame: newFrame.id });
             this.model.trigger("change:to_frame", this.model, newFrame.id );
+            console.log('on new frame save', newFrame, this.model );
         },
 
         afterRender: function() {
             $("#main").addClass("modal");
-            this.$(".frame-chooser-list").empty();
+            this.$(".page-chooser-list").empty();
             app.status.get("currentSequence").frames.each(function( frame ) {
                 var fv = $("<li>"),
                     bg = frame.get("thumbnail_url") === "" ? "black" :
                         "url(" + frame.get("thumbnail_url") +") no-repeat center center";
 
-
-                fv.addClass("frame")
+                fv.addClass("page")
                     .data("id", frame.id )
                     .css({
                         background: bg,
@@ -83,7 +100,7 @@ function( app ) {
                     fv.addClass("active");
                 }
 
-                this.$('.frame-chooser-list').append( fv );
+                this.$('.page-chooser-list').append( fv );
             }, this );
         },
 

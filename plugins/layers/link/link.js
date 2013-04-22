@@ -25,7 +25,7 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
             blink_on_start: true,
             glow_on_hover: true,
             citation: false,
-            link_type: "arrow_up",
+            link_type: "default",
             linkable: false,
             default_controls: false
         },
@@ -33,8 +33,8 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
         controls: [
             "position",
             "resize",
-            "linkto",
-            "linkimage"
+            "linkto"
+            //"linkimage"
         ]
     });
 
@@ -102,7 +102,11 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
     },
 
     goClick: function() {
-        this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+        if ( this.model.mode == "editor" ) {
+            Zeega.status.setCurrentLayer( this.model );
+        } else {
+            this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+        }
         return false;
     }
 

@@ -33,6 +33,7 @@ function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
                         frame._order = index;
                         return true;
                     }
+
                     return false;
                 });
 

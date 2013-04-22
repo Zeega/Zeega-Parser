@@ -33,17 +33,42 @@
   }
 }
 
-.frame-chooser {
+.page-chooser {
 
-    .frame-chooser-list {
-        width: 100%;
+    .link-new-page {
+        background: url(../img/tiny-stripes-dark.png);
+        height: 40px;
+        padding: 10px 0;
+        background-color: rgba(50, 205, 50, 0.75);
+        display: inline-block;
+        width: 80px;
+        float: left;
+        font-size: 13px;
+        text-align: center;
+        color: white;
+        margin-top: 10px;
+        line-height: 1.5em;
+
+        &.active {
+            outline: 3px solid orangered;
+        }
+    }
+
+    .divider {
+        float: left;
+        width: 50px;
+        text-align: center;
+        padding-top: 30px
+    }
+
+    .page-chooser-list {
+        width: 420px;
         background: white;
-        border-radius: 5px;
-        padding: 10px;
         overflow: auto;
         white-space: nowrap;
+        padding: 10px 5px 0 5px;
 
-        .frame {
+        .page {
             background: black;
             height: 60px;
             width: 80px;
@@ -70,7 +95,9 @@
 
     .bottom-chooser {
         text-align: right;
-        .new-frame {
+        margin-top: 15px;
+
+        .new-page {
             margin: 20px 0;
         }
     }
