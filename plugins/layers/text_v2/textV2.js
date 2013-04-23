@@ -84,7 +84,7 @@ function( Zeega, _Layer, TextModal ) {
             "Verdana",
             "Wendy One",
             "Yellowtail"
-        ],
+        ]
     });
 
     Layer.TextV2.Visual = _Layer.Visual.extend({

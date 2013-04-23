@@ -31,7 +31,7 @@ function( zeega ) {
                     onCellEnter: function( hex ) {
                         this.$(".text-sample")
                             .css({
-                                color: "#" + hex,
+                                color: "#" + hex
                             });
                     }.bind( this ),
                     // onClose: function() {
@@ -110,14 +110,12 @@ function( zeega ) {
         toggleBold: function() {
             var bold = this.model.getAttr("bold");
 
-            this.model.saveAttr({ bold: !bold })
+            this.model.saveAttr({ bold: !bold });
             this.updateSample();
             this.setButtonStates();
         },
 
         onKeypress: function( e ) {
-            console.log(e.which)
-
             this.saveContent();
         },
 
@@ -153,11 +151,11 @@ function( zeega ) {
         setButtonStates: function() {
             this.$(".active").removeClass("active");
 
-            this.$(".text-btn-bold").addClass( this.model.getAttr("bold") ? "active" : "" )
-            this.$(".text-btn-italic").addClass( this.model.getAttr("italic") ? "active" : "" )
-            this.$(".text-btn-align-left").addClass( this.model.getAttr("textAlign") == "left" ? "active" : "" )
-            this.$(".text-btn-align-center").addClass( this.model.getAttr("textAlign") == "center" ? "active" : "" )
-            this.$(".text-btn-align-right").addClass( this.model.getAttr("textAlign") == "right" ? "active" : "" )
+            this.$(".text-btn-bold").addClass( this.model.getAttr("bold") ? "active" : "" );
+            this.$(".text-btn-italic").addClass( this.model.getAttr("italic") ? "active" : "" );
+            this.$(".text-btn-align-left").addClass( this.model.getAttr("textAlign") == "left" ? "active" : "" );
+            this.$(".text-btn-align-center").addClass( this.model.getAttr("textAlign") == "center" ? "active" : "" );
+            this.$(".text-btn-align-right").addClass( this.model.getAttr("textAlign") == "right" ? "active" : "" );
         },
 
         updateSample: function() {
@@ -167,8 +165,7 @@ function( zeega ) {
                     fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
                     fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
                     fontFamily: this.model.getAttr("fontFamily"),
-                    textAlign: this.model.getAttr("textAlign"),
-                    // fontSize: this.model.getAttr("fontSize") + "%"
+                    textAlign: this.model.getAttr("textAlign")
                 })
                 .text( this.model.getAttr("content") );
             this.updateVisualElement();
