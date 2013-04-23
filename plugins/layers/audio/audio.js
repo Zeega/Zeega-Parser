@@ -55,7 +55,10 @@ function( Zeega, _Layer ){
         },
 
         verifyReady: function() {
+
             this.audio = document.getElementById("audio-el-" + this.model.id );
+
+            console.log("verify ready", this, this.el, this.audio)
 
             this.audio.load();
             this.audio.addEventListener("canplaythrough", function() {
