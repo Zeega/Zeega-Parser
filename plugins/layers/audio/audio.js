@@ -160,43 +160,8 @@ function( app, _Layer, Visual ){
                     this.audio.currentTime = this.getAttr("cue_in");
                 }
             }.bind( this ));
-        }),
+        })
 
-        // listen: function() {
-        //     jQuery(this.audio).on("canplay", function() {
-        //         this.model.trigger( "visual_ready", this.model.id );
-        //         this.model.trigger( "canplay", this.model );
-        //         this.model.canplay = true;
-        //     }.bind( this ));
-
-        //     _.each( ["play", "pause", "timeupdate"], function( e ) {
-        //         jQuery(this.audio).on( e, function() {
-        //             this.model.trigger( e, {
-        //                 layer: this.model,
-        //                 currentTime: this.audio.currentTime,
-        //                 duration: this.audio.duration
-        //             });
-        //         }.bind( this ));
-        //     }, this );
-
-        //     // listen for volume changes
-        //     this.model.on("change:volume", this.onVolumeChange, this );
-        // },
-
-        // onVolumeChange: function( model, vol ) {
-        //     console.log('on vol change', vol );
-        //     if ( this.audio ) {
-        //         this.audio.volume = vol;
-        //     }
-        // },
-
-        // verifyReady: function() {
-        //     this.setAudio();
-        //     this.$('audio').on("canplay", function() {
-        //         this.audio.pause();
-        //         this.model.trigger( "visual_ready", this.model.id );
-        //     }.bind( this ));
-        // }
     });
 
     return Layer;
