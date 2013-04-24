@@ -69,8 +69,14 @@ function( app, _Layer, Visual ){
         },
 
         onExit: function() {
+            console.log('on exit: audio')
             this.setAudio();
             this.audio.pause();
+        },
+
+        destroy: function() {
+            this.$("audio").attr("src", "");
+            this.audio = null;
         },
 
         editor_onLayerEnter: function() {
@@ -94,7 +100,8 @@ function( app, _Layer, Visual ){
 
         setAudio: function() {
             if ( this.audio === null ) {
-                this.audio = document.getElementById("audio-el-" + this.model.id );
+                this.audio = this.$("#audio-el-" + this.model.id )[0];
+                // this.audio = document.getElementById("audio-el-" + this.model.id );
                 this.listen();
                 this.audio.load();
             }

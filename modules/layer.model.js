@@ -170,6 +170,11 @@ function( app, Controls ) {
             // do not attempt to destroy if the layer is waiting or destroyed
             if ( this.state != "waiting" && this.state != "destroyed" ) {
                 this.state = "destroyed";
+
+                if ( this.visual.destroy ) {
+                    this.visual.destroy();
+                }
+
             }
         }
 
