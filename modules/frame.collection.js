@@ -11,8 +11,10 @@ function( app, FrameModel, LayerCollection ) {
         model: FrameModel,
 
         initialize: function() {
-            this.on("add", this.onFrameAdd, this );
-            this.on("remove", this.onFrameRemove, this );
+            if ( app.mode != "player") {
+                this.on("add", this.onFrameAdd, this );
+                this.on("remove", this.onFrameRemove, this );
+            }
         },
 
         initLayers: function( layerCollection, options ) {
