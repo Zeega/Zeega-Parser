@@ -69,7 +69,6 @@ function( app, _Layer, Visual ){
         },
 
         onExit: function() {
-            console.log('on exit: audio')
             this.setAudio();
             this.audio.pause();
         },
