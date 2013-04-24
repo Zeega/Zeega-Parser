@@ -4,11 +4,11 @@ define([
     "vendor/popcorn/popcorn-complete"
 ],
 
-function(Zeega) {
+function( app ) {
 
     var Player = {Views:{}};
 
-    Player.Views.Player = Zeega.Backbone.View.extend({
+    Player.Views.Player = app.Backbone.View.extend({
 
         className: "media-player-container",
 
@@ -83,7 +83,7 @@ function(Zeega) {
             if ( _.isNull(this.settings.controls_target) ) {
                 this.$el.append( this.controls.render().el );
             } else {
-                Zeega.$( this.settings.controls_target ).html( this.controls.render().el );
+                app.$( this.settings.controls_target ).html( this.controls.render().el );
             }
 
             return this;
@@ -373,7 +373,7 @@ function(Zeega) {
 
     Player.Views.Player.Controls = Player.Views.Player.Controls || {};
 
-    Player.Views.Player.Controls.none = Zeega.Backbone.View.extend({
+    Player.Views.Player.Controls.none = app.Backbone.View.extend({
         className: "controls playback-controls controls-none",
         item_mode: false,
 
@@ -705,15 +705,15 @@ function(Zeega) {
                 // TODO: This needs refactoring
                 if ( (e.which >= 48 && e.which <= 58) || e.which == 13 ) {
                     if ( e.which == 13 ) {
-                        sec = _this.convertToSeconds( Zeega.$(this).text() );
+                        sec = _this.convertToSeconds( app.$(this).text() );
 
                         if ( sec === false ) {
-                            Zeega.$(this).text( convertTime(_this.model.get("cue_in")) );
+                            app.$(this).text( convertTime(_this.model.get("cue_in")) );
                         } else {
 
                             sec = sec < 0 ? 0: sec;
                             sec = sec > _this.model.get("cue_out") ? _this.model.get("cue_out"): sec;
-                            Zeega.$(this).text( convertTime(sec) );
+                            app.$(this).text( convertTime(sec) );
                             _this.$el.find(".crop-slider").slider("values",0, sec );
                             _this.cueIn =sec;
                             _this.model.update({ "cue_in": sec });
@@ -730,14 +730,14 @@ function(Zeega) {
 
                 if ( (e.which >= 48 && e.which <= 58) || e.which == 13 ) {
                     if ( e.which == 13 ) {
-                        sec = _this.convertToSeconds( Zeega.$(this).text() );
+                        sec = _this.convertToSeconds( app.$(this).text() );
 
                         if ( sec === false ) {
-                            Zeega.$(this).text( convertTime(_this.model.get("cue_out")) );
+                            app.$(this).text( convertTime(_this.model.get("cue_out")) );
                         } else {
                             sec = sec > _this.duration ? _this.duration: sec;
                             sec = sec < _this.model.get("cue_in") ? _this.model.get("cue_in"): sec;
-                            Zeega.$(this).text( convertTime(sec) );
+                            app.$(this).text( convertTime(sec) );
                             _this.$el.find(".crop-slider").slider("values",1, sec );
                             _this.cueOut = sec;
                             _this.seek( Math.max(sec-5,_this.cueIn) );
@@ -752,8 +752,8 @@ function(Zeega) {
             });
 
             //Temp fix, this should be removed
-            Zeega.$(".time").mousedown(function() {
-                Zeega.$(this).focus();
+            app.$(".time").mousedown(function() {
+                app.$(this).focus();
             });
         },
 

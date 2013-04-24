@@ -3,7 +3,7 @@ define([
     "zeega_parser/modules/layer.model",
     "zeega_parser/modules/layer.visual.view"
 ],
-function( Zeega, LayerModel, Visual ) {
+function( app, LayerModel, Visual ) {
 
     var Layer = {};
 
@@ -51,7 +51,7 @@ function( Zeega, LayerModel, Visual ) {
 
     Layer.Rectangle.Visual = Visual.extend({
 
-        template: "rectangle/rectangle",
+        template: "rectangle",
 
         visualProperties: [
             "backgroundColor",
@@ -62,6 +62,17 @@ function( Zeega, LayerModel, Visual ) {
 
         serialize: function() {
             return this.model.toJSON();
+        },
+
+        beforePlayerRender: function() {
+            // update the rectangle style
+            var style = {
+                "background-color": this.getAttr("backgroundColor"),
+                "height": this.getAttr("height") + "%",
+                "opacity": this.getAttr("opacity")
+            };
+
+            this.$el.css( style );
         }
 
   });

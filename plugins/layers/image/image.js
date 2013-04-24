@@ -6,11 +6,11 @@ define([
     "plugins/jquery.imagesloaded.min"
 ],
 
-function( Zeega, _Layer, Visual ){
+function( app, Layer, Visual ){
 
-    var Layer = Zeega.module();
+    var L = {};
 
-    Layer.Image = _Layer.extend({
+    L.Image = Layer.extend({
 
         layerType: "Image",
 
@@ -46,9 +46,9 @@ function( Zeega, _Layer, Visual ){
 
     });
 
-    Layer.Image.Visual = Visual.extend({
+    L.Image.Visual = Visual.extend({
 
-        template: "image/image",
+        template: "image",
 
         visualProperties: [
             "height",
@@ -61,6 +61,7 @@ function( Zeega, _Layer, Visual ){
         },
 
         afterEditorRender: function() {
+            console.log('after image render')
             // add height attribute if not already there
             // this may break if the aspect ratio changes
             if ( _.isNull( this.getAttr("aspectRatio") ) ) {
@@ -114,7 +115,7 @@ function( Zeega, _Layer, Visual ){
         },
 
         verifyReady: function() {
-            var img = Zeega.$( this.$("img") ).imagesLoaded();
+            var img = app.$( this.$("img") ).imagesLoaded();
 
             img.done(function() {
                 this.model.trigger( "visual_ready", this.model.id );
@@ -126,5 +127,5 @@ function( Zeega, _Layer, Visual ){
         }
     });
 
-    return Layer;
+    return L;
 });

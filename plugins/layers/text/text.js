@@ -3,9 +3,9 @@ define([
     "zeega_parser/modules/layer.model",
     "zeega_parser/modules/layer.visual.view"
 ],
-function( Zeega, _Layer, Visual ) {
+function( app, _Layer, Visual ) {
 
-    var Layer = Zeega.module();
+    var Layer = app.module();
 
     Layer.Text = _Layer.extend({
         // TODO: is the redundant naming necessary? If this program knows
@@ -58,7 +58,7 @@ function( Zeega, _Layer, Visual ) {
 
     Layer.Text.Visual = Visual.extend({
 
-        template: "text/text",
+        template: "text",
 
         visualProperties: [
             "top",

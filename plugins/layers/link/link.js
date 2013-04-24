@@ -5,9 +5,9 @@ define([
     "zeega_parser/plugins/layers/link/frame-chooser"
 ],
 
-function( Zeega, _Layer, Visual, FrameChooser ) {
+function( app, _Layer, Visual, FrameChooser ) {
 
-    var Layer = Zeega.module();
+    var Layer = app.module();
 
     Layer.Link = _Layer.extend({
 
@@ -40,7 +40,7 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
 
   Layer.Link.Visual = Visual.extend({
 
-    template: "link/link",
+    template: "link",
 
     visualProperties: [
         "height",
@@ -103,7 +103,7 @@ function( Zeega, _Layer, Visual, FrameChooser ) {
 
     goClick: function() {
         if ( this.model.mode == "editor" ) {
-            Zeega.status.setCurrentLayer( this.model );
+            app.status.setCurrentLayer( this.model );
         } else {
             this.model.relay.set( "current_frame", this.getAttr("to_frame") );
         }

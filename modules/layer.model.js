@@ -39,6 +39,9 @@ function( app, Controls ) {
 
             this.set("attr", augmentAttr );
             this.order = {};
+        
+            this.on( "visual_ready", this.onVisualReady, this );
+            this.on( "visual_error", this.onVisualError, this );
         },
 
         getAttr: function( attrName ) {
@@ -86,6 +89,7 @@ function( app, Controls ) {
         render: function() {
             // make sure the layer class is loaded or fail gracefully
             if ( this.visual ) {
+
                 // if the layer is ready, then just show it
                 if ( this.state == "waiting") {
                     this.state = "loading";
@@ -154,16 +158,11 @@ function( app, Controls ) {
         },
 
         exit: function() {
-
-            if ( this.layerClass ) {
-                this.visual.player_onExit();
-            }
+            this.visual.player_onExit();
         },
 
         remove: function() {
-            if ( this.layerClass ) {
-                this.visual.remove();
-            }
+            this.visual.player_onExit();
         },
 
         // removes the layer. destroys players, removes from dom, etc

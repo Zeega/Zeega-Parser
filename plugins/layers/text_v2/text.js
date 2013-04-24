@@ -4,9 +4,9 @@ define([
     "zeega_parser/modules/layer.visual.view",
     "zeega_parser/plugins/layers/text_v2/textmodal"
 ],
-function( Zeega, _Layer, Visual, TextModal ) {
+function( app, _Layer, Visual, TextModal ) {
 
-    var Layer = Zeega.module();
+    var Layer = app.module();
 
     Layer.TextV2 = _Layer.extend({
         // TODO: is the redundant naming necessary? If this program knows
@@ -93,7 +93,7 @@ function( Zeega, _Layer, Visual, TextModal ) {
         textModal: null,
         transforming: false,
 
-        template: "text_v2/text",
+        template: "text-v2",
 
         visualProperties: [
             "top",
@@ -162,7 +162,11 @@ function( Zeega, _Layer, Visual, TextModal ) {
             
             attr[ this.propertyName ] = value;
             this.model.saveAttr( attr );
-        }, 500 )
+        }, 500 ),
+
+        beforePlayerRender: function() {
+            this.updateStyle();
+        }
   });
 
   return Layer;

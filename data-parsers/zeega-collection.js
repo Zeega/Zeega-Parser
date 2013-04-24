@@ -1,8 +1,7 @@
 define([
-    "lodash",
-    "zeega_parser/plugins/layers/slideshow/parser"
+    "lodash"
 ],
-function( _, Slideshow ) {
+function( _ ) {
     var type = "zeega-collection",
         Parser = {};
 
@@ -18,7 +17,7 @@ function( _, Slideshow ) {
 
     Parser[ type ].parse = function( response, opts ) {
         if ( opts.layerOptions && opts.layerOptions.slideshow && opts.layerOptions.slideshow.display && response.items.length > 0 ) {
-            return parseSlideshowCollection( response, opts );
+            // return parseSlideshowCollection( response, opts );
         } else {
             return parseStandardCollection( response, opts );
         }
@@ -46,47 +45,47 @@ function( _, Slideshow ) {
             });
     }
 
-    function parseSlideshowCollection( response, opts ) {
-        var sequence, frames, layers, slideshowLayer, timebasedLayers;
+    // function parseSlideshowCollection( response, opts ) {
+    //     var sequence, frames, layers, slideshowLayer, timebasedLayers;
 
-        timebasedLayers = _.filter( response.items, function( item ) {
-            return item.layer_type == "Audio" || item.media_type == "Video";
-        });
+    //     timebasedLayers = _.filter( response.items, function( item ) {
+    //         return item.layer_type == "Audio" || item.media_type == "Video";
+    //     });
 
-        slideshowLayer = Slideshow.parse( response.items, opts.layerOptions );
-        // layers from timebased items
-        layers = generateLayerArrayFromItems( timebasedLayers );
+    //     slideshowLayer = Slideshow.parse( response.items, opts.layerOptions );
+    //     // layers from timebased items
+    //     layers = generateLayerArrayFromItems( timebasedLayers );
         
-        if ( slideshowLayer ) {
-            layers.push( slideshowLayer );
-        }
-        // frames from timebased items
-        if ( timebasedLayers.length ) {
-            frames = generateFrameArrayFromItems( timebasedLayers, slideshowLayer ? [ slideshowLayer.id ] : [] );
-        } else {
-            // create single frame if no timebased layers exist
-            frames = [{
-                id: 1,
-                layers: [1],
-                attr: { advance : 0 }
-            }];
-        }
+    //     if ( slideshowLayer ) {
+    //         layers.push( slideshowLayer );
+    //     }
+    //     // frames from timebased items
+    //     if ( timebasedLayers.length ) {
+    //         frames = generateFrameArrayFromItems( timebasedLayers, slideshowLayer ? [ slideshowLayer.id ] : [] );
+    //     } else {
+    //         // create single frame if no timebased layers exist
+    //         frames = [{
+    //             id: 1,
+    //             layers: [1],
+    //             attr: { advance : 0 }
+    //         }];
+    //     }
 
-        sequence = {
-            id: 0,
-            title: "collection",
-            persistent_layers: slideshowLayer ? [ slideshowLayer.id ] : [],
-            frames: _.pluck( frames, "id")
-        };
+    //     sequence = {
+    //         id: 0,
+    //         title: "collection",
+    //         persistent_layers: slideshowLayer ? [ slideshowLayer.id ] : [],
+    //         frames: _.pluck( frames, "id")
+    //     };
 
-        return _.extend(
-            response.items[0],
-            {
-                sequences: [ sequence ],
-                frames: frames,
-                layers: layers
-            });
-    }
+    //     return _.extend(
+    //         response.items[0],
+    //         {
+    //             sequences: [ sequence ],
+    //             frames: frames,
+    //             layers: layers
+    //         });
+    // }
 
     function generateLayerArrayFromItems( itemsArray ) {
         var layerDefaults = {

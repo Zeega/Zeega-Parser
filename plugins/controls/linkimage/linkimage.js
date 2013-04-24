@@ -1,8 +1,6 @@
 define([
     "app",
-    "zeega_parser/modules/control.view",
-
-    "ddslick"  //  http://designwithpc.com/Plugins/ddSlick
+    "zeega_parser/modules/control.view"
 ],
 
 function( app, ControlView ) {

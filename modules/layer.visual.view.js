@@ -6,7 +6,7 @@ define([
 
 function( app, Controls ) {
 
-    return app.Backbone.View.extend({
+    return app.Backbone.LayoutView.extend({
 
         className: function() {
             return "visual-element visual-" + this.model.get("type").toLowerCase();
@@ -67,9 +67,37 @@ function( app, Controls ) {
             }, this );
         },
 
+        beforePlayerRender: function() {},
+        // beforeRender: function() {
+        //     // working from _layer
+        //     var target = this.model.status.target ? this.model.status.target.find(".ZEEGA-player-window") :
+        //                                 $(".ZEEGA-workspace");
+
+        //     this.className = this._className + " " + this.className;
+        //     this.beforePlayerRender();
+
+        //     target.append( this.el );
+        //     //Zeega.$( target ).append( this.el );
+
+        //     this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
+        //     this.moveOffStage();
+        //     this.applyStyles();
+        // },
+
         beforeRender: function() {
             if ( this.model.mode == "player") {
+                var target = this.model.status.target ? this.model.status.target.find(".ZEEGA-player-window") :
+                                            $(".ZEEGA-workspace");
+
+                this.className = this._className + " " + this.className;
+                this.beforePlayerRender();
+
+                target.append( this.el );
+                //Zeega.$( target ).append( this.el );
+
+                this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
                 this.moveOffStage();
+                this.applyStyles();
             } else if ( this.model.mode == "editor") {
 
             }
@@ -88,6 +116,13 @@ function( app, Controls ) {
             }
             this.applyVisualProperties();
             this.visualAfterRender();
+        },
+
+        applyStyles: function() {
+            this.$el.css({
+                height: this.getAttr("height") + "%", // photos need a height!
+                width: this.getAttr("width") + "%"
+            });
         },
 
         units: {
@@ -120,10 +155,6 @@ function( app, Controls ) {
             this.model.trigger("visual_ready", this.model.id );
         },
 
-        player_onPreload: function() {
-            this.render();
-        },
-
         player_onPlay: function() {
             if ( this.getAttr("blink_on_start") ) {
                 this.glowOnFrameStart();
@@ -149,11 +180,14 @@ function( app, Controls ) {
         onPause: function() {},
         onExit: function() {},
 
+        player_onPreload: function() {
+            this.render();
+        },
 
         glowOnFrameStart: function() {
-            this.model.visualElement.$el.addClass("glow-blink");
+            this.model.visual.$el.addClass("glow-blink");
             _.delay(function() {
-                this.model.visualElement.$el.removeClass("glow-blink");
+                this.model.visual.$el.removeClass("glow-blink");
             }.bind( this ), 1000 );
         },
 
@@ -177,12 +211,7 @@ function( app, Controls ) {
             this.$el.css({
                 top: this.getAttr("top") + "%",
                 left: this.getAttr("left") + "%"
-                //opacity: this.getAttr("dissolve") ? 0 : this.getAttr("opacity") || 1
             });
-            // if ( this.getAttr("dissolve") ) {
-            //     this.$el.animate({ "opacity": this.getAttr("opacity") }, 500 );
-            // }
-
         },
 
         play: function() {
@@ -224,11 +253,8 @@ function( app, Controls ) {
         fetch: function( path ) {
             // Initialize done for use in async-mode
             var done;
-            // Concatenate the file extension.
-            path = app.parserPath + "plugins/layers/" + path + ".html";
-            // remove app/templates/ via regexp // hacky? yes. probably.
-            path = path.replace("app/templates/","");
-
+ 
+            path = "app/templates/plugins/"+ path + ".html";
             // If cached, use the compiled template.
             if ( JST[ path ] ) {
                 return JST[ path ];
@@ -236,7 +262,7 @@ function( app, Controls ) {
                 // Put fetch into `async-mode`.
                 done = this.async();
                 // Seek out the template asynchronously.
-                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
+                return Zeega.$.ajax({ url: Zeega.root + path }).then(function( contents ) {
                     done(
                       JST[ path ] = _.template( contents )
                     );

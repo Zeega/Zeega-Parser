@@ -1,0 +1,3 @@
+[submodule "vendor/jquery-simple-color"]
+	path = vendor/jquery-simple-color
+	url = https://github.com/jbergen/jquery-simple-color.git

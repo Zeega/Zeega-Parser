@@ -51,7 +51,7 @@ function( app, _Layer, Visual ){
         ended: false,
         playbackCount: 0,
 
-        template: "audio/audio",
+        template: "audio",
 
         serialize: function() {
             return this.model.toJSON();
@@ -106,14 +106,14 @@ function( app, _Layer, Visual ){
         },
 
         listen: function() {
-            $(this.audio).on("canplay", function() {
+            jQuery(this.audio).on("canplay", function() {
                 this.model.trigger( "visual_ready", this.model.id );
                 this.model.trigger( "canplay", this.model );
                 this.model.canplay = true;
             }.bind( this ));
 
             _.each( ["play", "pause", "timeupdate"], function( e ) {
-                $(this.audio).on( e, function() {
+                jQuery(this.audio).on( e, function() {
                     this.model.trigger( e, {
                         layer: this.model,
                         currentTime: this.audio.currentTime,
