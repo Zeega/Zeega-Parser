@@ -58,7 +58,7 @@ function( app, _Layer, Visual ) {
 
     Layer.Text.Visual = Visual.extend({
 
-        template: "text",
+        template: "text/text",
 
         visualProperties: [
             "top",

@@ -93,7 +93,7 @@ function( app, _Layer, Visual, TextModal ) {
         textModal: null,
         transforming: false,
 
-        template: "text-v2",
+        template: "text_v2/text-v2",
 
         visualProperties: [
             "top",

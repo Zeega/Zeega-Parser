@@ -40,7 +40,7 @@ function( app, _Layer, Visual, FrameChooser ) {
 
   Layer.Link.Visual = Visual.extend({
 
-    template: "link",
+    template: "link/link",
 
     visualProperties: [
         "height",

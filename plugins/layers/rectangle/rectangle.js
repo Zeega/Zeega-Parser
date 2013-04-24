@@ -51,7 +51,7 @@ function( app, LayerModel, Visual ) {
 
     Layer.Rectangle.Visual = Visual.extend({
 
-        template: "rectangle",
+        template: "rectangle/rectangle",
 
         visualProperties: [
             "backgroundColor",

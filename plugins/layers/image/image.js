@@ -48,7 +48,7 @@ function( app, Layer, Visual ){
 
     L.Image.Visual = Visual.extend({
 
-        template: "image",
+        template: "image/image",
 
         visualProperties: [
             "height",
@@ -61,7 +61,6 @@ function( app, Layer, Visual ){
         },
 
         afterEditorRender: function() {
-            console.log('after image render')
             // add height attribute if not already there
             // this may break if the aspect ratio changes
             if ( _.isNull( this.getAttr("aspectRatio") ) ) {

@@ -51,7 +51,7 @@ function( app, _Layer, Visual ){
         ended: false,
         playbackCount: 0,
 
-        template: "audio",
+        template: "audio/audio",
 
         serialize: function() {
             return this.model.toJSON();
