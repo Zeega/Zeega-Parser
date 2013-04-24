@@ -85,7 +85,7 @@ function( app, _Layer, Visual, TextModal ) {
             "Verdana",
             "Wendy One",
             "Yellowtail"
-        ],
+        ]
     });
 
     Layer.TextV2.Visual = Visual.extend({
