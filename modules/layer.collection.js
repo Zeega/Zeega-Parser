@@ -19,15 +19,17 @@ function( app, Layers ) {
         },
 
         onAdd: function( layer ) {
-            if ( layer ) {
-                layer.addCollection( this );
-                layer.initVisual( Layers[ layer.get("type") ]);
-                app.trigger("layer_added", layer );
-            } else {
-                this.each(function( layer ){
+            if( app.mode != "player" ){
+               if ( layer ) {
                     layer.addCollection( this );
                     layer.initVisual( Layers[ layer.get("type") ]);
-                });
+                    app.trigger("layer_added", layer );
+                } else {
+                    this.each(function( layer ){
+                        layer.addCollection( this );
+                        layer.initVisual( Layers[ layer.get("type") ]);
+                    });
+                }
             }
         },
 
