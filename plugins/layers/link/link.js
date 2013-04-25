@@ -88,7 +88,7 @@ function( app, _Layer, Visual, FrameChooser ) {
     },
 
     events: {
-        "click a": "goClick",
+        "click": "goClick",
         "mouseover": "onMouseOver",
         "mouseout": "onMouseOut"
     },
