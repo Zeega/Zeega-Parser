@@ -9,7 +9,7 @@ function( Zeega, LayerModel, Visual ) {
 
     window.onYouTubeIframeAPIReady = function() {
 
-        jQuery(".youtube-player").trigger("api-ready");
+        window.jQuery(".youtube-player").trigger("api-ready");
     };
 
     var Layer = Zeega.module();
@@ -39,7 +39,7 @@ function( Zeega, LayerModel, Visual ) {
         },
         ytInit: function(){
             
-            this.$(".youtube-player" ).on("api-ready", jQuery.proxy( this.onApiReady, this) );
+            window.jQuery(this.$(".youtube-player" )).on("api-ready", jQuery.proxy( this.onApiReady, this) );
             if ( _.isUndefined( window.YT ) ){
                 var tag = document.createElement('script');
                 tag.src = "//www.youtube.com/iframe_api";
@@ -50,10 +50,6 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         onApiReady: function(){
-
-            var onPlayerReady = jQuery.proxy( this.onPlayerReady, this );
-            var onPlayerStateChange = jQuery.proxy( this.onPlayerStateChange, this );
-
 
             function getFrameID(id){
                 var elem = document.getElementById(id);
@@ -81,17 +77,9 @@ function( Zeega, LayerModel, Visual ) {
 
             var frameID = getFrameID("yt-player-" + this.model.id);
 
-            this.ytPlayer = new YT.Player("yt-player-" + this.model.id + "-frame", {
-                events: {
-                'onReady': onPlayerReady
-              }
-            });
-            
-            
-        },
-
-        onPlayerReady: function(){
+            this.ytPlayer = new YT.Player("yt-player-" + this.model.id + "-frame", {});
             this.model.trigger( "visual_ready", this.model.id );
+            
         },
 
         afterRender: function(){
