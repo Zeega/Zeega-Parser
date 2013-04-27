@@ -1,11 +1,10 @@
 define([
     "app",
     "zeega_parser/modules/layer.model",
-    "zeega_parser/modules/layer.visual.view",
-    "zeega_parser/plugins/media-player/media-player"
+    "zeega_parser/modules/layer.visual.view"
 ],
 
-function( Zeega, LayerModel, Visual, MediaPlayer ) {
+function( Zeega, LayerModel, Visual ) {
 
 
     window.onYouTubeIframeAPIReady = function() {
