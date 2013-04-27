@@ -34,8 +34,8 @@ function( Zeega, LayerModel, Visual ) {
     Layer.Youtube.Visual = Visual.extend({
 
         template: "youtube/youtube",
-        init: function(){
-
+        afterRender: function(){
+            this.ytInit();
         },
         ytInit: function(){
             
@@ -51,51 +51,14 @@ function( Zeega, LayerModel, Visual ) {
 
         onApiReady: function(){
 
-            function getFrameID(id){
-                var elem = document.getElementById(id);
-                if (elem) {
-                    if(/^iframe$/i.test(elem.tagName)) return id; //Frame, OK
-                    // else: Look for frame
-                    var elems = elem.getElementsByTagName("iframe");
-                    if (!elems.length) return null; //No iframe found, FAILURE
-                    for (var i=0; i<elems.length; i++) {
-                       if (/^https?:\/\/(?:www\.)?youtube(?:-nocookie)?\.com(\/|$)/i.test(elems[i].src)) break;
-                    }
-                    elem = elems[i]; //The only, or the best iFrame
-                    if (elem.id) return elem.id; //Existing ID, return it
-                    // else: Create a new ID
-                    do { //Keep postfixing `-frame` until the ID is unique
-                        id += "-frame";
-                    } while (document.getElementById(id));
-                    elem.id = id;
-                    return id;
-                }
-                // If no element, return null.
-                return null;
+            this.ytPlayer = new YT.Player("yt-player-" + this.model.id, { });
+
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+                this.$(".mobile-cover").show();
             }
 
-
-            var frameID = getFrameID("yt-player-" + this.model.id);
-
-            this.ytPlayer = new YT.Player("yt-player-" + this.model.id + "-frame", {});
             this.model.trigger( "visual_ready", this.model.id );
             
-        },
-
-        afterRender: function(){
-            this.ytInit();
-        },
-
-        playPause: function() {
-                
-        },
-
-        onPlay: function() {
-
-        },
-
-        onPause: function() {
-            this.ytPlayer.pauseVideo();
         },
 
         onExit: function(){
