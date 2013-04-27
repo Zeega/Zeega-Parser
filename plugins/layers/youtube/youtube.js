@@ -7,6 +7,12 @@ define([
 
 function( Zeega, LayerModel, Visual, MediaPlayer ) {
 
+
+    window.onYouTubeIframeAPIReady = function() {
+
+        jQuery(".youtube-player").trigger("api-ready");
+    };
+
     var Layer = Zeega.module();
 
     Layer.Youtube = LayerModel.extend({
@@ -20,161 +26,95 @@ function( Zeega, LayerModel, Visual, MediaPlayer ) {
             top: 0,
             height: 100,
             width: 100,
-            volume: 0.5,
-            cue_in: 0,
-            cue_out: null,
-            fade_in: 0,
-            fade_out: 0,
-            dissolve: false,
-            loop: false,
-            opacity: 1,
-            //dimension: 1.5,
             citation: true
         },
         controls: [
-            // "position",
-            // {
-            //     type: "resize",
-            //     options: {
-            //         aspectRatio: 1.5,
-            //         handles: "se"
-            //     }
-            // },
-            { type: "slider",
-                options: {
-                    title: "<i class='icon-eye-open icon-white'></i>",
-                    propertyName: "opacity",
-                    min: 0,
-                    max: 1,
-                    step: 0.001,
-                    css: true
-                }
-            }
         ]
     });
 
     Layer.Youtube.Visual = Visual.extend({
 
-        template: "youtube/youtube"
+        template: "youtube/youtube",
+        init: function(){
 
-        // ended: false,
-        // playbackCount: 0,
+        },
+        ytInit: function(){
+            
+            this.$(".youtube-player" ).on("api-ready", jQuery.proxy( this.onApiReady, this) );
+            if ( _.isUndefined( window.YT ) ){
+                var tag = document.createElement('script');
+                tag.src = "//www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            }
+            
+        },
 
-        // init: function() {
-        //   //this.mediaPlayer = new MediaPlayer.Views.Player({
-        //   //  model:this.model,
-        //   //  control_mode : "editor",
-        //   //  media_target : "#layer-visual-"+this.id,
-        //   //  controls_target : "#media-controls-"+this.id
-        //   //})
-        // },
+        onApiReady: function(){
 
-        // onPlay: function() {
-        //     this.ended = false;
-        //     this.mediaPlayer.play();
-        // },
+            var onPlayerReady = jQuery.proxy( this.onPlayerReady, this );
+            var onPlayerStateChange = jQuery.proxy( this.onPlayerStateChange, this );
 
-        // onPause: function() {
-        //     this.mediaPlayer.pause();
-        // },
 
-        // onExit: function() {
+            function getFrameID(id){
+                var elem = document.getElementById(id);
+                if (elem) {
+                    if(/^iframe$/i.test(elem.tagName)) return id; //Frame, OK
+                    // else: Look for frame
+                    var elems = elem.getElementsByTagName("iframe");
+                    if (!elems.length) return null; //No iframe found, FAILURE
+                    for (var i=0; i<elems.length; i++) {
+                       if (/^https?:\/\/(?:www\.)?youtube(?:-nocookie)?\.com(\/|$)/i.test(elems[i].src)) break;
+                    }
+                    elem = elems[i]; //The only, or the best iFrame
+                    if (elem.id) return elem.id; //Existing ID, return it
+                    // else: Create a new ID
+                    do { //Keep postfixing `-frame` until the ID is unique
+                        id += "-frame";
+                    } while (document.getElementById(id));
+                    elem.id = id;
+                    return id;
+                }
+                // If no element, return null.
+                return null;
+            }
 
-        //     this.mediaPlayer.pause();
-        // },
 
-        // verifyReady: function() {
-        //     if ( this.mediaPlayer_loaded !== true ) {
-        //         var _this = this;
+            var frameID = getFrameID("yt-player-" + this.model.id);
 
-        //         this.mediaPlayer = new MediaPlayer.Views.Player({
-        //             model: this.model,
-        //             control_mode: "none",
-        //             media_target: "#visual-element-" + this.id
-        //         });
-        //         this.$el.append( this.mediaPlayer.el );
-        //         this.mediaPlayer.render();
-        //         this.mediaPlayer.placePlayer();
-        //         this.mediaPlayer.popcorn.on("timeupdate", function() {
-        //           _this.onTimeUpdate();
-        //         });
-        //         this.model.on("media_ended", function() {
-        //           _this.onEnded();
-        //         });
+            this.ytPlayer = new YT.Player("yt-player-" + this.model.id + "-frame", {
+                events: {
+                'onReady': onPlayerReady
+              }
+            });
+            
+            
+        },
 
-        //         this.mediaPlayer_loaded = true;
-        //     } else {
-        //         this.mediaPlayer.pause();
-        //     }
-        // },
+        onPlayerReady: function(){
+            this.model.trigger( "visual_ready", this.model.id );
+        },
 
-        // onTimeUpdate: function() {
-        //     if ( !this.ended ) {
-        //         //Fades
-        //         var cueIn, cueOut, fadeIn, fadeOut, volume, out;
+        afterRender: function(){
+            this.ytInit();
+        },
 
-        //         cueIn = this.getAttr("cue_in");
-        //         cueOut = this.getAttr("cue_out");
-        //         fadeIn = this.getAttr("fade_in");
-        //         fadeOut = this.getAttr("fade_out");
-        //         volume = this.getAttr("volume");
+        playPause: function() {
+                
+        },
 
-        //         // TODO: will cueOut ever be false or undefined?
-        //         if ( cueOut === 0 || cueOut === null ) {
-        //             out = this.mediaPlayer.getDuration();
-        //         } else {
-        //             out = cueOut;
-        //         }
+        onPlay: function() {
 
-        //         var t = this.mediaPlayer.getCurrentTime(),
-        //             f = parseFloat( cueIn ) + parseFloat( fadeIn ),
-        //             g = out - parseFloat( fadeOut );
+        },
 
-        //         if ( fadeIn > 0 && t < f ) {
+        onPause: function() {
+            this.ytPlayer.pauseVideo();
+        },
 
-        //             this.mediaPlayer.setVolume(
-        //                 volume * ( 1.0-((f-t)/fadeIn) * ((f-t) / fadeIn) )
-        //             );
+        onExit: function(){
+            this.ytPlayer.stopVideo();
+        }
 
-        //         } else if ( fadeIn > 0 && t > g ) {
-        //             //vol = this.getAttr("volume") * (1.0-((t-g) / this.getAttr("fade_out") ))*(1.0-((t-g)/this.getAttr("fade_out") ));
-        //             //this.mediaPlayer.setVolume(vol);
-        //         } else if ( Math.abs( volume - this.mediaPlayer.getVolume() ) > 0.01 ) {
-        //             this.mediaPlayer.setVolume( volume );
-        //         }
-
-        //         // TODO: the missing else statement leads me to believe
-        //         // that this entire condition tree could be refactored
-
-        //         // send updates to the player. must include the layer
-        //         // info incase there are > 1 media layers on a single frame
-        //         var info = {
-        //             cue_in: this.getAttr("cue_in"),
-        //             cue_out: this.getAttr("cue_out"),
-        //             id: this.model.id,
-        //             media_type: this.getAttr("media_type"),
-        //             layer_type: this.getAttr("layer_type"),
-        //             current_time: this.mediaPlayer.getCurrentTime(),
-        //             duration: this.mediaPlayer.getDuration()
-        //         };
-        //         this.model.status.emit("media_timeupdate", info );
-        //         if ( info.current_time >= out - 1 ) {
-        //             this.onEnded();
-        //         }
-        //     }
-        // },
-
-        // onEnded: function() {
-        //     this.playbackCount++;
-        //     //this.model.trigger("playback_ended", this.model.toJSON() );
-        //     this.model.status.emit( "ended", this.model.toJSON() );
-        //     if ( this.getAttr("loop") ) {
-        //         this.mediaPlayer.setCurrentTime( this.getAttr("cue_in") );
-        //         this.mediaPlayer.play();
-        //     } else {
-        //         this.ended = true;
-        //     }
-        // }
     });
 
     return Layer;
