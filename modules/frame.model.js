@@ -45,10 +45,11 @@ function( app, Backbone, Layers, ThumbWorker ) {
         },
 
         url: function() {
+            console.log(this);
             if( this.isNew() ) {
-                return app.api + 'projects/'+ app.project.id +'/sequences/'+ app.status.get("currentSequence").id +'/frames';
+                return app.api + 'projects/'+ app.project.id + '/sequences/' + this.status.get("currentSequence").id + '/frames';
             } else {
-                return app.api + 'frames/'+ this.id;
+                return app.api + 'projects/'+ app.project.id + '/sequences/' + this.status.get("currentSequence").id + '/frames/'+ this.id;
             }
         },
 

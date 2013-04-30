@@ -128,7 +128,7 @@ function( app, SequenceCollection ) {
                         if ( layer.get("type") == "Link" && layer.get("attr").to_frame != frame.id ) {
                             var targetFrameID, targetFrame, linksFrom;
 
-                            targetFrameID = parseInt( layer.get("attr").to_frame, 10 );
+                            targetFrameID = layer.get("attr").to_frame;
                             targetFrame = this.getFrame( targetFrameID );
 
                             if ( targetFrame ) {
