@@ -35,8 +35,21 @@ function( Zeega, LayerModel, Visual ) {
 
         template: "youtube/youtube",
         afterRender: function(){
+            if( /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+                this.$(".youtube-player").addClass("mobile");
+            } else if( /iPad/i.test(navigator.userAgent) ) {
+                this.$(".youtube-player").addClass("ipad");
+            }
+
+
             this.ytInit();
         },
+        events: {
+            "click .play-button": "playVideo",
+            "tap .play-button": "playVideo"
+
+        },
+
         ytInit: function(){
             
             window.jQuery(this.$(".youtube-player" )).on("api-ready", jQuery.proxy( this.onApiReady, this) );
@@ -49,20 +62,47 @@ function( Zeega, LayerModel, Visual ) {
             
         },
 
+        onPlayerReady: function(e){
+
+        },
+
+        onStateChange: function(e){
+            if(e.data == 2 || e.data == 5){
+                this.$(".youtube-player").removeClass("active");
+                this.$(".play-button").fadeIn("fast");
+                if( /iPad/i.test(navigator.userAgent) ) {
+                    this.$(".ipad-cover").removeClass("visible");
+                }
+            } else if (e.data == 1){
+
+                if( /iPad/i.test(navigator.userAgent) ) {
+                    this.$(".ipad-cover").addClass("visible");
+                }
+            }
+        },
+
         onApiReady: function(){
 
-            this.ytPlayer = new YT.Player("yt-player-" + this.model.id, { });
-
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-                this.$(".mobile-cover").show();
-            }
-
+            var onPlayerReady = jQuery.proxy( this.onPlayerReady, this),
+                onStateChange = jQuery.proxy( this.onStateChange, this);
+            this.ytPlayer = new YT.Player("yt-player-" + this.model.id, {
+                    events:{
+                        'onReady': onPlayerReady,
+                        'onStateChange': onStateChange
+                    }
+                });
             this.model.trigger( "visual_ready", this.model.id );
             
         },
 
+        playVideo: function(){
+            this.$(".play-button").fadeOut("fast");
+            this.$(".youtube-player").addClass("active");
+            this.ytPlayer.playVideo();
+        },
+
         onExit: function(){
-            this.ytPlayer.stopVideo();
+            this.ytPlayer.pauseVideo();
         }
 
     });
