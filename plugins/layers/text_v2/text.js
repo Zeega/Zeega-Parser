@@ -97,6 +97,7 @@ function( app, _Layer, Visual, TextModal ) {
         template: "text_v2/text-v2",
 
         init: function() {
+            console.log("text", app.attributes)
             if ( app.attributes.mobile ) {
                 this.visualProperties = [
                     "opacity"
@@ -118,40 +119,39 @@ function( app, _Layer, Visual, TextModal ) {
         saveContent: null,
 
         applyStyles: function() {
-            if ( app.attributes.mobile ) {
-                this.$el.css({
-                    width: (window.innerWidth - 60 ) + "px",
-                    left: 0,
-                    right: 0,
-                    margin: "auto"
-                });
-            } else {
-                console.log("APPLY WRONG")
+            // if ( app.attributes.mobile ) {
+            //     this.$el.css({
+            //         width: (window.innerWidth - 60 ) + "px",
+            //         left: 0,
+            //         right: 0,
+            //         margin: "auto"
+            //     });
+            // } else {
                 this.$el.css({
                     left: this.getAttr("left") + "%",
                     width: this.getAttr("width") + "%"
                 });
-            }
+            // }
         },
 
-        moveOnStage: function() {
-            if ( app.attributes.mobile ) {
-                this.$el.css({
-                    width: (window.innerWidth - 60 ) + "px",
-                    top: "calc(50% - " + this.$el.height() / 2 + "px )",
-                    left: 0,
-                    right: 0,
-                    margin: "auto"
-                });
-            } else {
-                console.log("APPLY WRONG")
-                this.$el.css({
-                    top: this.getAttr("top") + "%",
-                    left: this.getAttr("left") + "%"
-                });
-            }
+        // moveOnStage: function() {
+        //     if ( app.attributes.mobile ) {
+        //         this.$el.css({
+        //             width: (window.innerWidth - 60 ) + "px",
+        //             top: "calc(50% - " + this.$el.height() / 2 + "px )",
+        //             left: 0,
+        //             right: 0,
+        //             margin: "auto"
+        //         });
+        //     } else {
+        //         console.log("APPLY WRONG")
+        //         this.$el.css({
+        //             top: this.getAttr("top") + "%",
+        //             left: this.getAttr("left") + "%"
+        //         });
+        //     }
 
-        },
+        // },
 
         updateStyle: function() {
             this.$(".visual-target").text( this.model.getAttr("content") );
@@ -164,9 +164,7 @@ function( app, _Layer, Visual, TextModal ) {
                     fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
                     fontFamily: this.model.getAttr("fontFamily"),
                     fontSize: this.model.getAttr("fontSize") + "%",
-                    textAlign: this.model.getAttr("textAlign"),
-                    //width: "100px"
-//                    width: app.attributes.mobile ? (window.innerWidth - 10) + "px" : this.model.getAttr("width")
+                    textAlign: this.model.getAttr("textAlign")
                 });
                 
         },
