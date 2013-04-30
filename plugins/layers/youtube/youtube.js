@@ -87,7 +87,7 @@ function( Zeega, LayerModel, Visual ) {
 
             var onPlayerReady = jQuery.proxy( this.onPlayerReady, this),
                 onStateChange = jQuery.proxy( this.onStateChange, this);
-            this.ytPlayer = new YT.Player("yt-player-" + this.model.id, {
+            this.ytPlayer = new YT.Player("yt-player-" + this.model.id + "-" + this.model.cid, {
                     events:{
                         'onReady': onPlayerReady,
                         'onStateChange': onStateChange
