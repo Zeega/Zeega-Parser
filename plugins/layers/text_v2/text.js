@@ -17,19 +17,21 @@ function( app, _Layer, Visual, TextModal ) {
             citation: false,
             color: "#FFF",
             content: "text",
-            fontSize: 200,
+            fontSize: 100,
             fontFamily: "Archivo Black",
             default_controls: true,
-            left: 30,
+            left: 12.5,
             opacity: 1,
             title: "Text Layer",
             top: 40,
-            width: 25,
+            width: 75,
             dissolve: true,
 
             bold: false,
             italic: false,
-            textAlign: "left"
+            textAlign: "left",
+            lineHeight: 1,
+            mobileTextPosition: "middle" // top, middle, bottom
         },
 
         controls: [
@@ -95,11 +97,21 @@ function( app, _Layer, Visual, TextModal ) {
 
         template: "text_v2/text-v2",
 
+        init: function() {
+            console.log("text", app.attributes)
+            // if ( app.attributes.mobile ) {
+            //     this.visualProperties = [
+            //         "opacity"
+            //     ]
+            // }
+        },
+
         visualProperties: [
             "top",
             "left",
             "width",
-            "opacity"
+            "opacity",
+            "lineHeight"
         ],
 
         serialize: function() {
@@ -108,18 +120,78 @@ function( app, _Layer, Visual, TextModal ) {
 
         saveContent: null,
 
-        updateStyle: function() {
-            this.$(".visual-target").text( this.model.getAttr("content") );
-            
-            this.$el.css({
+        applyStyles: function() {
+            if ( app.attributes.mobile ) {
+                this.$el.css({
+                    width: (window.innerWidth - 60 ) + "px",
+                    left: 0,
+                    right: 0,
+                    margin: "auto"
+                });
+            } else {
+                this.$el.css({
+                    left: this.getAttr("left") + "%",
+                    width: this.getAttr("width") + "%"
+                });
+            }
+        },
+
+        moveOnStage: function() {
+            var css = {};
+
+            if ( app.attributes.mobile ) {
+
+                css.position = "fixed";
+                if ( this.getAttr("mobileTextPosition") == "middle" ) {
+                   var heightPercent = this.$el.height() / window.innerHeight; // middle
+                   
+                   css.top = (50 - heightPercent * 100 / 2) + "%";
+
+                } else if ( this.getAttr("mobileTextPosition") == "top" ) {
+                    css.top = "30px"; // top
+                } else {
+                    // bottom
+                    css.top = "auto";
+                    css.bottom = "30px";
+                }
+
+                _.extend( css, {
+                    width: "90%",
+                    left: 0,
+                    right: 0,
+                    margin: "auto",
                     color: this.model.get("attr").color,
                     fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
                     fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
                     fontFamily: this.model.getAttr("fontFamily"),
                     fontSize: this.model.getAttr("fontSize") + "%",
-                    textAlign: this.model.getAttr("textAlign")
+                    textAlign: this.model.getAttr("textAlign"),
+                    lineHeight: this.model.getAttr("lineHeight") + "em"
                 });
-                
+
+                this.$el.css(css );
+            } else {
+                console.log("APPLY WRONG")
+                this.$el.css({
+                    top: this.getAttr("top") + "%",
+                    left: this.getAttr("left") + "%"
+                });
+            }
+
+        },
+
+        updateStyle: function() {
+            this.$(".visual-target").text( this.model.getAttr("content") );
+
+            this.$el.css({
+                color: this.model.get("attr").color,
+                fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
+                fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
+                fontFamily: this.model.getAttr("fontFamily"),
+                fontSize: this.model.getAttr("fontSize") + "%",
+                textAlign: this.model.getAttr("textAlign"),
+                lineHeight: this.model.getAttr("lineHeight") + "em"
+            });
         },
 
         afterEditorRender: function() {
@@ -128,7 +200,7 @@ function( app, _Layer, Visual, TextModal ) {
                 this.textModal = new TextModal({ model: this.model });
             }
 
-            this.$el.css({
+            this.$(".visual-target").css({
                 color: this.model.get("attr").color,
                 fontSize: this.model.get("attr").fontSize + "%",
                 fontFamily: this.model.get("attr").fontFamily
