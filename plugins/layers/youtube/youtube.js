@@ -34,17 +34,13 @@ function( Zeega, LayerModel, Visual ) {
 
         template: "youtube/youtube",
         ignoreFirst: true,
-        init: function(){
-            if( /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-                this.model.set("browserType","mobile");
-            } else if( /iPad/i.test(navigator.userAgent) ) {
-                this.model.set("browserType","ipad");
-            } else {
-                this.model.set("browserType","desktop");
-            }
-        },
         afterRender: function(){
-            this.$(".youtube-player").addClass( this.model.get("browserType") );
+            if( /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+                this.$(".youtube-player").addClass( "mobile" );
+            } else if( /iPad/i.test(navigator.userAgent) ) {
+                this.$(".youtube-player").addClass( "ipad" );
+            }
+
             this.ytInit();
         },
         events: {
@@ -81,7 +77,9 @@ function( Zeega, LayerModel, Visual ) {
                 if( /iPad/i.test(navigator.userAgent) ) {
                     this.$(".ipad-cover").removeClass("visible");
                 }
-                this.model.status.get("project").play();
+                if( Zeega.mode == "player"){
+                    this.model.status.get("project").play();
+                }
                 this.$(".youtube-player").removeClass("active");
                 this.$(".play-button").fadeIn("fast");
                 
@@ -117,7 +115,10 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         playVideo: function(){
-            this.model.status.get("project").suspend();
+            if( Zeega.mode == "player"){
+                this.model.status.get("project").suspend();
+            }
+
             this.$(".play-button").fadeOut("fast");
             this.$(".youtube-player").addClass("active");
             this.ytPlayer.playVideo();
