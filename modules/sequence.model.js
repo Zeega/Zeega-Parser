@@ -23,7 +23,7 @@ function( app, Layers ) {
             if ( this.isNew() ) {
                 return app.api + 'projects/'+ app.project.id +'/sequences';
             } else {
-                return app.api +'sequences/' + this.id;
+                return app.api + 'projects/'+ app.project.id +'/sequences/' + this.id;
             }
         },
 
@@ -90,11 +90,15 @@ function( app, Layers ) {
         },
 
         persistLayer: function( layer ) {
-            if ( !_.contains( layer.id, this.get("persistent_layers") ) ) {
-                var pLayers = this.get("persistent_layers");
+            var persistentLayers = this.get("persistent_layers");
 
-                pLayers.push( layer.id );
-                this.set("persistent_layers", pLayers );
+            if ( !_.isArray(persistentLayers) ) {
+                persistentLayers = [];
+            }
+
+            if ( _.isEmpty(persistentLayers) || !_.contains( layer.id, persistentLayers ) ) {
+                persistentLayers.push( layer.id );
+                this.set("persistent_layers", persistentLayers );
                 this.frames.each(function( frame ) {
                     layer.order[ frame.id ] = frame.layers.length;
                     frame.layers.add( layer );
