@@ -70,13 +70,16 @@ function( Zeega, LayerModel, Visual ) {
 
         onStateChange: function(e){
             if(e.data == 2 || e.data == 5){
+                this.model.status.get("project").play();
                 this.$(".youtube-player").removeClass("active");
                 this.$(".play-button").fadeIn("fast");
                 if( /iPad/i.test(navigator.userAgent) ) {
                     this.$(".ipad-cover").removeClass("visible");
                 }
-            } else if (e.data == 1){
-
+            } else if (e.data == 1 ){
+                this.$(".play-button").fadeOut("fast");
+                this.$(".youtube-player").addClass("active");
+                this.ytPlayer.playVideo();
                 if( /iPad/i.test(navigator.userAgent) ) {
                     this.$(".ipad-cover").addClass("visible");
                 }
@@ -84,6 +87,8 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         onApiReady: function(){
+
+
 
             var onPlayerReady = jQuery.proxy( this.onPlayerReady, this),
                 onStateChange = jQuery.proxy( this.onStateChange, this);
@@ -102,6 +107,7 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         playVideo: function(){
+            this.model.status.get("project").suspend();
             this.$(".play-button").fadeOut("fast");
             this.$(".youtube-player").addClass("active");
             this.ytPlayer.playVideo();
