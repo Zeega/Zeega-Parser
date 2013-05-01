@@ -31,7 +31,7 @@ function( app, _Layer, Visual, TextModal ) {
             italic: false,
             textAlign: "left",
             lineHeight: 1,
-            mobileTextPosition: "middle"
+            mobileTextPosition: "middle" // top, middle, bottom
         },
 
         controls: [
@@ -97,6 +97,15 @@ function( app, _Layer, Visual, TextModal ) {
 
         template: "text_v2/text-v2",
 
+        init: function() {
+            console.log("text", app.attributes)
+            if ( app.attributes.mobile ) {
+                this.visualProperties = [
+                    "opacity"
+                ]
+            }
+        },
+
         visualProperties: [
             "top",
             "left",
@@ -110,6 +119,41 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         saveContent: null,
+
+        applyStyles: function() {
+            // if ( app.attributes.mobile ) {
+            //     this.$el.css({
+            //         width: (window.innerWidth - 60 ) + "px",
+            //         left: 0,
+            //         right: 0,
+            //         margin: "auto"
+            //     });
+            // } else {
+                this.$el.css({
+                    left: this.getAttr("left") + "%",
+                    width: this.getAttr("width") + "%"
+                });
+            // }
+        },
+
+        // moveOnStage: function() {
+        //     if ( app.attributes.mobile ) {
+        //         this.$el.css({
+        //             width: (window.innerWidth - 60 ) + "px",
+        //             top: "calc(50% - " + this.$el.height() / 2 + "px )",
+        //             left: 0,
+        //             right: 0,
+        //             margin: "auto"
+        //         });
+        //     } else {
+        //         console.log("APPLY WRONG")
+        //         this.$el.css({
+        //             top: this.getAttr("top") + "%",
+        //             left: this.getAttr("left") + "%"
+        //         });
+        //     }
+
+        // },
 
         updateStyle: function() {
             this.$(".visual-target").text( this.model.getAttr("content") );
