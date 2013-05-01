@@ -17,19 +17,21 @@ function( app, _Layer, Visual, TextModal ) {
             citation: false,
             color: "#FFF",
             content: "text",
-            fontSize: 200,
+            fontSize: 100,
             fontFamily: "Archivo Black",
             default_controls: true,
-            left: 30,
+            left: 12.5,
             opacity: 1,
             title: "Text Layer",
             top: 40,
-            width: 25,
+            width: 75,
             dissolve: true,
 
             bold: false,
             italic: false,
-            textAlign: "left"
+            textAlign: "left",
+            lineHeight: 1,
+            mobileTextPosition: "middle"
         },
 
         controls: [
@@ -99,7 +101,8 @@ function( app, _Layer, Visual, TextModal ) {
             "top",
             "left",
             "width",
-            "opacity"
+            "opacity",
+            "lineHeight"
         ],
 
         serialize: function() {
@@ -110,16 +113,16 @@ function( app, _Layer, Visual, TextModal ) {
 
         updateStyle: function() {
             this.$(".visual-target").text( this.model.getAttr("content") );
-            
-            this.$el.css({
-                    color: this.model.get("attr").color,
-                    fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
-                    fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
-                    fontFamily: this.model.getAttr("fontFamily"),
-                    fontSize: this.model.getAttr("fontSize") + "%",
-                    textAlign: this.model.getAttr("textAlign")
-                });
-                
+
+            this.$(".visual-target").css({
+                color: this.model.get("attr").color,
+                fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
+                fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
+                fontFamily: this.model.getAttr("fontFamily"),
+                fontSize: this.model.getAttr("fontSize") + "%",
+                textAlign: this.model.getAttr("textAlign"),
+                lineHeight: this.model.getAttr("lineHeight") + "em"
+            });
         },
 
         afterEditorRender: function() {
@@ -128,7 +131,7 @@ function( app, _Layer, Visual, TextModal ) {
                 this.textModal = new TextModal({ model: this.model });
             }
 
-            this.$el.css({
+            this.$(".visual-target").css({
                 color: this.model.get("attr").color,
                 fontSize: this.model.get("attr").fontSize + "%",
                 fontFamily: this.model.get("attr").fontFamily
