@@ -33,14 +33,18 @@ function( Zeega, LayerModel, Visual ) {
     Layer.Youtube.Visual = Visual.extend({
 
         template: "youtube/youtube",
-        afterRender: function(){
+        ignoreFirst: true,
+        init: function(){
             if( /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-                this.$(".youtube-player").addClass("mobile");
+                this.model.set("browserType","mobile");
             } else if( /iPad/i.test(navigator.userAgent) ) {
-                this.$(".youtube-player").addClass("ipad");
+                this.model.set("browserType","ipad");
+            } else {
+                this.model.set("browserType","desktop");
             }
-
-
+        },
+        afterRender: function(){
+            this.$(".youtube-player").addClass( this.model.get("browserType") );
             this.ytInit();
         },
         events: {
@@ -69,17 +73,23 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         onStateChange: function(e){
-            if(e.data == 2 || e.data == 5){
-                this.model.status.get("project").play();
-                this.$(".youtube-player").removeClass("active");
-                this.$(".play-button").fadeIn("fast");
+            if( /iPad/i.test(navigator.userAgent) && e.data ==2 && this.ignoreFirst ) {
+                this.ignoreFirst = false;
+                this.ytPlayer.playVideo();
+            }
+            else if(e.data == 2 || e.data == 5){
                 if( /iPad/i.test(navigator.userAgent) ) {
                     this.$(".ipad-cover").removeClass("visible");
                 }
+                this.model.status.get("project").play();
+                this.$(".youtube-player").removeClass("active");
+                this.$(".play-button").fadeIn("fast");
+                
             } else if (e.data == 1 ){
+                
                 this.$(".play-button").fadeOut("fast");
                 this.$(".youtube-player").addClass("active");
-                this.ytPlayer.playVideo();
+               
                 if( /iPad/i.test(navigator.userAgent) ) {
                     this.$(".ipad-cover").addClass("visible");
                 }
@@ -111,6 +121,7 @@ function( Zeega, LayerModel, Visual ) {
             this.$(".play-button").fadeOut("fast");
             this.$(".youtube-player").addClass("active");
             this.ytPlayer.playVideo();
+            window.ytPlayer = this.ytPlayer;
         },
 
         onExit: function(){
