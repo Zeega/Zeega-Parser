@@ -46,9 +46,9 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
         url: function() {
             if( this.isNew() ) {
-                return app.api + 'projects/'+ app.project.id +'/sequences/'+ app.status.get("currentSequence").id +'/frames';
+                return app.api + 'projects/' + app.project.id +'/sequences/'+ app.status.get("currentSequence").id +'/frames';
             } else {
-                return app.api + 'frames/'+ this.id;
+                return app.api + 'projects/' + app.project.id + '/frames/'+ this.id;
             }
         },
 

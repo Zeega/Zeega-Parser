@@ -30,7 +30,7 @@ function( app, Controls ) {
             if ( this.isNew() ) {
                 return app.api + "projects/" + app.project.id + "/layers";
             } else {
-                return app.api + "layers/" + this.id;
+                return app.api + "projects/" + app.project.id + "/layers/" + this.id;
             }
         },
 
