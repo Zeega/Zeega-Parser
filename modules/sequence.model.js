@@ -7,6 +7,8 @@ function( app, Layers ) {
 
     return app.Backbone.Model.extend({
 
+        soundtrackModel: null,
+
         defaults: {
             advance_to: null,
             attr: {
@@ -30,10 +32,17 @@ function( app, Layers ) {
         lazySave: null,
 
         initialize: function() {
-
             this.lazySave = _.debounce(function() {
                 this.save();
             }.bind( this ), 1000 );
+        },
+
+        initSoundtrackModel: function( layers ) {
+            if ( this.get("attr").soundtrack ) {
+                this.soundtrackModel = app.soundtrack = layers.get( this.get("attr").soundtrack );
+                this.soundtrackModel.status = app.status;
+                console.log("####",this, app.status, this.soundtrackModel.status)
+            }
         },
 
         onFrameSort: function() {

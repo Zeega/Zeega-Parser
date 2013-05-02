@@ -301,7 +301,6 @@ function( app, SequenceCollection ) {
         publishProject: function() {
 
             if ( this.get("date_updated") != this.get("date_published") || this.updated ) {
-                var mobile = this.validateMobile();
                 
                 this.updated = false;
                 this.once("sync", this.onProjectPublish, this);
@@ -311,7 +310,7 @@ function( app, SequenceCollection ) {
                 }
                 this.save({
                     publish_update: 1,
-                    mobile: mobile
+                    mobile: true
                 });
                 console.log("already published. published again");
             } else {
@@ -321,48 +320,6 @@ function( app, SequenceCollection ) {
 
         onProjectPublish: function( model, response ) {
             this.set({ publish_update: 0 });
-        },
-
-        validateMobile: function() {
-            var layers, validLayerTypes, maxAudioLayers, valid;
-            
-            layers = [];
-            validLayerTypes = ["Image", "Audio", "Text", "Link", "Rectangle"];
-            maxAudioLayers = 1;
-            maxFrames = null;
-            valid = true;
-
-
-            this.sequences.each(function( sequence ) {
-
-                if ( maxFrames !== null && ( maxFrames -= sequence.frames.length ) < 0 ) {
-                    valid = false;
-                    return false;
-                }
-
-                sequence.frames.each(function( frame ) {
-                    frame.layers.each(function( layer ) {
-
-                        var layerTypeValid = _.contains( validLayerTypes, layer.get("type") );
-
-                        if ( !layerTypeValid ) {
-                            valid = false;
-                            return false;
-                        }
-
-                        // dupe layer. ignore
-                        if ( !_.contains( layers, layer.id ) && layer.get("type") == "Audio" && maxFrames-- < 0 ) {
-                            layers.push( layer.id );
-                            valid = false;
-                            return false;
-                        } else if ( !_.contains( layers, layer.id ) && layer.get("type") == "Audio" ) {
-                            layers.push( layer.id );
-                        }
-                    });
-                });
-            });
-
-            return valid;
         }
 
     });

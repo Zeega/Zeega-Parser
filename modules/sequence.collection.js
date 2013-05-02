@@ -41,6 +41,8 @@ function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
                 sequence.frames.sequence = sequence;
                 sequence.frames.initLayers( layerCollection, options );
             });
+
+            this.at(0).initSoundtrackModel( layerCollection );
             // at this point, all frames should be loaded with layers and layer classes
         }
     });
