@@ -98,11 +98,8 @@ function( app, _Layer, Visual, TextModal ) {
         template: "text_v2/text-v2",
 
         init: function() {
-            console.log("text", app.attributes)
             // if ( app.attributes.mobile ) {
-            //     this.visualProperties = [
-            //         "opacity"
-            //     ]
+            //     window.onorientationchange = function(){ this.moveOnStage(); }.bind(this);
             // }
         },
 
@@ -140,23 +137,28 @@ function( app, _Layer, Visual, TextModal ) {
             var css = {};
 
             if ( app.attributes.mobile ) {
+                var zHeight = $(".ZEEGA-player-window").height(),
+                    zWidth = $(".ZEEGA-player-window").width();
 
-                css.position = "fixed";
                 if ( this.getAttr("mobileTextPosition") == "middle" ) {
                    var heightPercent = this.$el.height() / window.innerHeight; // middle
                    
                    css.top = (50 - heightPercent * 100 / 2) + "%";
-
+                    
                 } else if ( this.getAttr("mobileTextPosition") == "top" ) {
-                    css.top = "30px"; // top
+                    var marginTop = (zHeight - window.innerHeight) / 2;
+
+                    css.top = (marginTop + 30) + "px";
                 } else {
                     // bottom
+                    var marginBottom = (zHeight - window.innerHeight) / 2;
+
                     css.top = "auto";
-                    css.bottom = "30px";
+                    css.bottom = (marginBottom + 30) + "px";
                 }
 
                 _.extend( css, {
-                    width: "90%",
+                    width: window.innerWidth - 30 + "px",
                     left: 0,
                     right: 0,
                     margin: "auto",
