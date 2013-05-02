@@ -173,7 +173,6 @@ function( app, _Layer, Visual, TextModal ) {
 
                 this.$el.css(css );
             } else {
-                console.log("APPLY WRONG")
                 this.$el.css({
                     top: this.getAttr("top") + "%",
                     left: this.getAttr("left") + "%"
