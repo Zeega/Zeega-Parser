@@ -119,17 +119,20 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 type: item.get("layer_type"),
                 attr: _.extend({}, item.toJSON() )
             });
+            var oldYoutube = this.layers.find(function(layer){ return layer.get("type") == "Youtube"; });
+                
 
             if ( newLayer.get("type") == "Youtube" ){
-
-                var oldYoutube = this.layers.find(function(layer){ return layer.get("type") == "Youtube"; });
-                
                 if( oldYoutube ){
-                    this.layers.remove( oldYoutube );
+                    oldYoutube.trigger("remove");
+                    this.layers.remove( oldYoutube, { silent: true } );
                 }
                 newLayer.order [ this.id ] = 100;
                 newLayer.status = this.status;
             } else{
+                if( oldYoutube ){
+                    oldYoutube.order[ this.id ] = 100;
+                }
                 newLayer.order[ this.id ] = this.layers.length;
             }
             
