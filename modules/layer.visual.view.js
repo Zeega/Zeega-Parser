@@ -9,6 +9,7 @@ function( app, Controls ) {
     return app.Backbone.LayoutView.extend({
 
         className: function() {
+            console.log("classname", this)
             return "visual-element visual-" + this.model.get("type").toLowerCase();
         },
 
