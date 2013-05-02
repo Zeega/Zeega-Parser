@@ -98,12 +98,9 @@ function( app, _Layer, Visual, TextModal ) {
         template: "text_v2/text-v2",
 
         init: function() {
-            console.log("text", app.attributes)
-            if ( app.attributes.mobile ) {
-                this.visualProperties = [
-                    "opacity"
-                ]
-            }
+            // if ( app.attributes.mobile ) {
+            //     window.onorientationchange = function(){ this.moveOnStage(); }.bind(this);
+            // }
         },
 
         visualProperties: [
@@ -121,44 +118,74 @@ function( app, _Layer, Visual, TextModal ) {
         saveContent: null,
 
         applyStyles: function() {
-            // if ( app.attributes.mobile ) {
-            //     this.$el.css({
-            //         width: (window.innerWidth - 60 ) + "px",
-            //         left: 0,
-            //         right: 0,
-            //         margin: "auto"
-            //     });
-            // } else {
+            if ( app.attributes.mobile ) {
+                this.$el.css({
+                    width: (window.innerWidth - 60 ) + "px",
+                    left: 0,
+                    right: 0,
+                    margin: "auto"
+                });
+            } else {
                 this.$el.css({
                     left: this.getAttr("left") + "%",
                     width: this.getAttr("width") + "%"
                 });
-            // }
+            }
         },
 
-        // moveOnStage: function() {
-        //     if ( app.attributes.mobile ) {
-        //         this.$el.css({
-        //             width: (window.innerWidth - 60 ) + "px",
-        //             top: "calc(50% - " + this.$el.height() / 2 + "px )",
-        //             left: 0,
-        //             right: 0,
-        //             margin: "auto"
-        //         });
-        //     } else {
-        //         console.log("APPLY WRONG")
-        //         this.$el.css({
-        //             top: this.getAttr("top") + "%",
-        //             left: this.getAttr("left") + "%"
-        //         });
-        //     }
+        moveOnStage: function() {
+            var css = {};
 
-        // },
+            if ( app.attributes.mobile ) {
+                var zHeight = $(".ZEEGA-player-window").height(),
+                    zWidth = $(".ZEEGA-player-window").width();
+
+                if ( this.getAttr("mobileTextPosition") == "middle" ) {
+                   var heightPercent = this.$el.height() / window.innerHeight; // middle
+                   
+                   css.top = (50 - heightPercent * 100 / 2) + "%";
+                    
+                } else if ( this.getAttr("mobileTextPosition") == "top" ) {
+                    var marginTop = (zHeight - window.innerHeight) / 2;
+
+                    css.top = (marginTop + 30) + "px";
+                } else {
+                    // bottom
+                    var marginBottom = (zHeight - window.innerHeight) / 2;
+
+                    css.top = "auto";
+                    css.bottom = (marginBottom + 30) + "px";
+                }
+
+                _.extend( css, {
+                    width: window.innerWidth - 30 + "px",
+                    left: 0,
+                    right: 0,
+                    margin: "auto",
+                    color: this.model.get("attr").color,
+                    fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
+                    fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
+                    fontFamily: this.model.getAttr("fontFamily"),
+                    fontSize: this.model.getAttr("fontSize") + "%",
+                    textAlign: this.model.getAttr("textAlign"),
+                    lineHeight: this.model.getAttr("lineHeight") + "em"
+                });
+
+                this.$el.css(css );
+            } else {
+                console.log("APPLY WRONG")
+                this.$el.css({
+                    top: this.getAttr("top") + "%",
+                    left: this.getAttr("left") + "%"
+                });
+            }
+
+        },
 
         updateStyle: function() {
             this.$(".visual-target").text( this.model.getAttr("content") );
 
-            this.$(".visual-target").css({
+            this.$el.css({
                 color: this.model.get("attr").color,
                 fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
                 fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
