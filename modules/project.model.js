@@ -57,9 +57,9 @@ function( app, SequenceCollection ) {
         },
 
         initialize: function( data, options ) {
-            if ( this.get("cover_image") == "" ) {
-                this.set("cover_image", this.defaultCoverImages[ Math.floor( Math.random() * this.defaultCoverImages.length ) ])
-            }
+            // if ( this.get("cover_image") == "" ) {
+            //     this.set("cover_image", this.defaultCoverImages[ Math.floor( Math.random() * this.defaultCoverImages.length ) ])
+            // }
             this.options = _.defaults( options, this.defaultOptions );
             this.parser = options.parser;
             this.parseSequences();
