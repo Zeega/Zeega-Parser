@@ -27,6 +27,7 @@ function( Zeega, LayerModel, Visual ) {
             citation: true
         },
         controls: [
+        
         ]
     });
 
@@ -60,8 +61,7 @@ function( Zeega, LayerModel, Visual ) {
             } else {
                 this.onApiReady();
             }
-
-            
+ 
         },
 
         onPlayerReady: function(e){
