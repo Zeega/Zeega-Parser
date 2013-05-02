@@ -83,7 +83,9 @@ function( Zeega, LayerModel, Visual ) {
                 this.$(".play-button").fadeIn("fast");
                 
             } else if (e.data == 1 ){
-                
+                if( Zeega.mode == "player"){
+                    this.model.status.get("project").suspend();
+                }
                 this.$(".play-button").fadeOut("fast");
                 this.$(".youtube-player").addClass("active");
                
