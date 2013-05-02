@@ -41,7 +41,6 @@ function( app, Layers ) {
             if ( this.get("attr").soundtrack ) {
                 this.soundtrackModel = app.soundtrack = layers.get( this.get("attr").soundtrack );
                 this.soundtrackModel.status = app.status;
-                console.log("####",this, app.status, this.soundtrackModel.status)
             }
         },
 
