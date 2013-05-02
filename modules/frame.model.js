@@ -120,11 +120,24 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 attr: _.extend({}, item.toJSON() )
             });
 
-            newLayer.order[ this.id ] = this.layers.length;
+            if ( newLayer.get("type") == "Youtube" ){
+
+                var oldYoutube = this.layers.find(function(layer){ return layer.get("type") == "Youtube"; });
+                
+                if( oldYoutube ){
+                    this.layers.remove( oldYoutube );
+                }
+                newLayer.order [ this.id ] = 100;
+                newLayer.status = this.status;
+            } else{
+                newLayer.order[ this.id ] = this.layers.length;
+            }
+            
             newLayer.save().success(function( response ) {
-                this.layers.add( newLayer );
-                app.status.setCurrentLayer( newLayer );
-            }.bind( this ));
+                    this.layers.add( newLayer );
+                    app.status.setCurrentLayer( newLayer );
+                }.bind( this ));
+            
         },
 
         pasteLayer: function( layer ) {
