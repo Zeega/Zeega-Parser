@@ -74,7 +74,6 @@ function( app, Layers ) {
 
                 attr.soundtrack = newLayer.id;
                 this.set("attr", attr );
-                this.persistLayer( newLayer );
                 view.setSoundtrackLayer( newLayer );
 
                 this.lazySave();
@@ -84,7 +83,6 @@ function( app, Layers ) {
         removeSoundtrack: function( layer ) {
             var attr = this.get("attr");
 
-            this.unpersistLayer( layer );
             attr.soundtrack = false;
             this.set("attr", attr );
         },
