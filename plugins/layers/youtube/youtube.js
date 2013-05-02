@@ -34,7 +34,7 @@ function( Zeega, LayerModel, Visual ) {
     Layer.Youtube.Visual = Visual.extend({
 
         template: "youtube/youtube",
-        //ignoreFirst: true,
+        ignoreFirst: true,
         afterRender: function(){
             if( /iPhone|iPod/i.test(navigator.userAgent) ) {
                 this.$(".youtube-player").addClass( "mobile" );
@@ -69,13 +69,10 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         onStateChange: function(e){
-            // if( /iPad/i.test(navigator.userAgent) && e.data ==2 && this.ignoreFirst ) {
-            //     this.ignoreFirst = false;
-            //     this.ytPlayer.playVideo();
-            // }
-            // else
-
-            if (e.data == 2 || e.data == 5){
+            if( this.model.status.get("current_sequence_model").get("attr").soundtrack && /iPad/i.test(navigator.userAgent) && e.data ==2 && this.ignoreFirst ) {
+                this.ignoreFirst = false;
+                this.ytPlayer.playVideo();
+            } else if (e.data == 2 || e.data == 5){
                 if( /iPad/i.test(navigator.userAgent) ) {
                     this.$(".ipad-cover").removeClass("visible");
                 }
@@ -129,6 +126,9 @@ function( Zeega, LayerModel, Visual ) {
 
         onExit: function(){
             this.ytPlayer.pauseVideo();
+            if( Zeega.mode == "player"){
+                this.model.status.get("project").play();
+            }
         }
 
     });
