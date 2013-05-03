@@ -36,7 +36,7 @@ function( Zeega, LayerModel, Visual ) {
         template: "youtube/youtube",
         ignoreFirst: true,
         afterRender: function(){
-            console.log(Zeega.mode)
+            
             if( /iPhone|iPod/i.test(navigator.userAgent) ) {
                 this.$(".youtube-player").addClass( "mobile" );
             } else if( /iPad/i.test(navigator.userAgent) ) {
