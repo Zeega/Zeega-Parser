@@ -21,6 +21,7 @@ function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
                 layerModel.initVisual( LayerModels[ layer.type ] );
                 return layerModel;
             });
+
             layerCollection = new LayerCollection( classedLayers );
 
             this.each(function( sequence ) {
