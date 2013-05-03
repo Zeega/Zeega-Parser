@@ -71,7 +71,6 @@ function( app, SequenceCollection ) {
 
             this._generateFrameSequenceKey();
             this._setInnerSequenceConnections();
-            this._setSequenceToSequenceConnections();
             this._setLinkConnections();
             this._setFramePreloadArrays();
             this._setFrameCommonLayers();
@@ -96,47 +95,14 @@ function( app, SequenceCollection ) {
                 var frames = sequence.frames;
 
                 if ( frames.length > 1 ) {
-                    var animationStart = null;
-
                     frames.each(function( frame, j ) {
-                        var lastStart = animationStart;
-
-                        // return to the start of an animation sequence
-                        animationStart = frame.get("attr").advance && animationStart === null ? frame.id :
-                            frame.get("attr").advance && animationStart !== null ? animationStart : null;
-
                         frame.put({
                             _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
-                            _last: frames.at( j - 1 ) ? frames.at( j - 1 ).id : null,
-                            _prev: animationStart && lastStart === null && frames.at( j - 1 ) ? frames.at( j - 1 ).id :
-                                animationStart ? animationStart :
-                                animationStart === null && lastStart !== null ? lastStart :
-                                frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
+                            _last: frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
                         });
                     });
                 }
             });
-        },
-
-        _setSequenceToSequenceConnections: function() {
-            this.sequences.each(function( sequence, i ) {
-                var a,b,
-                    advanceTo = sequence.get("advance_to"),
-                    followingSequence = this.sequences.get( advanceTo );
-
-                if ( advanceTo && followingSequence ) {
-                    a = sequence.frames.last();
-                    b = followingSequence.frames.at( 0 );
-
-                    a.put({ _next: b.id });
-                    b.put({ _prev: a.id });
-                } else if( !advanceTo && sequence.frames.last().get('attr').advance ) {
-                    a = sequence.frames.last();
-                    b = sequence.frames.first();
-                    a.put({ _next: b.id });
-                    b.put({ _prev: a.id });
-                }
-            }, this );
         },
 
         _setLinkConnections: function() {
@@ -212,7 +178,6 @@ function( app, SequenceCollection ) {
             next = frame.get("_next");
 
             frame.put( "_connections",
-                frame.get('attr').advance ? "none" :
                 prev & next ? "lr" :
                 prev ? "l" :
                 next ? "r" : "none"

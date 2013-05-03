@@ -27,7 +27,6 @@ projects must come in the format:
             frames : [
                 {
                     id : Integer,
-                    attr : { "advance": [Integer] },
                     layers : [ [Integer],…,[Integer] ]
                 }
             ],
