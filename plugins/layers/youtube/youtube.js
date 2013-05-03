@@ -42,6 +42,10 @@ function( Zeega, LayerModel, Visual ) {
                 this.$(".youtube-player").addClass( "ipad" );
             }
 
+            if (Zeega.mode == "editor" ){
+                this.$el.addClass("editor");
+            }
+
             this.ytInit();
         },
         events: {
@@ -86,7 +90,10 @@ function( Zeega, LayerModel, Visual ) {
                 }
                 if( Zeega.mode == "player"){
                     this.model.status.get("project").play();
+                } else if (Zeega.mode == "editor" ){
+                    this.$el.addClass("editor");
                 }
+
                 this.$(".youtube-player").removeClass("active");
                 this.$(".play-button").fadeIn("fast");
                 
@@ -126,7 +133,10 @@ function( Zeega, LayerModel, Visual ) {
         playVideo: function(){
             if( Zeega.mode == "player"){
                 this.model.status.get("project").suspend();
+            } else if (Zeega.mode == "editor" ){
+                this.$el.removeClass("editor");
             }
+
 
             this.$(".play-button").fadeOut("fast");
             this.$(".youtube-player").addClass("active");
