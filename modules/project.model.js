@@ -8,6 +8,7 @@ function( app, SequenceCollection ) {
     return app.Backbone.Model.extend({
 
         updated: false,
+        frameKey: {},
 
         defaults: {
             authors: null,
@@ -67,6 +68,7 @@ function( app, SequenceCollection ) {
 
         parseSequences: function() {
             this.sequences = new SequenceCollection( this.get("sequences") );
+
             this.sequences.initFrames( this.get("frames"), this.get("layers"), this.options );
 
             this._generateFrameSequenceKey();
@@ -77,8 +79,8 @@ function( app, SequenceCollection ) {
             this._attach();
         },
 
+        // potentially not needed if there is only one sequence
         _generateFrameSequenceKey: function() {
-            this.frameKey = {};
             this.sequences.each(function( sequence ) {
                 sequence.frames.each(function( frame ) {
                     this.frameKey[ frame.id ] = sequence.id;
@@ -90,6 +92,7 @@ function( app, SequenceCollection ) {
             this.frameKey[ frameId ] = sequenceId;
         },
 
+        // [ _last ] [ current ] [ _next ]
         _setInnerSequenceConnections: function() {
             this.sequences.each(function( sequence, i ) {
                 var frames = sequence.frames;
@@ -246,6 +249,7 @@ function( app, SequenceCollection ) {
             }
         },
 
+        // TODO keep a central repo of layers!
         // this is not the best. cache these somewhere in a big collection?
         getLayer: function( layerID ) {
             var layerModel;
@@ -269,7 +273,6 @@ function( app, SequenceCollection ) {
         publishProject: function() {
 
             if ( this.get("date_updated") != this.get("date_published") || this.updated ) {
-                
                 this.updated = false;
                 this.once("sync", this.onProjectPublish, this);
 
