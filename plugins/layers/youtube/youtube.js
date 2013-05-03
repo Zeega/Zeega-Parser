@@ -69,7 +69,15 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         onStateChange: function(e){
-            if( this.model.status.get("current_sequence_model").get("attr").soundtrack && /iPad/i.test(navigator.userAgent) && e.data ==2 && this.ignoreFirst ) {
+            var currentSequence;
+            if(this.model.status.get("current_sequence_model")){
+                currentSequence = this.model.status.get("current_sequence_model");
+            } else {
+                currentSequence = this.model.status.get("currentSequence");
+            }
+
+
+            if( currentSequence.get("attr").soundtrack && /iPad/i.test(navigator.userAgent) && e.data ==2 && this.ignoreFirst ) {
                 this.ignoreFirst = false;
                 this.ytPlayer.playVideo();
             } else if (e.data == 2 || e.data == 5){
