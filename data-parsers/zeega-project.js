@@ -42,8 +42,6 @@ function() {
                 id: endId,
                 type: "EndPageLayer"
             });
-
-            console.log("endpage", endPage, endLayers)
             
             endPage.id = endId;
             response.frames.push( endPage );
