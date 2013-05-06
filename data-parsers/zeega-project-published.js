@@ -14,9 +14,21 @@ function() {
         return false;
     };
 
-    // no op. projects are already formatted
+
+    // cleanses bad data from legacy projects
+    var removeDupeSoundtrack = function( response ) {
+        
+        if ( response.sequences[0].attr.soundtrack ) {
+            _.each( response.frames, function( frame ) {
+                frame.layers = _.without( frame.layers, response.sequences[0].attr.soundtrack );
+            });
+        }
+    }
+
     Parser[type].parse = function( response, opts ) {
         var response = response.items[0].text;
+
+        removeDupeSoundtrack( response );
 
         if ( opts.endPage ) {
             var endId, lastPageId, lastPage, endPage, endLayers;
@@ -45,7 +57,6 @@ function() {
             endPage.id = endId;
             response.frames.push( endPage );
             response.sequences[0].frames.push( endId )
-            console.log( endPage );
         }
 
         return response;

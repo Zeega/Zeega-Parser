@@ -16,9 +16,20 @@ function() {
         return false;
     };
 
+    var removeDupeSoundtrack = function( response ) {
+        
+        if ( response.sequences[0].attr.soundtrack ) {
+            _.each( response.frames, function( frame ) {
+                frame.layers = _.without( frame.layers, response.sequences[0].attr.soundtrack );
+            });
+        }
+    }
+
     // no op. projects are already formatted
     Parser[type].parse = function( response, opts ) {
-        console.log("response", response );
+
+        removeDupeSoundtrack( response );
+
         if ( opts.endPage ) {
             var endId, lastPageId, lastPage, endPage, endLayers;
 
@@ -48,7 +59,6 @@ function() {
             response.sequences[0].frames.push( endId )
             console.log( endPage );
         }
-
 
         return response;
     };

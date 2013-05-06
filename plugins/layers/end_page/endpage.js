@@ -37,7 +37,7 @@ function( app, Layer, Visual ){
         ],
 
         serialize: function() {
-            console.log("serialize", this.model.toJSON(), app.status.get("project").project.toJSON() );
+
             return _.extend({},
                 this.model.toJSON(),
                 app.status.get("project").project.toJSON(),
@@ -45,8 +45,12 @@ function( app, Layer, Visual ){
             );
         },
 
-        afterEditorRender: function() {
+        onPlay: function() {
+            app.status.emit("endpage_enter");
+        },
 
+        onExit: function() {
+            app.status.emit("endpage_exit");
         }
     });
 
