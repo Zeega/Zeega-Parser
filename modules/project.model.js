@@ -231,7 +231,7 @@ function( app, SequenceCollection ) {
                     layers = layers.concat( [ sequence.soundtrackModel.toJSON() ] );
                 }
             });
-
+console.log("layers", layers, this.sequences.toJSON())
             return _.extend({}, this.toJSON(), {
                 sequences: this.sequences.toJSON(),
                 frames: frames,

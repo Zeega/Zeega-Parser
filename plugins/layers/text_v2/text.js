@@ -181,10 +181,9 @@ function( app, _Layer, Visual, TextModal ) {
 
         },
 
+        // ## TODO Simplify this - 5/3/2013
         updateStyle: function() {
-            this.$(".visual-target").text( this.model.getAttr("content") );
-
-            this.$el.css({
+            var css = {
                 color: this.model.get("attr").color,
                 fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
                 fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
@@ -192,7 +191,13 @@ function( app, _Layer, Visual, TextModal ) {
                 fontSize: this.model.getAttr("fontSize") + "%",
                 textAlign: this.model.getAttr("textAlign"),
                 lineHeight: this.model.getAttr("lineHeight") + "em"
-            });
+            };
+
+            this.$(".visual-target")
+                .css( css )
+                .text( this.model.getAttr("content") );
+
+            this.$el.css( css );
         },
 
         afterEditorRender: function() {
