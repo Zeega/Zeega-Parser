@@ -37,7 +37,12 @@ function( app, Layer, Visual ){
         ],
 
         serialize: function() {
-            return this.model.toJSON();
+            console.log("serialize", this.model.toJSON(), app.status.get("project").project.toJSON() );
+            return _.extend({},
+                this.model.toJSON(),
+                app.status.get("project").project.toJSON(),
+                app.metadata
+            );
         },
 
         afterEditorRender: function() {

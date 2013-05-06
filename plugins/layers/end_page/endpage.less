@@ -1,3 +1,26 @@
+.user-block {
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    width: 250px;
+    
+    .profile-token {
+        border: 2px solid orangered;
+        height: 40px;
+        width: 40px;
+        border-radius: 22px;
+        display: inline-block;
+    }
+
+    .profile-name {
+        display: inline-block;
+        color: orangered;
+        position: relative;
+        top: -15px;
+        text-decoration: none;
+    }
+}
+
 .visual-element-endpagelayer {
     height: 100%;
     width: 100%;
@@ -5,6 +28,53 @@
     color: white;
 
     .endpage-inner {
-        padding: 20px;
+        padding-top: 40px;
+        margin: 0 auto;
+        width: 75%;
+
+        .endpage-header {
+            font-size: 2em;
+        }
+
+        .user-block {
+            margin: 20px auto;
+        }
+
+        .end-logo {
+            display: block;
+            margin: 0 auto;
+        }
     }
+
+    .share-sites {
+        padding: 0;
+        list-style: none;
+        text-align: center;
+         li {
+            display: inline-block;
+            margin-right: 10px;
+            opacity: 0.9;
+         }
+    }
+
+    .endpage-social {
+        height: 50px;
+        width: 50px;
+        display: inline-block;
+        background: url(../img/endpage-share-sprite.png);
+
+        &.endpage-social-twitter {
+
+        }
+        &.endpage-social-facebook {
+            background-position: -50px 0;
+        }
+        &.endpage-social-tumblr {
+            background-position: -100px 0;
+        }
+    }
+
+
+        
+
 }

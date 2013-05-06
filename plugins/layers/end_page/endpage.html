@@ -1,4 +1,24 @@
 <div class="endpage-inner">
-    A Zeega by Joseph
+    <img class="end-logo" src="assets/img/zeega-red-white-250.png">
+
+    <div class="user-block user-block-large">
+        <a href="http://zeega.com/user/<%= user_id %>" target="blank">
+            <div class="profile-token"
+                style="
+                    background: url(<%= userThumbnail %>);
+                    background-size: cover;
+                "
+            ></div>
+            <div class="profile-name">by <%= authors %></div>
+        </a>
+    </div>
+
+    <div class="share-block">
+        <ul class="share-sites">
+            <li><a href="#"><i class="endpage-social endpage-social-twitter"></i></a></li>
+            <li><a href="#"><i class="endpage-social endpage-social-facebook"></i></a></li>
+            <li><a href="#"><i class="endpage-social endpage-social-tumblr"></i></a></li>
+        </ul>
+    </div>
 
 </div>
