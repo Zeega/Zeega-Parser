@@ -77,7 +77,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
                 worker.postMessage({
                     cmd: 'capture',
-                    msg: app.api + "frames/" + this.id + "/thumbnail"
+                    msg: app.api + "projects/" + app.project.id + "/frames/" + this.id + "/thumbnail"
                 });
 
             }, 1000);
