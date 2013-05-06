@@ -28,7 +28,7 @@ function( app, Layer, Visual ){
 
     L.EndPageLayer.Visual = Visual.extend({
 
-        template: "end_page/endpage",
+        // template: "end_page/endpage",
 
         visualProperties: [
             "height",
@@ -36,14 +36,14 @@ function( app, Layer, Visual ){
             "opacity"
         ],
 
-        serialize: function() {
+        // serialize: function() {
 
-            return _.extend({},
-                this.model.toJSON(),
-                app.status.get("project").project.toJSON(),
-                app.metadata
-            );
-        },
+        //     return _.extend({},
+        //         this.model.toJSON(),
+        //         app.status.get("project").project.toJSON(),
+        //         app.metadata
+        //     );
+        // },
 
         onPlay: function() {
             app.status.emit("endpage_enter");
