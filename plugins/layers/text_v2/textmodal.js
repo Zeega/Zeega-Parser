@@ -47,6 +47,8 @@ function( app ) {
             $("#main").addClass("modal");
             this.loadFonts();
             this.loadSize();
+            this.loadTextPosition();
+            this.loadLineHeight();
             this.setButtonStates();
 
             this.updateSample();
@@ -61,6 +63,8 @@ function( app ) {
             "keypress textarea": "onKeypress",
             "change .size-list": "onChangeSize",
             "change .font-list": "onChangeFont",
+            "change .line-height-list": "onLineHeight",
+            "change .text-position-list": "onTextPosition",
             "click .text-btn-align-left": "toggleAlignLeft",
             "click .text-btn-align-center": "toggleAlignCenter",
             "click .text-btn-align-right": "toggleAlignRight"
@@ -73,12 +77,21 @@ function( app ) {
 
         onChangeSize: function( e ) {
             this.model.setAttr({ fontSize: $( e.target ).val() });
-
             this.model.saveAttr({ fontSize: $( e.target ).val() });
         },
 
         onChangeFont: function( e ) {
             this.model.saveAttr({ fontFamily: $( e.target ).val() });
+            this.updateSample();
+        },
+
+        onTextPosition: function( e ) {
+            this.model.saveAttr({ mobileTextPosition: $( e.target ).val() });
+            this.updateSample();
+        },
+
+        onLineHeight: function( e ) {
+            this.model.saveAttr({ lineHeight: $( e.target ).val() });
             this.updateSample();
         },
 
@@ -146,6 +159,14 @@ function( app ) {
 
         loadSize: function() {
             this.$(".size-list").val( this.model.getAttr("fontSize") );
+        },
+
+        loadTextPosition: function() {
+            this.$(".text-position-list").val( this.model.getAttr("mobileTextPosition") );
+        },
+
+        loadLineHeight: function() {
+            this.$(".line-height-list").val( this.model.getAttr("lineHeight") );
         },
 
         setButtonStates: function() {

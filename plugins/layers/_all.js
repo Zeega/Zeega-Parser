@@ -12,7 +12,8 @@ define([
     "zeega_parser/plugins/layers/audio/audio",
     "zeega_parser/plugins/layers/rectangle/rectangle",
     "zeega_parser/plugins/layers/text/text",
-    "zeega_parser/plugins/layers/text_v2/text"
+    "zeega_parser/plugins/layers/text_v2/text",
+    "zeega_parser/plugins/layers/youtube/youtube"
 ],
 function(
     image,
@@ -20,7 +21,8 @@ function(
     audio,
     rectangle,
     text,
-    textV2
+    textV2,
+    youtube
 ) {
     var Plugins = {};
     // extend the plugin object with all the layers
@@ -31,6 +33,7 @@ function(
         audio,
         rectangle,
         text,
-        textV2
+        textV2,
+        youtube
     );
 });

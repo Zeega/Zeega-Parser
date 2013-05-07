@@ -7,6 +7,8 @@ function( app, Layers ) {
 
     return app.Backbone.Model.extend({
 
+        soundtrackModel: null,
+
         defaults: {
             advance_to: null,
             attr: {
@@ -30,10 +32,16 @@ function( app, Layers ) {
         lazySave: null,
 
         initialize: function() {
-
             this.lazySave = _.debounce(function() {
                 this.save();
             }.bind( this ), 1000 );
+        },
+
+        initSoundtrackModel: function( layers ) {
+            if ( this.get("attr").soundtrack ) {
+                this.soundtrackModel = app.soundtrack = layers.get( this.get("attr").soundtrack );
+                this.soundtrackModel.status = app.status;
+            }
         },
 
         onFrameSort: function() {
@@ -72,9 +80,9 @@ function( app, Layers ) {
                     attr = {};
                 }
 
+                this.soundtrackModel = newLayer;
                 attr.soundtrack = newLayer.id;
                 this.set("attr", attr );
-                this.persistLayer( newLayer );
                 view.setSoundtrackLayer( newLayer );
 
                 this.lazySave();
@@ -84,7 +92,7 @@ function( app, Layers ) {
         removeSoundtrack: function( layer ) {
             var attr = this.get("attr");
 
-            this.unpersistLayer( layer );
+            layer.destroy();
             attr.soundtrack = false;
             this.set("attr", attr );
         },

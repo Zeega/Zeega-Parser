@@ -119,12 +119,28 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 type: item.get("layer_type"),
                 attr: _.extend({}, item.toJSON() )
             });
+            var oldYoutube = this.layers.find(function(layer){ return layer.get("type") == "Youtube"; });
+                
 
-            newLayer.order[ this.id ] = this.layers.length;
+            if ( newLayer.get("type") == "Youtube" ){
+                if( oldYoutube ){
+                    oldYoutube.trigger("remove");
+                    this.layers.remove( oldYoutube, { silent: true } );
+                }
+                newLayer.order [ this.id ] = 100;
+                newLayer.status = this.status;
+            } else{
+                if( oldYoutube ){
+                    oldYoutube.order[ this.id ] = 100;
+                }
+                newLayer.order[ this.id ] = this.layers.length;
+            }
+            
             newLayer.save().success(function( response ) {
-                this.layers.add( newLayer );
-                app.status.setCurrentLayer( newLayer );
-            }.bind( this ));
+                    this.layers.add( newLayer );
+                    app.status.setCurrentLayer( newLayer );
+                }.bind( this ));
+            
         },
 
         pasteLayer: function( layer ) {
@@ -204,7 +220,8 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 commonLayers = this.get("common_layers")[ oldID ] || [];
                 // if the frame is "ready", then just render the layers
                 this.layers.each(function( layer ) {
-                    if ( !_.include(commonLayers, layer.id) ) {
+                    // disable existing soundtrack layers inside a frame !!!
+                    if ( !_.include(commonLayers, layer.id) && layer.get("type") != "Audio" ) {
                         layer.render();
                     }
                 });

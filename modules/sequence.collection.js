@@ -21,6 +21,7 @@ function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
                 layerModel.initVisual( LayerModels[ layer.type ] );
                 return layerModel;
             });
+
             layerCollection = new LayerCollection( classedLayers );
 
             this.each(function( sequence ) {
@@ -41,6 +42,8 @@ function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
                 sequence.frames.sequence = sequence;
                 sequence.frames.initLayers( layerCollection, options );
             });
+
+            this.at(0).initSoundtrackModel( layerCollection );
             // at this point, all frames should be loaded with layers and layer classes
         }
     });
