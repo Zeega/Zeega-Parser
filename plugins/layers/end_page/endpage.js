@@ -36,15 +36,6 @@ function( app, Layer, Visual ){
             "opacity"
         ],
 
-        // serialize: function() {
-
-        //     return _.extend({},
-        //         this.model.toJSON(),
-        //         app.status.get("project").project.toJSON(),
-        //         app.metadata
-        //     );
-        // },
-
         onPlay: function() {
             app.status.emit("endpage_enter");
         },
