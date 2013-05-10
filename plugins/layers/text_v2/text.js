@@ -197,7 +197,7 @@ function( app, _Layer, Visual, TextModal ) {
                 .css( css )
                 .text( this.model.getAttr("content") );
 
-            this.$el.css( css );
+            // this.$el.css( css );
         },
 
         afterEditorRender: function() {
