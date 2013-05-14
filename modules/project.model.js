@@ -100,7 +100,7 @@ function( app, SequenceCollection ) {
                 if ( frames.length > 1 ) {
                     frames.each(function( frame, j ) {
                         frame.put({
-                            _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
+                            _next: frame.get("attr").advance && frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
                             _last: frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
                         });
                     });
@@ -181,9 +181,12 @@ function( app, SequenceCollection ) {
             next = frame.get("_next");
 
             frame.put( "_connections",
-                prev & next ? "lr" :
-                prev ? "l" :
-                next ? "r" : "none"
+                frame.get("attr").advance && prev && next ? "lr" :
+                frame.get("attr").advance && !prev && next ? "r" :
+                !frame.get("attr").advance && prev && next ? "l" :
+                !frame.get("attr").advance && !prev && next ? "none" :
+                !frame.get("attr").advance && prev && !next ? "l" :
+                "none"
             );
         },
 

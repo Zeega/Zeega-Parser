@@ -57,7 +57,6 @@ function() {
             endPage.id = endId;
             response.frames.push( endPage );
             response.sequences[0].frames.push( endId )
-            console.log( endPage );
         }
 
         return response;
