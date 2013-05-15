@@ -13,7 +13,7 @@ function( app, LayerModel, Visual ) {
         layerType: "Rectangle",
 
         attr: {
-            backgroundColor: "#FF00FF",
+            backgroundColor: "#FFFFFF",
             citation: false,
             height: 100,
             left: 0,
