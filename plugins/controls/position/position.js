@@ -19,7 +19,6 @@ function( Zeega, ControlView ) {
 
             makeDraggable: function() {
                 
-
                 if ( this.model.editorProperties.draggable ) {
 
                     this.$visualContainer.draggable({
