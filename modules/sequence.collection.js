@@ -19,6 +19,7 @@ function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
                 var layerModel = new LayerModels[ layer.type ]( layer );
 
                 layerModel.initVisual( LayerModels[ layer.type ] );
+                
                 return layerModel;
             });
 

@@ -18,6 +18,7 @@ function( Zeega, ControlView ) {
 
             makeResizable: function() {
                 var args = {
+                    handles: "ne, nw, se, sw",
                     start: function( e, ui ) {
                         this.model.visual.transforming = true;
                         Zeega.status.setCurrentLayer( this.model );
@@ -30,6 +31,9 @@ function( Zeega, ControlView ) {
                         if ( this.options.options != "e" ) {
                             attr.height = this.$visualContainer.height() / this.$workspace.height() * 100;
                         }
+
+                        attr.top = ui.position.top / this.$workspace.height() * 100;
+                        attr.left = ui.position.left / this.$workspace.width() * 100;
                        
                         this.update( attr );
                         this.updateCSS( attr );

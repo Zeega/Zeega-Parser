@@ -45,48 +45,6 @@ function( _ ) {
             });
     }
 
-    // function parseSlideshowCollection( response, opts ) {
-    //     var sequence, frames, layers, slideshowLayer, timebasedLayers;
-
-    //     timebasedLayers = _.filter( response.items, function( item ) {
-    //         return item.layer_type == "Audio" || item.media_type == "Video";
-    //     });
-
-    //     slideshowLayer = Slideshow.parse( response.items, opts.layerOptions );
-    //     // layers from timebased items
-    //     layers = generateLayerArrayFromItems( timebasedLayers );
-        
-    //     if ( slideshowLayer ) {
-    //         layers.push( slideshowLayer );
-    //     }
-    //     // frames from timebased items
-    //     if ( timebasedLayers.length ) {
-    //         frames = generateFrameArrayFromItems( timebasedLayers, slideshowLayer ? [ slideshowLayer.id ] : [] );
-    //     } else {
-    //         // create single frame if no timebased layers exist
-    //         frames = [{
-    //             id: 1,
-    //             layers: [1],
-    //             attr: { advance : 0 }
-    //         }];
-    //     }
-
-    //     sequence = {
-    //         id: 0,
-    //         title: "collection",
-    //         persistent_layers: slideshowLayer ? [ slideshowLayer.id ] : [],
-    //         frames: _.pluck( frames, "id")
-    //     };
-
-    //     return _.extend(
-    //         response.items[0],
-    //         {
-    //             sequences: [ sequence ],
-    //             frames: frames,
-    //             layers: layers
-    //         });
-    // }
-
     function generateLayerArrayFromItems( itemsArray ) {
         var layerDefaults = {
             width: 100,
@@ -112,8 +70,7 @@ function( _ ) {
 
             return {
                 id: item.id,
-                layers: layers,
-                attr: { advance : 0 }
+                layers: layers
             };
         });
     }

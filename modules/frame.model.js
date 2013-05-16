@@ -20,7 +20,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
         defaults: {
             _order: 0,
-            attr: { advance: 0 },
+            attr: {},
             // ids of frames and their common layers for loading
             common_layers: {},
             _connections: "none",
@@ -91,23 +91,25 @@ function( app, Backbone, Layers, ThumbWorker ) {
         },
 
         onLayerAddRemove: function() {
-            this.updateThumb();
             this.onLayerSort();
+            this.once("sync", function() {
+                this.updateThumb();
+            }.bind( this ));
         },
 
         onLayerSort: function() {
             this.set("layers", this.layers.pluck("id") );
             this.lazySave();
-            this.updateThumb();
+            this.once("sync", function() {
+                this.updateThumb();
+            }.bind( this ));
         },
 
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
+
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
-                // if( type == "Link" ){
-                //     this.set( "attr", { "advance" : 10000 } ); //needs update in player – adding a link layer removes default advance
-                // }
                 this.layers.add( newLayer );
                 app.status.setCurrentLayer( newLayer );
             }.bind( this ));
@@ -188,7 +190,6 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 next = this.get("_next");
 
             this.set( "connections",
-                this.get('attr').advance ? "none" :
                 prev & next ? "lr" :
                 prev ? "l" :
                 next ? "r" : "none"
@@ -228,12 +229,6 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
                 // update status
                 this.status.set( "current_frame",this.id );
-                // set frame timer
-                advance = this.get("attr").advance;
-
-                if ( advance ) {
-                    this.startTimer( advance );
-                }
 
                 if ( !this.get("_next") && this.get("linksTo").length === 0 ) {
                     this.status.emit("deadend_frame", _.extend({}, this.toJSON() ) );
@@ -288,7 +283,6 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
             // cancel the timer
             // record the current elapsed time on the frame
-            // the elapsed time will be subtracted from the total advance time when the timer is restarted in play()
             if( this.timer ) {
                 clearTimeout( this.timer );
                 this.elapsed += ( new Date().getTime() - this.status.playTimestamp );
@@ -300,17 +294,9 @@ function( app, Backbone, Layers, ThumbWorker ) {
         },
 
         play: function() {
-            var advance;
-
             this.layers.each(function( layer ) {
                 layer.play();
             });
-
-            // set frame timer
-            advance = this.get("attr").advance;
-            if ( advance ) {
-                this.startTimer( advance - this.elapsed );
-            }
         },
 
         startTimer: function( ms ) {

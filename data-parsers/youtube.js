@@ -77,8 +77,7 @@ function() {
             var id = item.media$group.yt$videoid.$t;
             return {
                 id: id,
-                layers: _.compact( [id].concat( persistentLayers ) ),
-                attr: { advance: 0 }
+                layers: _.compact( [id].concat( persistentLayers ) )
             };
         });
     }

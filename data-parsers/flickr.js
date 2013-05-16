@@ -60,8 +60,7 @@ function() {
         return _.map( itemsArray, function( item ) {
             return {
                 id: item.link,
-                layers: _.compact( [item.link].concat(persistentLayers) ),
-                attr: { advance: 0 }
+                layers: _.compact( [item.link].concat(persistentLayers) )
             };
         });
     }

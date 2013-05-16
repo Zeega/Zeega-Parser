@@ -196,8 +196,6 @@ function( app, _Layer, Visual, TextModal ) {
             this.$(".visual-target")
                 .css( css )
                 .text( this.model.getAttr("content") );
-
-            this.$el.css( css );
         },
 
         afterEditorRender: function() {
@@ -243,7 +241,17 @@ function( app, _Layer, Visual, TextModal ) {
         }, 500 ),
 
         beforePlayerRender: function() {
-            this.updateStyle();
+            var css = {
+                color: this.model.get("attr").color,
+                fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
+                fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
+                fontFamily: this.model.getAttr("fontFamily"),
+                fontSize: this.model.getAttr("fontSize") + "%",
+                textAlign: this.model.getAttr("textAlign"),
+                lineHeight: this.model.getAttr("lineHeight") + "em"
+            };
+
+            this.$el.css( css );
         }
   });
 
