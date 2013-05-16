@@ -115,6 +115,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
             var newLayer = new Layers[ type ]({ type: type });
 
             // turn off advance if the type is a link
+            /*
             if ( type == "Link") {
                 var attr = this.get("attr");
 
@@ -122,6 +123,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 this.set("attr", attr );
                 this.trigger("no_advance")
             }
+            */
 
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
