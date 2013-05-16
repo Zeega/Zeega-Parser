@@ -20,7 +20,9 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
         defaults: {
             _order: 0,
-            attr: {},
+            attr: {
+                advance: true
+            },
             // ids of frames and their common layers for loading
             common_layers: {},
             _connections: "none",
@@ -60,6 +62,10 @@ function( app, Backbone, Layers, ThumbWorker ) {
             this.lazySave = _.debounce(function() {
                 this.save();
             }.bind( this ), 1000 );
+
+            if ( _.isArray( this.get("attr") ) ) {
+                this.set("attr", this.defaults.attr );
+            }
 
             this.startThumbWorker = _.debounce(function() {
                 var worker = new Worker( app.webRoot + "js/helpers/thumbworker.js" );
@@ -108,12 +114,22 @@ function( app, Backbone, Layers, ThumbWorker ) {
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
 
+            // turn off advance if the type is a link
+            /*
+            if ( type == "Link") {
+                var attr = this.get("attr");
+
+                attr.advance = false;
+                this.set("attr", attr );
+                this.trigger("no_advance")
+            }
+            */
+
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
                 app.status.setCurrentLayer( newLayer );
             }.bind( this ));
-            
         },
 
         addLayerByItem: function( item ) {
