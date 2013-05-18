@@ -71,6 +71,7 @@ function( app, _Layer, Visual, TextModal ) {
             "Finger Paint",
             "Georgia",
             "Great Vibes",
+            "Impact",
             "Londrina Outline",
             "Londrina Sketch",
             "Monofett",
