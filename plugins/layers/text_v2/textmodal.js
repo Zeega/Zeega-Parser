@@ -52,6 +52,8 @@ function( app ) {
             this.setButtonStates();
 
             this.updateSample();
+            
+            this.$("textarea").focus().select();
         },
 
         events: {
