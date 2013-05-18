@@ -203,6 +203,9 @@ function( app, _Layer, Visual, TextModal ) {
 
             if ( this.textModal === null ) {
                 this.textModal = new TextModal({ model: this.model });
+                if ( this.model.get("attr").content == "text" ) {
+                    this.launchTextModal();
+                }
             }
 
             this.$(".visual-target").css({
@@ -214,17 +217,19 @@ function( app, _Layer, Visual, TextModal ) {
             this.$el.unbind("mouseup");
 
             this.$el.bind("mouseup", function() {
-
-                if ( !this.transforming ) {
-                    $("body").append( this.textModal.el );
-                    this.textModal.render();
-                }
-
+                this.launchTextModal();
             }.bind( this ));
 
             this.on("sync", function() {
                 this.updateStyle();
             });
+        },
+
+        launchTextModal: function() {
+            if ( !this.transforming ) {
+                $("body").append( this.textModal.el );
+                this.textModal.render();
+            }
         },
 
         convertToPercents: function( top, left ) {
