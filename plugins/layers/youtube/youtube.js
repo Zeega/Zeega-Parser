@@ -35,6 +35,7 @@ function( Zeega, LayerModel, Visual ) {
 
         template: "youtube/youtube",
         ignoreFirst: true,
+        
         afterRender: function(){
             
             if( /iPhone|iPod/i.test(navigator.userAgent) ) {
@@ -53,12 +54,11 @@ function( Zeega, LayerModel, Visual ) {
         events: {
             "click .play-button": "playVideo",
             "tap .play-button": "playVideo"
-
         },
 
         ytInit: function(){
-            
             window.jQuery(this.$(".youtube-player" )).on("api-ready", jQuery.proxy( this.onApiReady, this) );
+
             if ( _.isUndefined( window.YT ) ){
                 var tag = document.createElement('script');
                 tag.src = "//www.youtube.com/iframe_api";
@@ -67,7 +67,6 @@ function( Zeega, LayerModel, Visual ) {
             } else {
                 this.onApiReady();
             }
- 
         },
 
         onPlayerReady: function(e){
@@ -76,12 +75,12 @@ function( Zeega, LayerModel, Visual ) {
 
         onStateChange: function(e){
             var currentSequence;
-            if(this.model.status.get("current_sequence_model")){
+
+            if( this.model.status.get("current_sequence_model")){
                 currentSequence = this.model.status.get("current_sequence_model");
             } else {
                 currentSequence = this.model.status.get("currentSequence");
             }
-
 
             if( currentSequence.get("attr").soundtrack && /iPad/i.test(navigator.userAgent) && e.data ==2 && this.ignoreFirst ) {
                 this.ignoreFirst = false;
@@ -100,7 +99,7 @@ function( Zeega, LayerModel, Visual ) {
                 this.$(".youtube-player").removeClass("active");
                 this.$(".play-button").fadeIn("fast");
                 
-            } else if (e.data == 1 ){
+            } else if ( e.data == 1 ){
                 if( Zeega.mode == "player"){
                     this.model.status.get("project").suspend();
                 }
@@ -114,12 +113,8 @@ function( Zeega, LayerModel, Visual ) {
         },
 
         onApiReady: function(){
-
-
-
             var onPlayerReady = jQuery.proxy( this.onPlayerReady, this),
                 onStateChange = jQuery.proxy( this.onStateChange, this);
-
 
             this.$("#yt-player-" + this.model.id).attr("id", "yt-player-" + this.model.id + "-" + this.model.cid );
 
@@ -129,8 +124,6 @@ function( Zeega, LayerModel, Visual ) {
                         'onStateChange': onStateChange
                     }
                 });
-            
-            
         },
 
         playVideo: function(){
@@ -141,7 +134,6 @@ function( Zeega, LayerModel, Visual ) {
                 this.$el.removeClass("editor");
                 this.$el.css({"top": "0", "left": "0", "width": "100%", "height": "100%"}, 1000);
             }
-
 
             this.$(".play-button").fadeOut("fast");
             this.$(".youtube-player").addClass("active");
