@@ -17,6 +17,9 @@ function( app ) {
         className: "text-modal overlay-dimmer ZEEGA-modal",
 
         initialize: function() {
+            // temporary hack to get latest textmodal.html to load
+            window.JST["app/zeega-parser/plugins/layers/text_v2/textmodal.html"] = null;
+
             this.saveContent = _.debounce(function() {
                 this.model.saveAttr({ content: this.$("textarea").val() });
                 this.updateSample();

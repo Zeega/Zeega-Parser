@@ -14,7 +14,8 @@ define([
     "zeega_parser/plugins/controls/color/color",
     "zeega_parser/plugins/controls/linkto/linkto",
     "zeega_parser/plugins/controls/linkimage/linkimage",
-    "zeega_parser/plugins/controls/av/av"
+    "zeega_parser/plugins/controls/av/av",
+    "zeega_parser/plugins/controls/dropdown/dropdown"
 ],
 function(
     Position,
@@ -24,7 +25,8 @@ function(
     Color,
     LinkTo,
     LinkImage,
-    AV
+    AV,
+    Dropdown
 ) {
 
     return _.extend(
@@ -35,6 +37,7 @@ function(
         Color,
         LinkTo,
         LinkImage,
-        AV
+        AV,
+        Dropdown
     );
 });

@@ -52,7 +52,25 @@ function( app, _Layer, Visual, TextModal ) {
                     step: 0.001,
                     css: true
                 }
+            },{
+                type: "color",
+                options: {
+                    title: "color",
+                    propertyName: "color"
+                }
+            },{
+                type: "dropdown",
+                options: {
+                    title: "font size",
+                    propertyName: "fontSize",
+                    optionList: [
+                        { title: "small", value: 50 },
+                        { title: "medium", value: 100 },
+                        { title: "large", value: 200 }
+                    ]
+                }
             }
+
         ],
 
         fontList: [

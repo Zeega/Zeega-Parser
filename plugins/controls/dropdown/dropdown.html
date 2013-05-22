@@ -1,0 +1,8 @@
+<div class="control-name"><%= title %></div>
+<div class="dropdown-wrapper">
+    <select class="<%= propertyName %>-dropdown">
+        <% _.each( optionList, function( option ) { %>
+            <option value="<%= option.value %>"><%= option.title %></option>
+        <% }); %>
+    </select>
+</div>
