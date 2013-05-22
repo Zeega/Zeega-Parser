@@ -17,7 +17,7 @@ function( app, _Layer, Visual, TextModal ) {
             citation: false,
             color: "#FFF",
             content: "text",
-            fontSize: 100,
+            fontSize: 150,
             fontFamily: "Archivo Black",
             default_controls: true,
             left: 12.5,
@@ -63,10 +63,11 @@ function( app, _Layer, Visual, TextModal ) {
                 options: {
                     title: "font size",
                     propertyName: "fontSize",
+                    units: "%",
                     optionList: [
                         { title: "small", value: 50 },
-                        { title: "medium", value: 100 },
-                        { title: "large", value: 200 }
+                        { title: "medium", value: 150 },
+                        { title: "large", value: 250 }
                     ]
                 }
             }

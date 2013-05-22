@@ -9,8 +9,6 @@ function( Zeega, ControlView ) {
     return {
         dropdown: ControlView.extend({
 
-            //propertyName: "checkbox", // autoset
-            
             template: "dropdown/dropdown",
 
             serialize: function() {
@@ -18,18 +16,19 @@ function( Zeega, ControlView ) {
             },
 
             create: function() {
-                // this.$("input").attr("checked", this.model.getAttr( this.propertyName ) );
+                this.$("select").val( this.getAttr( this.propertyName ) );
             },
 
             events: {
                 "change select": "onChange"
             },
 
-            onChange: function() {
-                // var attr = {};
+            onChange: function( e ) {
+                var attr = {};
 
-                // attr[ this.propertyName ] = this.$("input").is(":checked");
-                // this.update( attr );
+                attr[ this.propertyName ] = this.$("select").val();
+                this.update( attr );
+                this.updateVisual( this.$("select").val() + this._userOptions.units );
             }
 
         })
