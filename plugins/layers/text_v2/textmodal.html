@@ -2,71 +2,23 @@
     <div class="modal-title">Edit your text</div>
     <div class="modal-body">
 
-        <textarea rows="4" cols="59" maxlength="140"><%= attr.content %></textarea>
-
-        <div class="textarea-info">max 140 characters</div>
-
-        <div class="text-controls clearfix">
-<!--
-            <div class="control-module">
-                <div class="control-title">color</div>
-                <div class="color-selector">
-                    <input class="simple-color" value="<%= attr.color %>"/>
-                </div>
-            </div>
-            <a href="#" class="btnz btnz-light text-btn-bold"><i class="icon-bold"></i></a>
-            <a href="#" class="btnz btnz-light text-btn-italic"><i class="icon-italic"></i></a>
-            <a href="#" class="btnz btnz-light text-btn-align-left"><i class="icon-align-left"></i></a>
-            <a href="#" class="btnz btnz-light text-btn-align-center"><i class="icon-align-center"></i></a>
-            <a href="#" class="btnz btnz-light text-btn-align-right"><i class="icon-align-right"></i></a>
--->
-
+        <div class="top-box clearfix">
+            <textarea rows="4" cols="59" maxlength="140"><%= attr.content %></textarea>
             <select class="font-list" style=""></select>
-
-<!--
-            <div class="control-module">
-                <div class="control-title">font size</div>
-                <select class="size-list" style="">
-                    <option value="100">8</option>
-                    <option value="125">10</option>
-                    <option value="150">12</option>
-                    <option value="175">14</option>
-                    <option value="200">18</option>
-                    <option value="250">24</option>
-                    <option value="375">36</option>
-                    <option value="500">48</option>
-                    <option value="800">72</option>
-                    <option value="1600">144</option>
-                    <option value="2400">200</option>
-                    <option value="3600">300</option>
-                </select>
-            </div>
--->
-<!--
-            <div class="control-module">
-                <div class="control-title">line height</div>
-                <select class="line-height-list">
-                    <option value="1">1</option>
-                    <option value="1.25">1.25</option>
-                    <option value="1.5">1.5</option>
-                    <option value="1.75">1.75</option>
-                    <option value="2">2</option>
-                </select>
-            </div>
-
-            <div class="control-module">
-                <div class="control-title">mobile position</div>
-                <select class="text-position-list">
-                    <option value="top">top</option>
-                    <option value="middle">middle</option>
-                    <option value="bottom">bottom</option>
-                </select>
-            </div>
-            
+            <div class="textarea-info">max 140 characters</div>
         </div>
--->
-        <div class="sample-header">sample</div>
-        <div class="text-sample"><%= attr.content %></div>
+
+        <div class="bottom-box clearfix">
+            <a href="#" class="link-page action <% if ( !_.isNull( attr.to_frame )) { %>hide<% } %>"><i class="icon-plus-sign"></i> link to page</a>
+
+            <div class="page-chooser-wrapper <% if ( _.isNull( attr.to_frame )) { %>hide<% } %>">
+                <a href="#" class="link-new-page"><i class="icon-plus icon-white"></i></br>New Page</a>
+                <div class="divider">or</div>
+                <ul class="page-chooser-list clearfix"></ul>
+                <a href="#" class="unlink action"><i class="icon-minus-sign"></i> remove link</a>
+            </div>
+
+        </div>
 
         <div class="bottom-chooser clearfix">
             <a href="#" class="submit btnz btnz-submit">OK</a>

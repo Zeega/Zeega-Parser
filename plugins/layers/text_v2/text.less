@@ -1,3 +1,7 @@
+.hide {
+    display: none;
+}
+
 .visual-textv2 {
 
     white-space: pre-wrap;
@@ -40,70 +44,92 @@
 
 .text-modal {
 
+    font-size: 14px;
 
-    .text-controls {
-        margin: 20px 0 10px 0;
+    a.action:link, a.action:visited {
+        color: #333;
+    }
 
-        .control-module {
-            display: inline-block;
-            font-size: 10px;
-            color: #666;
+    a.action:hover {
+        text-decoration: underline;
+    }
 
-            select {
-                font-size: 12px;
-            }
+    .top-box {
+        margin-bottom: 10px;
 
-            &:first-child {
-                float: left;
-            }
+        textarea {
+            width: 400px;
+            resize: none;
+            float: left;
+        }
+        select {
+            float: right;
+        }
+        .textarea-info {
+            font-size: 12px;
+            color: #999;
+            float: right;
         }
     }
 
-    .sample-header {
-        margin-top: 15px;
-        font-size: 12px;
-        color: #999;
-    }
-
-    .text-sample {
-        height: 1em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-        background: #222;
-        white-space: pre;
-    }
-
-    textarea {
-        resize: none;
-        width: 553px;
-    }
-
-    .textarea-info {
-        font-size: 12px;
-        color: #999;
-        float: right;
-    }
-
-    .color-selector {
+    .link-new-page {
+        background: url(../img/tiny-stripes-dark.png);
+        height: 40px;
+        padding: 10px 0;
+        background-color: rgba(50, 205, 50, 0.75);
+        display: inline-block;
+        width: 80px;
         float: left;
-        margin-right: 4px;
+        font-size: 13px;
+        text-align: center;
+        color: white;
+        margin-top: 10px;
+        line-height: 1.5em;
+        color: white;
+
+        &.active {
+            outline: 3px solid orangered;
+        }
     }
 
-    .simpleColorChooser {
-        left: -5px !important;
+    .divider {
+        float: left;
+        width: 50px;
+        text-align: center;
+        padding-top: 30px
     }
 
-    .simpleColorDisplay {
-        background-color: rgb(204, 0, 51);
-        border: 1px solid rgb(0, 0, 0);
-        height: 20px !important;
-        cursor: pointer;
-        position: relative;
-        top: 0px;
-        border-radius: 2px;
+    .page-chooser-list {
+        width: 420px;
+        background: white;
+        overflow: auto;
+        white-space: nowrap;
+        padding: 10px 5px 0 5px;
+        float: left;
+
+        .page {
+            background: black;
+            height: 60px;
+            width: 80px;
+            margin-right: 10px;
+            white-space: nowrap;
+            display: inline-block;
+
+            a {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+            }
+            &.inactive {
+                opacity: 0.5;
+            }
+            &.active {
+                outline: 3px solid orangered;
+            }
+        }
     }
 
     .submit {
