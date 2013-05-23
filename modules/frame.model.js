@@ -126,9 +126,12 @@ function( app, Backbone, Layers, ThumbWorker ) {
             */
 
             newLayer.order[ this.id ] = this.layers.length;
+
+            app.emit("layer_added_start", newLayer );
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
                 app.status.setCurrentLayer( newLayer );
+                app.emit("layer_added_success", newLayer );
             }.bind( this ));
         },
 
@@ -154,9 +157,12 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 newLayer.order[ this.id ] = this.layers.length;
             }
             
+            app.emit("layer_added_start", newLayer );
+
             newLayer.save().success(function( response ) {
                     this.layers.add( newLayer );
                     app.status.setCurrentLayer( newLayer );
+                    app.emit("layer_added_success", newLayer );
                 }.bind( this ));
             
         },

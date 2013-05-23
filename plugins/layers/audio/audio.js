@@ -139,6 +139,7 @@ function( app, _Layer, Visual ){
                         this.listen();
                     }
                     this.model.trigger( "visual_ready", this.model.id );
+                    this.model.status.emit("audio_play", this.model );
                 });
             },
 
