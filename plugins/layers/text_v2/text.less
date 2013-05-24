@@ -1,6 +1,6 @@
 .transition( @property, @sec ) {
-    transition: @property @sec;
-    -webkit-transition: @property @sec;
+    transition: @property ease @sec;
+    -webkit-transition: @property ease @sec;
 }
 
 .hide {
@@ -47,18 +47,8 @@
 
     &.linked-layer {
         cursor: pointer;
-        .transition( all, 0.5s );
-        text-shadow: 2px 2px 0 transparent,
-                2px -2px 0 transparent,
-                -2px 2px 0 transparent,
-                -2px -2px 0 transparent;
-
         &:hover, &.link-reveal {
-            .transition( all, 0.5s );
-            text-shadow: 2px 2px 0 orangered,
-                2px -2px 0 orangered,
-                -2px 2px 0 orangered,
-                -2px -2px 0 orangered;
+            text-decoration: underline;
         }
     }
 

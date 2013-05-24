@@ -200,7 +200,12 @@ function( app, _Layer, Visual, TextModal ) {
                 });
             }
 
-            if ( this.getAttr("to_frame") ) this.$el.addClass("linked-layer");
+            if ( this.getAttr("to_frame") ) {
+                this.$el.addClass("linked-layer link-reveal");
+                setTimeout(function() {
+                    this.$el.removeClass("link-reveal");
+                }.bind( this ), 750 );
+            }
 
         },
 
