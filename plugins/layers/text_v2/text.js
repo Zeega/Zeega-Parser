@@ -292,11 +292,10 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         onClick: function() {
-            console.log("onclick!!", this.model.toJSON() )
+
             if ( this.model.mode == "editor" ) {
                 app.status.setCurrentLayer( this.model );
             } else {
-                console.log("go to frame:", this, this.getAttr("to_frame") )
                 this.model.relay.set( "current_frame", this.getAttr("to_frame") );
             }
             return false;

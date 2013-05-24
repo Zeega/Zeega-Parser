@@ -18,8 +18,7 @@ function( app ) {
 
         initialize: function() {
             // temporary hack to get latest textmodal.html to load
-            window.JST["app/zeega-parser/plugins/layers/text_v2/textmodal.html"] = null;
-            console.log("INIT TEXT MODAL", this.model );
+            // window.JST["app/zeega-parser/plugins/layers/text_v2/textmodal.html"] = null;
 
             this.saveContent = _.debounce(function() {
                 this.model.saveAttr({ content: this.$("textarea").val() });
@@ -28,9 +27,6 @@ function( app ) {
         },
 
         afterRender: function() {
-
-console.log('TEXT MODAL model: ', this.model.toJSON() )
-
             $("#main").addClass("modal");
             this.loadFonts();
             
@@ -79,9 +75,8 @@ console.log('TEXT MODAL model: ', this.model.toJSON() )
 
         closeThis: function() {
             $("#main").removeClass("modal");
-console.log("on close", !this.model.get("attr").to_frame)
+
             if ( !this.model.get("attr").to_frame ) {
-                console.log("HIDE",this.$(".page-chooser-wrapper"),this.$(".link-page-open"))
                 this.$(".page-chooser-wrapper").addClass("hide");
                 this.$(".link-page-open").removeClass("hide");
             }
@@ -134,7 +129,6 @@ console.log("on close", !this.model.get("attr").to_frame)
             $('#font-list-' + this.model.id ).ddslick({
                 height: "200px",
                 onSelected: function(data){
-                    console.log("SELECTED FONT", data)
                     this.model.setAttr({ fontFamily: data.selectedData.value });
                     this.updateSample();
                 }.bind( this )
@@ -180,7 +174,6 @@ console.log("on close", !this.model.get("attr").to_frame)
         onNewFrameSave: function( newFrame ) {
             this.model.saveAttr({ to_frame: newFrame.id });
             this.model.trigger("change:to_frame", this.model, newFrame.id );
-            // console.log('on new frame save', newFrame, this.model );
         },
 
         fetch: function( path ) {

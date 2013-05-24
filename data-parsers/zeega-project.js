@@ -23,7 +23,7 @@ function() {
                 frame.layers = _.without( frame.layers, response.sequences[0].attr.soundtrack );
             });
         }
-    }
+    };
 
     // no op. projects are already formatted
     Parser[type].parse = function( response, opts ) {
@@ -56,7 +56,7 @@ function() {
             
             endPage.id = endId;
             response.frames.push( endPage );
-            response.sequences[0].frames.push( endId )
+            response.sequences[0].frames.push( endId );
         }
 
         return response;
