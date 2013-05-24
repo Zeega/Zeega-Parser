@@ -26,6 +26,7 @@ function( app, _Layer, Visual, TextModal ) {
             top: 40,
             width: 75,
             dissolve: true,
+            to_frame: null,
 
             bold: false,
             italic: false,
@@ -199,6 +200,8 @@ function( app, _Layer, Visual, TextModal ) {
                 });
             }
 
+            if ( this.getAttr("to_frame") ) this.$el.addClass("linked-layer");
+
         },
 
         // ## TODO Simplify this - 5/3/2013
@@ -277,6 +280,21 @@ function( app, _Layer, Visual, TextModal ) {
             };
 
             this.$el.css( css );
+        },
+
+        events: {
+            "click": "onClick"
+        },
+
+        onClick: function() {
+            console.log("onclick!!", this.model.toJSON() )
+            if ( this.model.mode == "editor" ) {
+                app.status.setCurrentLayer( this.model );
+            } else {
+                console.log("go to frame:", this, this.getAttr("to_frame") )
+                this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+            }
+            return false;
         }
   });
 
