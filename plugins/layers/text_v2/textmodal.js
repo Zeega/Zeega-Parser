@@ -1,6 +1,6 @@
 define([
     "app",
-    // "ddslick"
+    "ddslick"
 ],
 
 function( app ) {
