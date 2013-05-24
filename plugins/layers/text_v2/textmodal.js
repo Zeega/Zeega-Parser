@@ -1,5 +1,6 @@
 define([
-    "app"
+    "app",
+    "ddslick"
 ],
 
 function( app ) {
@@ -19,7 +20,6 @@ function( app ) {
             // temporary hack to get latest textmodal.html to load
             window.JST["app/zeega-parser/plugins/layers/text_v2/textmodal.html"] = null;
             console.log("INIT TEXT MODAL", this.model );
-
 
             this.saveContent = _.debounce(function() {
                 this.model.saveAttr({ content: this.$("textarea").val() });
@@ -64,16 +64,10 @@ function( app ) {
             "click .modal-close": "closeThis",
             "click .submit": "submit",
             "keypress textarea": "onKeypress",
-            "change .font-list": "onChangeFont",
             "click .page" : "selectPage",
             "click .link-new-page": "selectNewPage",
             "click .link-page": "openLinkDrawer",
             "click .unlink": "unlink"
-        },
-
-        onChangeFont: function( e ) {
-            this.model.saveAttr({ fontFamily: $( e.target ).val() });
-            this.updateSample();
         },
 
         onKeypress: function( e ) {
@@ -117,11 +111,30 @@ function( app ) {
 
         loadFonts: function() {
             this.$(".font-list").empty();
+
             _.each( this.model.fontList, function( fontName ) {
-                this.$(".font-list").append("<option value='" + fontName + "'>" + fontName + "</option>");
+                var opt = $("<option value='" + fontName + "' data-nondescription='" + fontName + "'>" + fontName + "</option>");
+
+                if ( this.model.getAttr("fontFamily") == fontName ) {
+                    opt.attr("selected", "selected");
+                }
+                this.$(".font-list").append( opt );
             }, this );
 
-            this.$(".font-list").val( this.model.getAttr("fontFamily") );
+            $('#font-list-' + this.model.id ).ddslick({
+                height: "200px",
+                onSelected: function(data){
+                    console.log("SELECTED FONT", data)
+                    this.model.setAttr({ fontFamily: data.selectedData.value });
+                    this.updateSample();
+                }.bind( this )
+            });
+        },
+
+        updateSample: function() {
+            this.$("textarea").css({
+                fontFamily: this.model.getAttr("fontFamily")
+            });
         },
 
         updateVisualElement: function() {
