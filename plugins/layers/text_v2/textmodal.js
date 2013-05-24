@@ -28,6 +28,9 @@ function( app ) {
         },
 
         afterRender: function() {
+
+console.log('TEXT MODAL model: ', this.model.toJSON() )
+
             $("#main").addClass("modal");
             this.loadFonts();
             
@@ -62,12 +65,12 @@ function( app ) {
 
         events: {
             "click .modal-close": "closeThis",
-            "click .submit": "submit",
+            "click .text-modal-save": "submit",
             "keypress textarea": "onKeypress",
             "click .page" : "selectPage",
             "click .link-new-page": "selectNewPage",
-            "click .link-page": "openLinkDrawer",
-            "click .unlink": "unlink"
+            "click .link-page-open": "openLinkDrawer",
+            "click .unlink-text": "unlink"
         },
 
         onKeypress: function( e ) {
@@ -76,6 +79,13 @@ function( app ) {
 
         closeThis: function() {
             $("#main").removeClass("modal");
+console.log("on close", !this.model.get("attr").to_frame)
+            if ( !this.model.get("attr").to_frame ) {
+                console.log("HIDE",this.$(".page-chooser-wrapper"),this.$(".link-page-open"))
+                this.$(".page-chooser-wrapper").addClass("hide");
+                this.$(".link-page-open").removeClass("hide");
+            }
+
             this.$el.fadeOut(function() {
                 this.$el.attr("style", "");
                 this.remove();
