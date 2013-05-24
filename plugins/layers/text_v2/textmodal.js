@@ -28,6 +28,9 @@ function( app ) {
         },
 
         afterRender: function() {
+
+console.log('TEXT MODAL model: ', this.model.toJSON() )
+
             $("#main").addClass("modal");
             this.loadFonts();
             
@@ -67,7 +70,7 @@ function( app ) {
             "click .page" : "selectPage",
             "click .link-new-page": "selectNewPage",
             "click .link-page": "openLinkDrawer",
-            "click .unlink": "unlink"
+            "click .unlink-text": "unlink"
         },
 
         onKeypress: function( e ) {
