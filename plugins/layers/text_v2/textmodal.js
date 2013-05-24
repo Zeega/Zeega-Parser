@@ -1,6 +1,6 @@
 define([
     "app",
-    // "ddslick"
+    "ddslick"
 ],
 
 function( app ) {
@@ -65,11 +65,11 @@ console.log('TEXT MODAL model: ', this.model.toJSON() )
 
         events: {
             "click .modal-close": "closeThis",
-            "click .submit": "submit",
+            "click .text-modal-save": "submit",
             "keypress textarea": "onKeypress",
             "click .page" : "selectPage",
             "click .link-new-page": "selectNewPage",
-            "click .link-page": "openLinkDrawer",
+            "click .link-page-open": "openLinkDrawer",
             "click .unlink-text": "unlink"
         },
 
@@ -79,6 +79,13 @@ console.log('TEXT MODAL model: ', this.model.toJSON() )
 
         closeThis: function() {
             $("#main").removeClass("modal");
+console.log("on close", !this.model.get("attr").to_frame)
+            if ( !this.model.get("attr").to_frame ) {
+                console.log("HIDE",this.$(".page-chooser-wrapper"),this.$(".link-page-open"))
+                this.$(".page-chooser-wrapper").addClass("hide");
+                this.$(".link-page-open").removeClass("hide");
+            }
+
             this.$el.fadeOut(function() {
                 this.$el.attr("style", "");
                 this.remove();
