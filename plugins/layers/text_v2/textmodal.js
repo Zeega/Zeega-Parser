@@ -94,12 +94,14 @@ function( app ) {
         },
 
         unlink: function() {
+            this.selectedFrame = null;
             this.model.saveAttr({ to_frame: null });
+
             
             this.$(".page-chooser-wrapper").slideUp(function(){
                 $(this).parent().find(".link-page-open").show();
             });
-            //this.$(".link-page-open").show();
+            
         },
 
         submit: function() {
