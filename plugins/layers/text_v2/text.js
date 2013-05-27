@@ -66,9 +66,18 @@ function( app, _Layer, Visual, TextModal ) {
                     propertyName: "fontSize",
                     units: "%",
                     optionList: [
-                        { title: "small", value: 50 },
-                        { title: "medium", value: 150 },
-                        { title: "large", value: 250 }
+                        { title: "8", value: 100 },
+                        { title: "10", value: 125 },
+                        { title: "12", value: 150 },
+                        { title: "14", value: 175 },
+                        { title: "18", value: 200 },
+                        { title: "24", value: 250 },
+                        { title: "36", value: 375 },
+                        { title: "48", value: 500 },
+                        { title: "72", value: 800 },
+                        { title: "144", value: 1600 },
+                        { title: "200", value: 2400 },
+                        { title: "300", value: 3600 }
                     ]
                 }
             }
