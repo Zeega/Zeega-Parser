@@ -90,13 +90,18 @@ function( app ) {
 
         openLinkDrawer: function() {
             this.$(".page-chooser-wrapper").slideDown();
-            this.$(".link-page").hide();
+            this.$(".link-page-open").hide();
         },
 
         unlink: function() {
+            this.selectedFrame = null;
             this.model.saveAttr({ to_frame: null });
-            this.$(".page-chooser-wrapper").slideUp();
-            this.$(".link-page").show();
+
+            
+            this.$(".page-chooser-wrapper").slideUp(function(){
+                $(this).parent().find(".link-page-open").show();
+            });
+            
         },
 
         submit: function() {
