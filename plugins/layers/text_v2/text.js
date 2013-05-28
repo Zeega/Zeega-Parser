@@ -209,7 +209,8 @@ function( app, _Layer, Visual, TextModal ) {
                 });
             }
 
-            if ( !_.isNull( this.getAttr("to_frame") ) ) {
+            if ( !_.isNull( this.getAttr("to_frame")) && !_.isUndefined ( this.getAttr("to_frame") ) ) {
+
                 this.$el.addClass("linked-layer link-reveal");
                 setTimeout(function() {
                     this.$el.removeClass("link-reveal");
