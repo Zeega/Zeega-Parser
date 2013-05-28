@@ -81,8 +81,8 @@ function( app, SequenceCollection ) {
                     frames.each(function( frame, j ) {
                         frame.put({
                             // for the new advance logic
-                            // _next: frame.get("attr").advance && frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
-                            _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
+                            _next: frame.get("attr").advance && frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
+                            // _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
                             _last: frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
                         });
                     });
