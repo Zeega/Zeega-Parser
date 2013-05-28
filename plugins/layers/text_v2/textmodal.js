@@ -29,7 +29,6 @@ function( app ) {
         afterRender: function() {
             $("#main").addClass("modal");
             this.loadFonts();
-            
             this.$("textarea").focus().select();
             this.fillInPages();
         },
@@ -97,7 +96,8 @@ function( app ) {
             this.selectedFrame = null;
             this.model.saveAttr({ to_frame: null });
 
-            
+            this.model.visual.$el.removeClass("linked-layer");
+
             this.$(".page-chooser-wrapper").slideUp(function(){
                 $(this).parent().find(".link-page-open").show();
             });
@@ -112,10 +112,12 @@ function( app ) {
             if ( this.selectedFrame !== null && this.selectedFrame == "NEW_FRAME" ) {
                 this.linkToNewPage();
                 this.closeThis();
+                this.model.visual.$el.addClass("linked-layer");
             } else if ( this.selectedFrame !== null ) {
                 this.model.saveAttr({ to_frame: this.selectedFrame });
                 this.model.trigger("change:to_frame", this.model, this.selectedFrame );
                 this.closeThis();
+                this.model.visual.$el.addClass("linked-layer");
             }
         },
 
