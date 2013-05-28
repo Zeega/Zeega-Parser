@@ -181,19 +181,19 @@ function( app, _Layer, Visual ){
 
         
         window.onPlayerLoaded = function( containerId ) {
-            onPlayerLoaded[ containerId ] && onPlayerLoaded[ containerId ]();
+            var k = onPlayerLoaded[ containerId ] && onPlayerLoaded[ containerId ]();
         };
 
         window.onLoading= function( containerId, value ) {
-            onLoading[ containerId ] && onLoading[ containerId ](value);
+            var k = onLoading[ containerId ] && onLoading[ containerId ](value);
         };
 
         window.onStateChange= function( containerId, eventid, eventvalue ) {
-            onStateChange[ containerId ] && onStateChange[ containerId ](eventid, eventvalue);
+            var k = onStateChange[ containerId ] && onStateChange[ containerId ](eventid, eventvalue);
         };
 
         window.onError= function( containerId, value ) {
-          onError[ containerId ] && onError[ containerId ](value);
+            var k = onError[ containerId ] && onError[ containerId ](value);
         };
 
         Layer.Audio.Visual = Visual.extend({
