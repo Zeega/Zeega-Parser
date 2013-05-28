@@ -54,15 +54,8 @@ function( app, FrameModel, LayerCollection ) {
         // omit index to append frame
         addFrame: function( index ) {
             var newFrame, continuingLayers = [];
-            // if the sequence has persistent layers then add them to new frames!
-            if ( this.sequence.get("persistent_layers").length ) {
-                _.each( this.sequence.get("persistent_layers"), function( layerID ) {
-                    continuingLayers.push( app.project.getLayer( layerID ) );
-                });
-            }
 
             newFrame = new FrameModel({
-                layers: this.sequence.get("persistent_layers").reverse(),
                 _order: index
             });
 
