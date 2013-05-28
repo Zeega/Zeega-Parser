@@ -17,7 +17,7 @@ function( app, _Layer, Visual, TextModal ) {
             citation: false,
             color: "#FFF",
             content: "text",
-            fontSize: 100,
+            fontSize: 150,
             fontFamily: "Archivo Black",
             default_controls: true,
             left: 12.5,
@@ -26,6 +26,7 @@ function( app, _Layer, Visual, TextModal ) {
             top: 40,
             width: 75,
             dissolve: true,
+            to_frame: null,
 
             bold: false,
             italic: false,
@@ -52,7 +53,35 @@ function( app, _Layer, Visual, TextModal ) {
                     step: 0.001,
                     css: true
                 }
+            },{
+                type: "color",
+                options: {
+                    title: "color",
+                    propertyName: "color"
+                }
+            },{
+                type: "dropdown",
+                options: {
+                    title: "font size",
+                    propertyName: "fontSize",
+                    units: "%",
+                    optionList: [
+                        { title: "8", value: 100 },
+                        { title: "10", value: 125 },
+                        { title: "12", value: 150 },
+                        { title: "14", value: 175 },
+                        { title: "18", value: 200 },
+                        { title: "24", value: 250 },
+                        { title: "36", value: 375 },
+                        { title: "48", value: 500 },
+                        { title: "72", value: 800 },
+                        { title: "144", value: 1600 },
+                        { title: "200", value: 2400 },
+                        { title: "300", value: 3600 }
+                    ]
+                }
             }
+
         ],
 
         fontList: [
@@ -180,6 +209,13 @@ function( app, _Layer, Visual, TextModal ) {
                 });
             }
 
+            if ( !_.isNull( this.getAttr("to_frame")) && !_.isUndefined ( this.getAttr("to_frame") ) ) {
+                this.$el.addClass("linked-layer link-reveal");
+                setTimeout(function() {
+                    this.$el.removeClass("link-reveal");
+                }.bind( this ), 750 );
+            }
+
         },
 
         // ## TODO Simplify this - 5/3/2013
@@ -258,6 +294,20 @@ function( app, _Layer, Visual, TextModal ) {
             };
 
             this.$el.css( css );
+        },
+
+        events: {
+            "click": "onClick"
+        },
+
+        onClick: function() {
+
+            if ( this.model.mode == "editor" ) {
+                app.status.setCurrentLayer( this.model );
+            } else {
+                this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+            }
+            return false;
         }
   });
 

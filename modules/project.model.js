@@ -31,23 +31,6 @@ function( app, SequenceCollection ) {
             user_id: null
         },
 
-        defaultCoverImages: [
-            "http://giphy.com/gifs/VxbP9tLeKzazm",
-            "http://giphy.com/gifs/4lLVnnMbawnss",
-            "http://giphy.com/gifs/bq6gi8shRqgyA",
-            "http://giphy.com/gifs/BDqInV6xYl1Ju",
-            "http://giphy.com/gifs/k0ywWCPu4IlEs",
-            "http://giphy.com/gifs/Mi6gE0Qjw2dWM",
-            "http://www.musicobsessed.com/wp-content/gallery/sfmo/tv-set-funky-cuteo.gif",
-            "http://24.media.tumblr.com/tumblr_m8582nac7y1r0k830o1_500.gif",
-            "http://24.media.tumblr.com/tumblr_lnxkb8K8u61qjvkx9o1_500.gif",
-            "http://25.media.tumblr.com/tumblr_mbjwlvwO5R1reeolao1_500.gif",
-            "http://reignandpour.com/home_files/tv.gif",
-            "http://s8.favim.com/orig/72/gif-animated-gif-tv-static-glitch-Favim.com-687367.gif",
-            "http://alaingiffard.files.wordpress.com/2007/12/applaudissements-001_1173713587.gif",
-            "http://www.poly.edu/sites/polyproto.poly.edu/files/cinemaNOISE.gif"
-        ],
-
         defaultOptions: {
             preloadRadius: 2,
             attach: {}
@@ -58,9 +41,6 @@ function( app, SequenceCollection ) {
         },
 
         initialize: function( data, options ) {
-            // if ( this.get("cover_image") == "" ) {
-            //     this.set("cover_image", this.defaultCoverImages[ Math.floor( Math.random() * this.defaultCoverImages.length ) ])
-            // }
             this.options = _.defaults( options, this.defaultOptions );
             this.parser = options.parser;
             this.parseSequences();
@@ -101,8 +81,8 @@ function( app, SequenceCollection ) {
                     frames.each(function( frame, j ) {
                         frame.put({
                             // for the new advance logic
-                            // _next: frame.get("attr").advance && frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
-                            _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
+                            _next: frame.get("attr").advance && frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
+                            // _next: frames.at( j + 1 ) ? frames.at( j + 1 ).id : null,
                             _last: frames.at( j - 1 ) ? frames.at( j - 1 ).id : null
                         });
                     });
@@ -116,7 +96,7 @@ function( app, SequenceCollection ) {
                     var linksTo = [];
 
                     frame.layers.each(function( layer ) {
-                        if ( layer.get("type") == "Link" && layer.get("attr").to_frame != frame.id ) {
+                        if ( layer.get("attr").to_frame != frame.id ) {
                             var targetFrameID, targetFrame, linksFrom;
 
                             targetFrameID = layer.get("attr").to_frame;

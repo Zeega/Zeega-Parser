@@ -52,17 +52,13 @@ function( app, FrameModel, LayerCollection ) {
 
         // add frame at a specified index.
         // omit index to append frame
-        addFrame: function( index ) {
+        addFrame: function( index, skipTo ) {
             var newFrame, continuingLayers = [];
-            // if the sequence has persistent layers then add them to new frames!
-            if ( this.sequence.get("persistent_layers").length ) {
-                _.each( this.sequence.get("persistent_layers"), function( layerID ) {
-                    continuingLayers.push( app.project.getLayer( layerID ) );
-                });
-            }
+
+            skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
+            index = index == "auto" ? undefined : index;
 
             newFrame = new FrameModel({
-                layers: this.sequence.get("persistent_layers").reverse(),
                 _order: index
             });
 
@@ -70,6 +66,7 @@ function( app, FrameModel, LayerCollection ) {
             newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
             newFrame.layers.frame = newFrame;
             newFrame.listenToLayers();
+            newFrame.editorAdvanceToPage = skipTo;
 
             newFrame.save().success(function() {
                 app.project.addFrameToKey( newFrame.id, this.sequence.id );

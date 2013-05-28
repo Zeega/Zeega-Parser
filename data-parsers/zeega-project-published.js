@@ -23,10 +23,10 @@ function() {
                 frame.layers = _.without( frame.layers, response.sequences[0].attr.soundtrack );
             });
         }
-    }
+    };
 
     Parser[type].parse = function( response, opts ) {
-        var response = response.items[0].text;
+        response = response.items[0].text;
 
         removeDupeSoundtrack( response );
 
@@ -56,7 +56,7 @@ function() {
             
             endPage.id = endId;
             response.frames.push( endPage );
-            response.sequences[0].frames.push( endId )
+            response.sequences[0].frames.push( endId );
         }
 
         return response;

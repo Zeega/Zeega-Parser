@@ -1,6 +1,6 @@
 define([
     "app",
-    "simpleColorPicker"
+    "ddslick"
 ],
 
 function( app ) {
@@ -17,6 +17,9 @@ function( app ) {
         className: "text-modal overlay-dimmer ZEEGA-modal",
 
         initialize: function() {
+            // temporary hack to get latest textmodal.html to load
+            // window.JST["app/zeega-parser/plugins/layers/text_v2/textmodal.html"] = null;
+
             this.saveContent = _.debounce(function() {
                 this.model.saveAttr({ content: this.$("textarea").val() });
                 this.updateSample();
@@ -24,111 +27,45 @@ function( app ) {
         },
 
         afterRender: function() {
-            var $colorPicker = this.$(".simple-color");
-
-            $colorPicker
-                .simpleColor({
-                    livePreview: true,
-                    onCellEnter: function( hex ) {
-                        this.$(".text-sample")
-                            .css({
-                                color: "#" + hex
-                            });
-                    }.bind( this ),
-                    callback: function( hex ) {
-                        this.onChangeColor( hex );
-                    }.bind( this )
-                });
-
-            this.$("textarea").bind("input propertychange", function() {
-                this.$(".text-sample").text( this.$("textarea").val() );
-            }.bind( this )),
-
             $("#main").addClass("modal");
             this.loadFonts();
-            this.loadSize();
-            this.loadTextPosition();
-            this.loadLineHeight();
-            this.setButtonStates();
-
-            this.updateSample();
-            
             this.$("textarea").focus().select();
+            this.fillInPages();
+        },
+
+        fillInPages: function() {
+            app.status.get("currentSequence").frames.each(function( frame ) {
+                var fv = $("<li>"),
+                    bg = frame.get("thumbnail_url") === "" ? "black" :
+                        "url(" + frame.get("thumbnail_url") +") no-repeat center center";
+
+                fv.addClass("page")
+                    .data("id", frame.id )
+                    .css({
+                        background: bg,
+                        "-webkit-background-size": "cover"
+                    });
+
+                if ( app.status.get("currentFrame").id == frame.id ) {
+                    fv.addClass("inactive");
+                }
+
+                if ( this.model.getAttr("to_frame") == frame.id ) {
+                    fv.addClass("active");
+                }
+
+                this.$('.page-chooser-list').append( fv );
+            }, this );
         },
 
         events: {
             "click .modal-close": "closeThis",
-            "click .submit": "submit",
-            "click .text-btn-italic": "toggleItalics",
-            "click .text-btn-bold": "toggleBold",
-
+            "click .text-modal-save": "submit",
             "keypress textarea": "onKeypress",
-            "change .size-list": "onChangeSize",
-            "change .font-list": "onChangeFont",
-            "change .line-height-list": "onLineHeight",
-            "change .text-position-list": "onTextPosition",
-            "click .text-btn-align-left": "toggleAlignLeft",
-            "click .text-btn-align-center": "toggleAlignCenter",
-            "click .text-btn-align-right": "toggleAlignRight"
-        },
-
-        onChangeColor: function( hex ) {
-            this.model.saveAttr({ color: "#" + hex });
-            this.updateSample();
-        },
-
-        onChangeSize: function( e ) {
-            this.model.setAttr({ fontSize: $( e.target ).val() });
-            this.model.saveAttr({ fontSize: $( e.target ).val() });
-        },
-
-        onChangeFont: function( e ) {
-            this.model.saveAttr({ fontFamily: $( e.target ).val() });
-            this.updateSample();
-        },
-
-        onTextPosition: function( e ) {
-            this.model.saveAttr({ mobileTextPosition: $( e.target ).val() });
-            this.updateSample();
-        },
-
-        onLineHeight: function( e ) {
-            this.model.saveAttr({ lineHeight: $( e.target ).val() });
-            this.updateSample();
-        },
-
-        toggleItalics: function() {
-            var italic = this.model.getAttr("italic");
-
-            this.model.saveAttr({ italic: !italic });
-            this.updateSample();
-            this.setButtonStates();
-        },
-
-        toggleAlignLeft: function() {
-            this.model.saveAttr({ textAlign: "left" });
-            this.updateSample();
-            this.setButtonStates();
-        },
-
-        toggleAlignCenter: function() {
-            this.model.saveAttr({ textAlign: "center" });
-            this.updateSample();
-            this.setButtonStates();
-        },
-
-        toggleAlignRight: function() {
-            this.model.saveAttr({ textAlign: "right" });
-            this.updateSample();
-            this.setButtonStates();
-        },
-
-        toggleBold: function() {
-            var bold = this.model.getAttr("bold");
-
-            this.model.saveAttr({ bold: !bold });
-            this.updateSample();
-            this.setButtonStates();
+            "click .page" : "selectPage",
+            "click .link-new-page": "selectNewPage",
+            "click .link-page-open": "openLinkDrawer",
+            "click .unlink-text": "unlink"
         },
 
         onKeypress: function( e ) {
@@ -137,6 +74,12 @@ function( app ) {
 
         closeThis: function() {
             $("#main").removeClass("modal");
+
+            if ( !this.model.get("attr").to_frame ) {
+                this.$(".page-chooser-wrapper").addClass("hide");
+                this.$(".link-page-open").removeClass("hide");
+            }
+
             this.$el.fadeOut(function() {
                 this.$el.attr("style", "");
                 this.remove();
@@ -144,58 +87,100 @@ function( app ) {
             this.$("input").unbind("input propertychange");
         },
 
+        openLinkDrawer: function() {
+            this.$(".page-chooser-wrapper").slideDown();
+            this.$(".link-page-open").hide();
+        },
+
+        unlink: function() {
+            this.selectedFrame = null;
+            this.model.saveAttr({ to_frame: null });
+
+            this.model.visual.$el.removeClass("linked-layer");
+
+            this.$(".page-chooser-wrapper").slideUp(function(){
+                $(this).parent().find(".link-page-open").show();
+            });
+            
+        },
+
         submit: function() {
-            this.model.saveAttr({ content: this.$("textarea").val() });
+            this.model.setAttr({ content: this.$("textarea").val() });
             this.closeThis();
             this.updateVisualElement();
+
+            if ( this.selectedFrame !== null && this.selectedFrame == "NEW_FRAME" ) {
+                this.linkToNewPage();
+                this.closeThis();
+                this.model.visual.$el.addClass("linked-layer");
+            } else if ( this.selectedFrame !== null && !_.isUndefined( this.selectedFrame )) {
+                this.model.saveAttr({ to_frame: this.selectedFrame });
+                this.model.trigger("change:to_frame", this.model, this.selectedFrame );
+                this.closeThis();
+                this.model.visual.$el.addClass("linked-layer");
+            }
         },
 
         loadFonts: function() {
             this.$(".font-list").empty();
+
             _.each( this.model.fontList, function( fontName ) {
-                this.$(".font-list").append("<option value='" + fontName + "'>" + fontName + "</option>");
+                var opt = $("<option value='" + fontName + "' data-nondescription='" + fontName + "'>" + fontName + "</option>");
+
+                if ( this.model.getAttr("fontFamily") == fontName ) {
+                    opt.attr("selected", "selected");
+                }
+                this.$(".font-list").append( opt );
             }, this );
 
-            this.$(".font-list").val( this.model.getAttr("fontFamily") );
-        },
-
-        loadSize: function() {
-            this.$(".size-list").val( this.model.getAttr("fontSize") );
-        },
-
-        loadTextPosition: function() {
-            this.$(".text-position-list").val( this.model.getAttr("mobileTextPosition") );
-        },
-
-        loadLineHeight: function() {
-            this.$(".line-height-list").val( this.model.getAttr("lineHeight") );
-        },
-
-        setButtonStates: function() {
-            this.$(".active").removeClass("active");
-
-            this.$(".text-btn-bold").addClass( this.model.getAttr("bold") ? "active" : "" );
-            this.$(".text-btn-italic").addClass( this.model.getAttr("italic") ? "active" : "" );
-            this.$(".text-btn-align-left").addClass( this.model.getAttr("textAlign") == "left" ? "active" : "" );
-            this.$(".text-btn-align-center").addClass( this.model.getAttr("textAlign") == "center" ? "active" : "" );
-            this.$(".text-btn-align-right").addClass( this.model.getAttr("textAlign") == "right" ? "active" : "" );
+            $('#font-list-' + this.model.id ).ddslick({
+                height: "200px",
+                onSelected: function(data){
+                    this.model.setAttr({ fontFamily: data.selectedData.value });
+                    this.updateSample();
+                }.bind( this )
+            });
         },
 
         updateSample: function() {
-            this.$(".text-sample")
-                .css({
-                    color: "#" + this.model.getAttr("color"),
-                    fontWeight: this.model.getAttr("bold") ? "bold" : "normal",
-                    fontStyle: this.model.getAttr("italic") ? "italic" : "normal",
-                    fontFamily: this.model.getAttr("fontFamily"),
-                    textAlign: this.model.getAttr("textAlign")
-                })
-                .text( this.model.getAttr("content") );
-            this.updateVisualElement();
+            this.$("textarea").css({
+                fontFamily: this.model.getAttr("fontFamily")
+            });
         },
 
         updateVisualElement: function() {
             this.model.visual.updateStyle();
+        },
+
+        selectPage: function( e ) {
+            var $frameLI = $(e.target).closest("li");
+
+            if ( !$frameLI.hasClass("inactive") ) {
+                this.$(".page-chooser-list li.active, .link-new-page").removeClass("active");
+                $frameLI.addClass("active");
+                this.selectedFrame = $frameLI.data("id");
+            }
+
+            this.$(".submit").removeClass("btnz-inactive");
+        },
+
+        selectNewPage: function() {
+            this.$(".page-chooser-list li.active").removeClass("active");
+            this.$(".link-new-page").addClass("active");
+            this.selectedFrame = "NEW_FRAME";
+            this.$(".submit").removeClass("btnz-inactive");
+        },
+
+        linkToNewPage: function() {
+            var newFrame = app.status.get("currentSequence").frames.addFrame( "auto", false );
+
+            newFrame.once("sync", this.onNewFrameSave, this );
+            this.closeThis();
+        },
+
+        onNewFrameSave: function( newFrame ) {
+            this.model.saveAttr({ to_frame: newFrame.id });
+            this.model.trigger("change:to_frame", this.model, newFrame.id );
         },
 
         fetch: function( path ) {

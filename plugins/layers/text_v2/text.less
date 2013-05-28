@@ -1,3 +1,12 @@
+.transition( @property, @sec ) {
+    transition: @property ease @sec;
+    -webkit-transition: @property ease @sec;
+}
+
+.hide {
+    display: none;
+}
+
 .visual-textv2 {
 
     white-space: pre-wrap;
@@ -36,78 +45,233 @@
         }
     }
 
+    &.linked-layer {
+        cursor: pointer;
+        &:hover .visual-target,
+        &.link-reveal .visual-target {
+            text-decoration: underline;
+        }
+    }
+
 }
 
 .text-modal {
 
+    font-size: 14px;
 
-    .text-controls {
-        margin: 20px 0 10px 0;
+    a.action:link, a.action:visited {
+        color: #333;
+    }
 
-        .control-module {
+    a.action:hover {
+        text-decoration: underline;
+    }
+
+    .modal-body {
+        min-height: 162px !important;
+    }
+
+    .top-box {
+        margin-bottom: 10px;
+
+        textarea {
+            width: 280px;
+            height: 100px;
+            resize: none;
+            float: left;
+            font-size: 17px
+        }
+        select {
+            float: right;
+        }
+        .textarea-info {
+            font-size: 12px;
+            color: #999;
+            float: right;
+        }
+
+        .dd-container {
+            float: right;
+        }
+
+        .dd-options {
+            height: 250px;
+        }
+    }
+
+    .link-new-page {
+        background: url(../img/tiny-stripes-dark.png);
+        height: 40px;
+        padding: 10px 0;
+        background-color: rgba(50, 205, 50, 0.75);
+        display: inline-block;
+        width: 80px;
+        float: left;
+        font-size: 13px;
+        text-align: center;
+        color: white;
+        margin-top: 10px;
+        line-height: 1.5em;
+        color: white;
+
+        &.active {
+            outline: 3px solid orangered;
+        }
+    }
+
+    .divider {
+        float: left;
+        width: 50px;
+        text-align: center;
+        padding-top: 30px
+    }
+
+    .page-chooser-list {
+        width: 420px;
+        background: white;
+        overflow: auto;
+        white-space: nowrap;
+        padding: 10px 5px 0 5px;
+        float: left;
+
+        .page {
+            background: black;
+            height: 60px;
+            width: 80px;
+            margin-right: 10px;
+            white-space: nowrap;
             display: inline-block;
-            font-size: 10px;
-            color: #666;
 
-            select {
-                font-size: 12px;
+            a {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
             }
-
-            &:first-child {
-                float: left;
+            &.inactive {
+                opacity: 0.5;
+            }
+            &.active {
+                outline: 3px solid orangered;
             }
         }
     }
 
-    .sample-header {
-        margin-top: 15px;
-        font-size: 12px;
-        color: #999;
-    }
-
-    .text-sample {
-        height: 1em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 10px;
-        background: #222;
-        white-space: pre;
-    }
-
-    textarea {
-        resize: none;
-        width: 553px;
-    }
-
-    .textarea-info {
-        font-size: 12px;
-        color: #999;
+    .text-modal-save {
         float: right;
     }
 
-    .color-selector {
-        float: left;
-        margin-right: 4px;
-    }
+}
 
-    .simpleColorChooser {
-        left: -5px !important;
-    }
+[class^="font-sample-"] {
+    display: inline-block;
+    width: 200px;
+    height: 30px;
+    vertical-align: text-top;
+    background-image: url('../img/fonts-sprite.png');
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+}
 
-    .simpleColorDisplay {
-        background-color: rgb(204, 0, 51);
-        border: 1px solid rgb(0, 0, 0);
-        height: 20px !important;
-        cursor: pointer;
-        position: relative;
-        top: 0px;
-        border-radius: 2px;
-    }
+.sample-mixin( @position ) {
+    background-position: 0  (@position * -36px);
+}
 
-    .submit {
-        float: right;
-    }
-
+.font-sample-Allerta-Stencil {
+    .sample-mixin( 0 );
+}
+.font-sample-Antic {
+    .sample-mixin( 1 );
+}
+.font-sample-Archivo-Black {
+    .sample-mixin( 2 );
+}
+.font-sample-Arial {
+    .sample-mixin( 3 );
+}
+.font-sample-Bilbo-Swash-Caps {
+    .sample-mixin( 4 );
+}
+.font-sample-Cabin-Sketch {
+    .sample-mixin( 5 );
+}
+.font-sample-Codystar {
+    .sample-mixin( 6 );
+}
+.font-sample-Cutive-Mono {
+    .sample-mixin( 7 );
+}
+.font-sample-Dosis {
+    .sample-mixin( 8 );
+}
+.font-sample-Ewert {
+    .sample-mixin( 9 );
+}
+.font-sample-Fascinate {
+    .sample-mixin( 10 );
+}
+.font-sample-Faster-One {
+    .sample-mixin( 11 );
+}
+.font-sample-Finger-Paint {
+    .sample-mixin( 12 );
+}
+.font-sample-Georgia {
+    .sample-mixin( 13 );
+}
+.font-sample-Great-Vibes {
+    .sample-mixin( 14 );
+}
+.font-sample-Impact {
+    .sample-mixin( 15 );
+}
+.font-sample-Londrina-Outline {
+    .sample-mixin( 16 );
+}
+.font-sample-Londrina-Sketch {
+    .sample-mixin( 17 );
+}
+.font-sample-Monofett {
+    .sample-mixin( 18 );
+}
+.font-sample-Montserrat {
+    .sample-mixin( 19 );
+}
+.font-sample-New-Rocker {
+    .sample-mixin( 20 );
+}
+.font-sample-Nobile {
+    .sample-mixin( 21 );
+}
+.font-sample-Nova-Mono {
+    .sample-mixin( 22 );
+}
+.font-sample-Orbitron {
+    .sample-mixin( 23 );
+}
+.font-sample-Sorts-Mill-Goudy {
+    .sample-mixin( 24 );
+}
+.font-sample-Poiret-One {
+    .sample-mixin( 25 );
+}
+.font-sample-Pontano-Sans {
+    .sample-mixin( 26 );
+}
+.font-sample-Trocchi {
+    .sample-mixin( 27 );
+}
+.font-sample-Ultra {
+    .sample-mixin( 28 );
+}
+.font-sample-Verdana {
+    .sample-mixin( 29 );
+}
+.font-sample-Wendy-One {
+    .sample-mixin( 30 );
+}
+.font-sample-Yellowtail {
+    .sample-mixin( 31 );
 }
