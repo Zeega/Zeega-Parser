@@ -172,7 +172,7 @@ function( app ) {
         },
 
         linkToNewPage: function() {
-            var newFrame = app.status.get("currentSequence").frames.addFrame();
+            var newFrame = app.status.get("currentSequence").frames.addFrame( "auto", false );
 
             newFrame.once("sync", this.onNewFrameSave, this );
             this.closeThis();

@@ -52,8 +52,11 @@ function( app, FrameModel, LayerCollection ) {
 
         // add frame at a specified index.
         // omit index to append frame
-        addFrame: function( index ) {
+        addFrame: function( index, skipTo ) {
             var newFrame, continuingLayers = [];
+
+            skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
+            index = index == "auto" ? undefined : index;
 
             newFrame = new FrameModel({
                 _order: index
@@ -63,6 +66,7 @@ function( app, FrameModel, LayerCollection ) {
             newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
             newFrame.layers.frame = newFrame;
             newFrame.listenToLayers();
+            newFrame.editorAdvanceToPage = skipTo;
 
             newFrame.save().success(function() {
                 app.project.addFrameToKey( newFrame.id, this.sequence.id );
