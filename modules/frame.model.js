@@ -114,7 +114,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
 
-            this.set("attr", attr );
+            this.set("attr", this.defaults.attr );
 
             newLayer.order[ this.id ] = this.layers.length;
 
