@@ -113,7 +113,7 @@ function( app ) {
                 this.linkToNewPage();
                 this.closeThis();
                 this.model.visual.$el.addClass("linked-layer");
-            } else if ( this.selectedFrame !== null ) {
+            } else if ( this.selectedFrame !== null && !_.isUndefined( this.selectedFrame )) {
                 this.model.saveAttr({ to_frame: this.selectedFrame });
                 this.model.trigger("change:to_frame", this.model, this.selectedFrame );
                 this.closeThis();
