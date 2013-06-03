@@ -12,8 +12,7 @@ define([
     "zeega_parser/data-parsers/zeega-project-published",
     "zeega_parser/data-parsers/zeega-project-collection",
     "zeega_parser/data-parsers/zeega-collection",
-    "zeega_parser/data-parsers/flickr",
-    "zeega_parser/data-parsers/youtube"
+    "zeega_parser/data-parsers/flickr"
 ],
 function(
     zProjectModel,
@@ -21,8 +20,7 @@ function(
     zProjectPublished,
     zProjectCollection,
     zCollection,
-    flickr,
-    youtube
+    flickr
 ) {
     // extend the plugin object with all the layers
     var Parsers = {};
@@ -34,7 +32,6 @@ function(
         zProjectPublished,
         zProjectCollection,
         zCollection,
-        flickr,
-        youtube
+        flickr
     );
 });
