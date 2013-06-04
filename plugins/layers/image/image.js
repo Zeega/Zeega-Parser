@@ -95,9 +95,7 @@ function( app, Layer, Visual ){
 
             console.log("PBG", this.model.toJSON(), this.model.getAttr("page_background") );
             if ( this.model.getAttr("page_background")) {
-                _.each( this.model.pageBackgroundPositioning, function( val, key ) {
-                    this.$el.css( key, val + "%" );
-                }, this );
+                this.makePageBackground();
             }
         },
 
@@ -123,20 +121,23 @@ function( app, Layer, Visual ){
 
         visualAfterRender: function() {
             if ( this.model.getAttr("page_background")) {
-                this.$el.draggable("disable");
-                this.$el.bind("mousedown.imageDrag", function() {
-                    if ( confirm("make layer positionable?") ) {
-                        this.$el.draggable("enable");
-                        this.$el.unbind("mousedown.imageDrag")
-                        this.fitToWorkspace();
-                    }
-                }.bind( this ));
+                this.disableDrag();
             }
         },
 
+        disableDrag: function() {
+            console.log("disable drag")
+            this.$el.draggable("disable");
+            this.$el.bind("mousedown.imageDrag", function() {
+                if ( confirm("make layer positionable?") ) {
+                    this.fitToWorkspace();
+                }
+            }.bind( this ));
+        },
+
         togglePageBackgroundState: function( state ) {
-            console.log("STATE", state);
             if ( state.page_background ) {
+                this.disableDrag();
                 this.makePageBackground();
             } else {
                 this.fitToWorkspace();
@@ -153,6 +154,10 @@ function( app, Layer, Visual ){
         fitToWorkspace: function() {
             var workspaceRatio, width, height, top, left;
 
+            this.$el.unbind("mousedown.imageDrag")
+            this.$el.draggable("enable");
+
+            console.log("this", this, this.$workspace );
             workspaceRatio = this.$workspace.width() / this.$workspace.height();
 
             if ( this.getAttr("aspectRatio") > workspaceRatio ) {
