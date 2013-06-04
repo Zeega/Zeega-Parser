@@ -116,6 +116,13 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
             this.set("attr", this.defaults.attr );
 
+            /*
+            // initially set images as background images
+            if ( type == "Image") {
+
+            }
+            */
+
             newLayer.order[ this.id ] = this.layers.length;
 
             app.emit("layer_added_start", newLayer );

@@ -21,8 +21,16 @@ function( app, Layer, Visual ){
             top: 0,
             width: null,
             opacity: 1,
+            page_background: true,
             aspectRatio: null,
             dissolve: true
+        },
+
+        pageBackgroundPositioning: {
+            height: 112.67,
+            width: 236.72,
+            top: -6.57277,
+            left: -68.4375
         },
 
         controls: [
@@ -32,7 +40,8 @@ function( app, Layer, Visual ){
                 options: { aspectRatio: true }
             },
             "rotate",
-            { type: "slider",
+            {
+                type: "slider",
                 options: {
                     title: "<i class='icon-eye-open icon-white'></i>",
                     propertyName: "opacity",
@@ -40,6 +49,13 @@ function( app, Layer, Visual ){
                     max: 1,
                     step: 0.001,
                     css: true
+                }
+            },{
+                type: "checkbox",
+                options: {
+                    title: "<i class='icon-resize-full icon-white'></i>",
+                    propertyName: "page_background",
+                    triggerEvent: "toggle_page_background"
                 }
             }
         ]
@@ -60,57 +76,111 @@ function( app, Layer, Visual ){
             return this.model.toJSON();
         },
 
+        init: function() {
+            window.JST["app/zeega-parser/plugins/layers/image/image.html"] = null;
+
+            if ( this.model.getAttr("page_background")) {
+                this.visualProperties = ["opacity"];
+            }
+
+            this.model.on("toggle_page_background", this.togglePageBackgroundState, this );
+        },
+
         afterEditorRender: function() {
             // add height attribute if not already there
             // this may break if the aspect ratio changes
             if ( _.isNull( this.getAttr("aspectRatio") ) ) {
-                var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
-                    position: "absolute",
-                    top: "-1000%",
-                    left: "-1000%"
-                });
-
-                $img.imagesLoaded();
-                $img.done(function() {
-                    var width, height, top, left, imgRatio, workspaceRatio;
-
-                    imgRatio = $img.width()/ $img.height();
-                    workspaceRatio = this.$workspace.width() / this.$workspace.height();
-
-                    if ( imgRatio > workspaceRatio ) {
-                        width = this.$workspace.width();
-                        height = width / imgRatio;
-                    } else {
-                        height = this.$workspace.height();
-                        width = height * imgRatio;
-                    }
-
-                    width = width / this.$workspace.width() * 100;
-                    height = height / this.$workspace.height() * 100;
-                    top = (100 - height) / 2;
-                    left = (100 - width) / 2;
-
-
-                    $img.remove();
-
-                    this.model.saveAttr({
-                        aspectRatio: imgRatio,
-                        height: height,
-                        width: width,
-                        top: top,
-                        left: left
-                    });
-
-                    this.$el.css({
-                        height: height + "%",
-                        width: width + "%",
-                        top: top + "%",
-                        left: left + "%"
-                    });
-                }.bind( this ));
-                $("body").append( $img );
+                this.determineAspectRatio();
             }
 
+            console.log("PBG", this.model.toJSON(), this.model.getAttr("page_background") );
+            if ( this.model.getAttr("page_background")) {
+                _.each( this.model.pageBackgroundPositioning, function( val, key ) {
+                    this.$el.css( key, val + "%" );
+                }, this );
+            }
+        },
+
+        determineAspectRatio: function() {
+            var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
+                position: "absolute",
+                top: "-1000%",
+                left: "-1000%"
+            });
+
+            $img.imagesLoaded();
+            $img.done(function() {
+                var width, height, top, left, imgRatio, workspaceRatio;
+
+                this.model.saveAttr({
+                    aspectRatio: $img.width()/ $img.height()
+                });
+
+                $img.remove();
+            }.bind( this ))
+            $("body").append( $img );
+        },
+
+        visualAfterRender: function() {
+            if ( this.model.getAttr("page_background")) {
+                this.$el.draggable("disable");
+                this.$el.bind("mousedown.imageDrag", function() {
+                    if ( confirm("make layer positionable?") ) {
+                        this.$el.draggable("enable");
+                        this.$el.unbind("mousedown.imageDrag")
+                        this.fitToWorkspace();
+                    }
+                }.bind( this ));
+            }
+        },
+
+        togglePageBackgroundState: function( state ) {
+            console.log("STATE", state);
+            if ( state.page_background ) {
+                this.makePageBackground();
+            } else {
+                this.fitToWorkspace();
+            }
+        },
+
+        makePageBackground: function() {
+            _.each( this.model.pageBackgroundPositioning, function( val, key ) {
+                this.$el.css( key, val +"%" );
+            }, this );
+            this.model.saveAttr( this.model.pageBackgroundPositioning );
+        },
+
+        fitToWorkspace: function() {
+            var workspaceRatio, width, height, top, left;
+
+            workspaceRatio = this.$workspace.width() / this.$workspace.height();
+
+            if ( this.getAttr("aspectRatio") > workspaceRatio ) {
+                width = this.$workspace.width();
+                height = width / this.getAttr("aspectRatio");
+            } else {
+                height = this.$workspace.height();
+                width = height * this.getAttr("aspectRatio");
+            }
+
+            width = width / this.$workspace.width() * 100;
+            height = height / this.$workspace.height() * 100;
+            top = (100 - height) / 2;
+            left = (100 - width) / 2;
+
+            this.$el.css({
+                height: height + "%",
+                width: width + "%",
+                top: top + "%",
+                left: left + "%"
+            });
+            this.model.saveAttr({
+                page_background: false,
+                height: height,
+                width: width,
+                top: top,
+                left: left
+            });
         },
 
         verifyReady: function() {

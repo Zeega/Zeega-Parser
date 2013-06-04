@@ -11,6 +11,7 @@ function( app, SequenceCollection ) {
         frameKey: {},
 
         defaults: {
+            aspect_ratio: 0.751174,
             authors: null,
             cover_image: "",
             date_created: null,

@@ -62,27 +62,11 @@ function( app, Controls ) {
                 if ( _.contains( this._allowedControls, control.type ) ) {
                     this.$(".controls-inline").append( control.el );
                     control.render();
-                    // this.insertView( ".controls-inline", control );
                 }
             }, this );
         },
 
         beforePlayerRender: function() {},
-        // beforeRender: function() {
-        //     // working from _layer
-        //     var target = this.model.status.target ? this.model.status.target.find(".ZEEGA-player-window") :
-        //                                 $(".ZEEGA-workspace");
-
-        //     this.className = this._className + " " + this.className;
-        //     this.beforePlayerRender();
-
-        //     target.append( this.el );
-        //     //Zeega.$( target ).append( this.el );
-
-        //     this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
-        //     this.moveOffStage();
-        //     this.applyStyles();
-        // },
 
         beforeRender: function() {
             if ( this.model.mode == "player") {
