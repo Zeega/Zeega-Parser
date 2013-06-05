@@ -20,7 +20,6 @@ function() {
         
         return response.project;
 
-
     };
 
     return Parser;
