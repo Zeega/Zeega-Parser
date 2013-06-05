@@ -93,7 +93,6 @@ function( app, Layer, Visual ){
                 this.determineAspectRatio();
             }
 
-            console.log("PBG", this.model.toJSON(), this.model.getAttr("page_background") );
             if ( this.model.getAttr("page_background")) {
                 this.makePageBackground();
             }
@@ -126,8 +125,7 @@ function( app, Layer, Visual ){
         },
 
         disableDrag: function() {
-            console.log("disable drag")
-            this.$el.draggable("disable");
+            this.model.trigger("control_drag_disable");
             this.$el.bind("mousedown.imageDrag", function() {
                 if ( confirm("make layer positionable?") ) {
                     this.fitToWorkspace();
@@ -154,22 +152,21 @@ function( app, Layer, Visual ){
         fitToWorkspace: function() {
             var workspaceRatio, width, height, top, left;
 
-            this.$el.unbind("mousedown.imageDrag")
-            this.$el.draggable("enable");
+            this.$el.unbind("mousedown.imageDrag");
+            this.model.trigger("control_drag_enable");
 
-            console.log("this", this, this.$workspace );
-            workspaceRatio = this.$workspace.width() / this.$workspace.height();
+            workspaceRatio = this.$workspace().width() / this.$workspace().height();
 
             if ( this.getAttr("aspectRatio") > workspaceRatio ) {
-                width = this.$workspace.width();
+                width = this.$workspace().width();
                 height = width / this.getAttr("aspectRatio");
             } else {
-                height = this.$workspace.height();
+                height = this.$workspace().height();
                 width = height * this.getAttr("aspectRatio");
             }
 
-            width = width / this.$workspace.width() * 100;
-            height = height / this.$workspace.height() * 100;
+            width = width / this.$workspace().width() * 100;
+            height = height / this.$workspace().height() * 100;
             top = (100 - height) / 2;
             left = (100 - width) / 2;
 

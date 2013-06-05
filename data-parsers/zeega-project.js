@@ -10,7 +10,7 @@ function() {
     Parser[ type ] = { name: type };
 
     Parser[ type ].validate = function( response ) {
-        if ( response.project.sequences && response.project.frames && response.project.layers ) {
+        if ( response.project && response.project.sequences && response.project.frames && response.project.layers ) {
             return true;
         }
         return false;

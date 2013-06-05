@@ -6,7 +6,7 @@ define([
 
 function( app, Controls ) {
 
-    return app.Backbone.LayoutView.extend({
+    return app.Backbone.Layout.extend({
 
         className: function() {
             return "visual-element visual-" + this.model.get("type").toLowerCase();
@@ -16,7 +16,6 @@ function( app, Controls ) {
         controls: [],
         _allowedControls: [ "resize", "position" ],
         $visual: null,
-        $workspace: null,
 
         initialize: function() {
             this.init();
@@ -88,9 +87,12 @@ function( app, Controls ) {
             this.visualBeforeRender();
         },
 
+        $workspace: function() {
+            return this.$el.closest(".ZEEGA-workspace");
+        },
+
         afterRender: function() {
             this.$visual = this.$(".visual-target");
-            this.$workspace = this.$el.closest(".ZEEGA-workspace");
             
             if ( this.model.mode == "player") {
                 this.verifyReady();
@@ -246,7 +248,7 @@ function( app, Controls ) {
                 // Put fetch into `async-mode`.
                 done = this.async();
                 // Seek out the template asynchronously.
-                return Zeega.$.ajax({ url: Zeega.root + path }).then(function( contents ) {
+                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
                     done(
                       JST[ path ] = _.template( contents )
                     );

@@ -15,12 +15,25 @@ function( Zeega, ControlView ) {
             create: function() {
                 this.makeDraggable();
                 this.$visual.css("cursor", "move");
+                this.listen();
+            },
+
+            listen: function() {
+                this.model.on("control_drag_enable", this.dragEnable, this );
+                this.model.on("control_drag_disable", this.dragDisable, this );
+            },
+
+            dragEnable: function() {
+                this.$visualContainer.draggable("enable");
+            },
+
+            dragDisable: function() {
+                this.$visualContainer.draggable("disable");
             },
 
             makeDraggable: function() {
                 
                 if ( this.model.editorProperties.draggable ) {
-                    console.log("MAKE DRAGGABLE", this.model.id );
                     this.$visualContainer.draggable({
                         start: function( e, ui ) {
                             this.model.visual.transforming = true;
