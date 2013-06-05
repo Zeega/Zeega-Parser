@@ -114,7 +114,7 @@ function( app, Layer, Visual ){
                 });
 
                 $img.remove();
-            }.bind( this ))
+            }.bind( this ));
             $("body").append( $img );
         },
 
