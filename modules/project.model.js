@@ -188,7 +188,7 @@ function( Zeega, SequenceCollection ) {
                 }
             });
 */
-            console.log( "********", prev, next, !_.isNull( prev ) & !_.isNull( next ))
+            
             frame.put( "_connections",
                 frame.get('attr').advance || hasLink ? "none" :
                 !_.isNull( prev ) & !_.isNull( next ) ? "lr" :
