@@ -155,7 +155,6 @@ function( Zeega, SequenceCollection ) {
                     }
 
                     if( nextSequence ) {
-                        console.log(this, nextSequence );
                         preloadTargets.push( this.sequences.get( nextSequence ).get("frames")[0] );
                     }
 
@@ -210,7 +209,13 @@ function( Zeega, SequenceCollection ) {
                     _.each( _.uniq( linkedFrames ), function( frameID ) {
                         var targetFrame = this.getFrame( frameID );
                         
-                        commonLayers[ frameID ] = _.intersection( targetFrame.get("layers"), frame.get("layers") );
+                        if(targetFrame.get("layers") && frame.get("layers") && targetFrame.get("layers").length && frame.get("layers").length ){
+
+                            commonLayers[ frameID ] = _.intersection( targetFrame.get("layers"), frame.get("layers") );
+                        } else {
+                            commonLayers = [];
+                        }
+
                     }, this );
                     frame.put("common_layers", commonLayers );
                 }, this );
