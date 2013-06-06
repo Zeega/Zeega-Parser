@@ -1,7 +1,7 @@
 // layer.js
 define([
     "app",
-    "zeega_parser/plugins/controls/_all-controls"
+    "engine/plugins/controls/_all-controls"
 ],
 
 function( app, Controls ) {
@@ -240,7 +240,7 @@ function( app, Controls ) {
             // Initialize done for use in async-mode
             var done;
  
-            path = app.parserPath + "plugins/layers/"+ path + ".html";
+            path = "app/engine/plugins/layers/"+ path + ".html";
             // If cached, use the compiled template.
             if ( JST[ path ] ) {
                 return JST[ path ];

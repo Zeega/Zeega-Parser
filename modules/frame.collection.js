@@ -1,8 +1,8 @@
 // frame.js
 define([
     "app",
-    "zeega_parser/modules/frame.model",
-    "zeega_parser/modules/layer.collection"
+    "engine/modules/frame.model",
+    "engine/modules/layer.collection"
 ],
 
 function( app, FrameModel, LayerCollection ) {

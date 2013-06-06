@@ -3,8 +3,8 @@ define([
     "app",
     "lodash",
 
-    "zeega_parser/modules/project.model",
-    "zeega_parser/data-parsers/_all"
+    "engine/modules/project.model",
+    "engine/data-parsers/_all"
 ],
 
 function( Zeega, _, ProjectModel, DataParser ) {

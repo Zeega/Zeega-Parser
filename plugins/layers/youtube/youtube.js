@@ -1,7 +1,7 @@
 define([
     "app",
-    "zeega_parser/modules/layer.model",
-    "zeega_parser/modules/layer.visual.view"
+    "engine/modules/layer.model",
+    "engine/modules/layer.visual.view"
 ],
 
 function( Zeega, LayerModel, Visual ) {

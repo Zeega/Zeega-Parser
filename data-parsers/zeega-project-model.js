@@ -1,5 +1,5 @@
 define([
-    "zeega_parser/modules/project.model"
+    "engine/modules/project.model"
 ],
 
 function( ProjectModel ) {

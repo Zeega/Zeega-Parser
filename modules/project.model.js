@@ -1,6 +1,6 @@
 define([
     "app",
-    "zeega_parser/modules/sequence.collection"
+    "engine/modules/sequence.collection"
 ],
 
 function( app, SequenceCollection ) {

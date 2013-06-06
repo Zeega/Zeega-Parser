@@ -1,9 +1,9 @@
 define([
     "app",
-    "zeega_parser/modules/sequence.model",
-    "zeega_parser/modules/frame.collection",
-    "zeega_parser/modules/layer.collection",
-    "zeega_parser/plugins/layers/_all"
+    "engine/modules/sequence.model",
+    "engine/modules/frame.collection",
+    "engine/modules/layer.collection",
+    "engine/plugins/layers/_all"
 ],
 
 function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {

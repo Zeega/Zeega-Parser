@@ -7,12 +7,12 @@ this should be auto generated probably!!
 */
 
 define([
-    "zeega_parser/data-parsers/zeega-project-model",
-    "zeega_parser/data-parsers/zeega-project",
-    "zeega_parser/data-parsers/zeega-project-published",
-    "zeega_parser/data-parsers/zeega-project-collection",
-    "zeega_parser/data-parsers/zeega-collection",
-    "zeega_parser/data-parsers/flickr"
+    "engine/data-parsers/zeega-project-model",
+    "engine/data-parsers/zeega-project",
+    "engine/data-parsers/zeega-project-published",
+    "engine/data-parsers/zeega-project-collection",
+    "engine/data-parsers/zeega-collection",
+    "engine/data-parsers/flickr"
 ],
 function(
     zProjectModel,

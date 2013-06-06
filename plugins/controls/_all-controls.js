@@ -7,15 +7,15 @@ this should be auto generated probably!!
 */
 
 define([
-    "zeega_parser/plugins/controls/position/position",
-    "zeega_parser/plugins/controls/slider/slider",
-    "zeega_parser/plugins/controls/resize/resize",
-    "zeega_parser/plugins/controls/checkbox/checkbox",
-    "zeega_parser/plugins/controls/color/color",
-    "zeega_parser/plugins/controls/linkto/linkto",
-    "zeega_parser/plugins/controls/linkimage/linkimage",
-    "zeega_parser/plugins/controls/av/av",
-    "zeega_parser/plugins/controls/dropdown/dropdown"
+    "engine/plugins/controls/position/position",
+    "engine/plugins/controls/slider/slider",
+    "engine/plugins/controls/resize/resize",
+    "engine/plugins/controls/checkbox/checkbox",
+    "engine/plugins/controls/color/color",
+    "engine/plugins/controls/linkto/linkto",
+    "engine/plugins/controls/linkimage/linkimage",
+    "engine/plugins/controls/av/av",
+    "engine/plugins/controls/dropdown/dropdown"
 ],
 function(
     Position,

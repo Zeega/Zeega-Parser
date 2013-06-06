@@ -1,6 +1,6 @@
 define([
     "app",
-    "ddslick"
+    "engineVendor/ddslick"
 ],
 
 function( app ) {

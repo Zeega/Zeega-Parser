@@ -7,14 +7,14 @@ this should be auto generated probably!!
 */
 
 define([
-    "zeega_parser/plugins/layers/image/image",
-    "zeega_parser/plugins/layers/link/link",
-    "zeega_parser/plugins/layers/audio/audio",
-    "zeega_parser/plugins/layers/rectangle/rectangle",
-    "zeega_parser/plugins/layers/text/text",
-    "zeega_parser/plugins/layers/text_v2/text",
-    "zeega_parser/plugins/layers/youtube/youtube",
-    "zeega_parser/plugins/layers/end_page/endpage"
+    "engine/plugins/layers/image/image",
+    "engine/plugins/layers/link/link",
+    "engine/plugins/layers/audio/audio",
+    "engine/plugins/layers/rectangle/rectangle",
+    "engine/plugins/layers/text/text",
+    "engine/plugins/layers/text_v2/text",
+    "engine/plugins/layers/youtube/youtube",
+    "engine/plugins/layers/end_page/endpage"
 ],
 function(
     image,

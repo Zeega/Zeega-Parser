@@ -1,7 +1,7 @@
 define([
     "app",
-    "zeega_parser/modules/control.view",
-    "simpleColorPicker"
+    "engine/modules/control.view",
+    "engineVendor/jquery-simple-color/jquery.simple-color"
 ],
 
 function( app, ControlView ) {

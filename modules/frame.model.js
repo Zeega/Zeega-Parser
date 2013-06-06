@@ -2,7 +2,7 @@
 define([
     "app",
     "backbone",
-    "zeega_parser/plugins/layers/_all"
+    "engine/plugins/layers/_all"
 ],
 
 function( app, Backbone, Layers, ThumbWorker ) {

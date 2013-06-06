@@ -1,7 +1,7 @@
 // layer.js
 define([
     "app",
-    "zeega_parser/plugins/controls/_all-controls"
+    "engine/plugins/controls/_all-controls"
 ],
 
 function( app, Controls ) {

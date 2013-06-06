@@ -1,7 +1,4 @@
-define([
-
-
-    ],
+define([],
 
 function() {
     var type = "zeega-project",

@@ -1,6 +1,6 @@
 define([
     "app",
-    "zeega_parser/plugins/layers/_all"
+    "engine/plugins/layers/_all"
 ],
 
 function( app, Layers ) {

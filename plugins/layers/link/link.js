@@ -1,8 +1,8 @@
 define([
     "app",
-    "zeega_parser/modules/layer.model",
-    "zeega_parser/modules/layer.visual.view",
-    "zeega_parser/plugins/layers/link/frame-chooser"
+    "engine/modules/layer.model",
+    "engine/modules/layer.visual.view",
+    "engine/plugins/layers/link/frame-chooser"
 ],
 
 function( app, _Layer, Visual, FrameChooser ) {

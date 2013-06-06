@@ -1,6 +1,6 @@
 define([
     "app",
-    "zeega_parser/modules/control.view",
+    "engine/modules/control.view",
     "jqueryUI"
 ],
 

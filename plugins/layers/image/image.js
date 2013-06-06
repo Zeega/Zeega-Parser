@@ -1,9 +1,9 @@
 define([
     "app",
-    "zeega_parser/modules/layer.model",
-    "zeega_parser/modules/layer.visual.view",
+    "engine/modules/layer.model",
+    "engine/modules/layer.visual.view",
     //plugins
-    "plugins/jquery.imagesloaded.min"
+    "engineVendor/jquery.imagesloaded.min"
 ],
 
 function( app, Layer, Visual ){
