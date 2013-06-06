@@ -95,6 +95,7 @@ function( app, Layer, Visual ){
 
             if ( this.model.getAttr("page_background")) {
                 this.makePageBackground();
+                this.disableDrag();
             }
         },
 
@@ -116,12 +117,6 @@ function( app, Layer, Visual ){
                 $img.remove();
             }.bind( this ));
             $("body").append( $img );
-        },
-
-        visualAfterRender: function() {
-            if ( this.model.getAttr("page_background")) {
-                this.disableDrag();
-            }
         },
 
         disableDrag: function() {
