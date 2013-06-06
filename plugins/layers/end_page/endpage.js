@@ -14,10 +14,10 @@ function( app, Layer, Visual ){
 
         attr: {
             title: "End Page Layer",
-            left: 0,
-            top: 0,
-            height: 100,
-            width: 100,
+            height: 112.67,
+            width: 236.72,
+            top: -6.57277,
+            left: -68.4375,
             opacity: 1,
             aspectRatio: null,
             dissolve: true
