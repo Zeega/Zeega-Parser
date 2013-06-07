@@ -276,6 +276,14 @@ function( app, SequenceCollection ) {
 
         onProjectPublish: function( model, response ) {
             this.set({ publish_update: 0 });
+        },
+
+        parse: function( response ){
+            if( response.project ){
+                return response.project;
+            } else {
+                return response;
+            }
         }
 
     });
