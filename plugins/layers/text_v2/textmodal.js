@@ -61,7 +61,7 @@ function( app ) {
         events: {
             "click .modal-close": "closeThis",
             "click .text-modal-save": "submit",
-            "keypress textarea": "onKeypress",
+            //"keypress textarea": "onKeypress",
             "click .page" : "selectPage",
             "click .link-new-page": "selectNewPage",
             "click .link-page-open": "openLinkDrawer",
@@ -105,7 +105,8 @@ function( app ) {
         },
 
         submit: function() {
-            this.model.setAttr({ content: this.$("textarea").val() });
+            this.model.saveAttr({ content: this.$("textarea").val() });
+
             this.closeThis();
             this.updateVisualElement();
 
