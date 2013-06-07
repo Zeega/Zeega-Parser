@@ -46,7 +46,7 @@ function( app, _Layer, Visual, TextModal ) {
             },
             { type: "slider",
                 options: {
-                    title: "<i class='icon-eye-open icon-white'></i>",
+                    title: "opacity",
                     propertyName: "opacity",
                     min: 0,
                     max: 1,

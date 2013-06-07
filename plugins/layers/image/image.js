@@ -45,7 +45,7 @@ function( app, Layer, Visual, Asker ){
             {
                 type: "slider",
                 options: {
-                    title: "<i class='icon-eye-open icon-white'></i>",
+                    title: "opacity",
                     propertyName: "opacity",
                     min: 0,
                     max: 1,
@@ -55,7 +55,7 @@ function( app, Layer, Visual, Asker ){
             },{
                 type: "checkbox",
                 options: {
-                    title: "<i class='icon-resize-full icon-white'></i>",
+                    title: "fullscreen",
                     propertyName: "page_background",
                     triggerEvent: "toggle_page_background"
                 }

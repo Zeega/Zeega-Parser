@@ -7,7 +7,8 @@ function( app ) {
 
     return app.Backbone.View.extend({
 
-
+        tagName: "li",
+        
         type: "",
         parentName: "",
         propertyName: "",
