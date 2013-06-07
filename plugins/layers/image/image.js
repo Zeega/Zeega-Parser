@@ -2,11 +2,13 @@ define([
     "app",
     "engine/modules/layer.model",
     "engine/modules/layer.visual.view",
+    "modules/askers/asker",
+
     //plugins
     "engineVendor/jquery.imagesloaded.min"
 ],
 
-function( app, Layer, Visual ){
+function( app, Layer, Visual, Asker ){
 
     var L = {};
 
@@ -122,9 +124,14 @@ function( app, Layer, Visual ){
         disableDrag: function() {
             this.model.trigger("control_drag_disable");
             this.$el.bind("mousedown.imageDrag", function() {
-                if ( confirm("make layer positionable?") ) {
-                    this.fitToWorkspace();
-                }
+
+                new Asker({
+                    question: "Make this layer positionable?",
+                    okay: function() {
+                        this.fitToWorkspace();
+                    }.bind( this )
+                });
+
             }.bind( this ));
         },
 
