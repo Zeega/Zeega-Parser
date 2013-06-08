@@ -79,13 +79,16 @@ function( app, Layer, Visual, Asker ){
         },
 
         init: function() {
-            window.JST["app/zeega-parser/plugins/layers/image/image.html"] = null;
 
             if ( this.model.getAttr("page_background")) {
                 this.visualProperties = ["opacity"];
             }
 
+            this.stopListening( this.model );
             this.model.on("toggle_page_background", this.togglePageBackgroundState, this );
+            
+            this.model.off("resized");
+            this.model.on("resized", this.onResize, this );
         },
 
         afterEditorRender: function() {
@@ -98,6 +101,18 @@ function( app, Layer, Visual, Asker ){
             if ( this.model.getAttr("page_background")) {
                 this.makePageBackground();
                 this.disableDrag();
+            }
+        },
+
+        onResize: function( attr ) {
+            if ( attr.width > 100 || attr.height > 100 ) {
+                new Asker({
+                    question: "Make this layer fullscreen?",
+                    okay: function() {
+                        this.disableDrag();
+                        this.makePageBackground();
+                    }.bind( this )
+                });
             }
         },
 

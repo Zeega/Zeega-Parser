@@ -37,6 +37,8 @@ function( Zeega, ControlView ) {
                        
                         this.update( attr );
                         this.updateCSS( attr );
+
+                        this.model.trigger("resized", attr );
                     }.bind( this )
                 };
 
