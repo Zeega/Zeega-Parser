@@ -97,8 +97,8 @@ function( app, Controls ) {
             if ( this.model.mode == "player") {
                 this.verifyReady();
             } else if ( this.model.mode == "editor") {
-                this.afterEditorRender();
                 this.loadControls();
+                this.afterEditorRender();
             }
             this.applyVisualProperties();
             this.visualAfterRender();
