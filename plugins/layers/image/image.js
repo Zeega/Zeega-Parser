@@ -2,7 +2,7 @@ define([
     "app",
     "engine/modules/layer.model",
     "engine/modules/layer.visual.view",
-    "modules/askers/asker",
+    "engine/modules/askers/asker",
 
     //plugins
     "engineVendor/jquery.imagesloaded.min"
