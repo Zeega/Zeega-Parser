@@ -145,7 +145,8 @@ function( app, Layer, Visual, Asker ){
             this.$el.bind("mousedown.imageDrag", function() {
 
                 new Asker({
-                    question: "Make this layer positionable?",
+                    question: "Manually position this image?",
+                    description: "Right now the image is set to fullscreen",
                     okay: function() {
                         this.fitToWorkspace();
                     }.bind( this )
