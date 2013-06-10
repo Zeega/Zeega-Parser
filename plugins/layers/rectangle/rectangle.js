@@ -15,14 +15,19 @@ function( app, LayerModel, Visual ) {
         attr: {
             backgroundColor: "#FFFFFF",
             citation: false,
-            height: 100,
-            left: 0,
+            // height: 100,
+            // left: 0,
             linkable: false,
             opacity: 0.75,
             title: "Color Layer",
-            top: 0,
-            width: 100,
-            dissolve: true
+            // top: 0,
+            // width: 100,
+            dissolve: true,
+
+            height: 112.67,
+            width: 236.72,
+            top: -6.57277,
+            left: -68.4375
         },
 
         controls: [
