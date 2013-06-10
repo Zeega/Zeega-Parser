@@ -37,7 +37,7 @@ function( app, ControlView ) {
                         onClose: function() {
                             this.onChange();
                         }.bind( this ),
-                        callback: function( hex ) {
+                        onSelect: function( hex ) {
                             var attr = {};
 
                             attr[ this.propertyName ] = "#" + hex;
