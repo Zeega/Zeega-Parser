@@ -16,14 +16,17 @@ function( app, SequenceModel, FrameCollection, LayerCollection, LayerModels ) {
 
             // generate classed layers and add their visual counterparts
             classedLayers = _.map( layers, function( layer ) {
-                var layerModel = new LayerModels[ layer.type ]( layer );
 
-                layerModel.initVisual( LayerModels[ layer.type ] );
-                
-                return layerModel;
+                if ( LayerModels[ layer.type ]) {
+                    var layerModel = new LayerModels[ layer.type ]( layer );
+
+                    layerModel.initVisual( LayerModels[ layer.type ] );
+
+                    return layerModel;
+                }
             });
 
-            layerCollection = new LayerCollection( classedLayers );
+            layerCollection = new LayerCollection( _.compact( classedLayers ));
 
             this.each(function( sequence ) {
                 var seqFrames;
