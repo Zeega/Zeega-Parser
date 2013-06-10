@@ -105,6 +105,7 @@ function( app, Layer, Visual, Asker ){
         },
 
         onResize: function( attr ) {
+            /*
             if ( attr.width > 100 || attr.height > 100 ) {
                 new Asker({
                     question: "Make this layer fullscreen?",
@@ -114,6 +115,7 @@ function( app, Layer, Visual, Asker ){
                     }.bind( this )
                 });
             }
+            */
         },
 
         determineAspectRatio: function() {
