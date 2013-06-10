@@ -17,7 +17,7 @@ function( app, _Layer, Visual, TextModal ) {
             citation: false,
             color: "#FFF",
             content: "text",
-            fontSize: 150,
+            fontSize: 375,
             fontFamily: "Archivo Black",
             default_controls: true,
             left: 12.5,
@@ -240,7 +240,6 @@ function( app, _Layer, Visual, TextModal ) {
                 textAlign: this.model.getAttr("textAlign"),
                 lineHeight: this.model.getAttr("lineHeight") + "em"
             };
-
             this.$el.css( css );
         },
 
