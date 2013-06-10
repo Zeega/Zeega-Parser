@@ -56,6 +56,7 @@ function( app, Layer, Visual, Asker ){
                 type: "checkbox",
                 options: {
                     title: "fullscreen",
+                    save: false,
                     propertyName: "page_background",
                     triggerEvent: "toggle_page_background"
                 }
@@ -85,6 +86,7 @@ function( app, Layer, Visual, Asker ){
             }
 
             this.stopListening( this.model );
+            this.model.off("toggle_page_background");
             this.model.on("toggle_page_background", this.togglePageBackgroundState, this );
             
             this.model.off("resized");
