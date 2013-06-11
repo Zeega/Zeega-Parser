@@ -153,7 +153,7 @@ function( app, LayerModel, Visual ) {
                 top: top,
                 left: left
             });
-        },
+        }
 
   });
 
