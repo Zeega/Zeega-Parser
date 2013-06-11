@@ -37,6 +37,8 @@ function( app, Controls ) {
         initialize: function() {
             var augmentAttr = _.extend({}, this.attr, this.toJSON().attr );
 
+            this.mode = "player",
+            
             this.set("attr", augmentAttr );
             this.order = {};
         

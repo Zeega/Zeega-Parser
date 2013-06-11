@@ -193,7 +193,6 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         afterEditorRender: function() {
-
             if ( this.textModal === null ) {
                 this.textModal = new TextModal({ model: this.model });
                 if ( this.model.get("attr").content == "text" ) {
@@ -213,7 +212,7 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         launchTextModal: function() {
-            if ( !this.transforming ) {
+            if ( !this.transforming && this.model.mode == "editor" ) {
                 $("body").append( this.textModal.el );
                 this.textModal.render();
             }
@@ -258,7 +257,6 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         onMouseUp: function() {
-
             if ( this.mousedown ) {
                 this.launchTextModal();
                 if ( this.model.mode == "editor" ) {

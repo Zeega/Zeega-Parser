@@ -35,7 +35,9 @@ function( app, Controls ) {
         },
 
         onClick: function() {
-            app.status.setCurrentLayer( this.model );
+            if ( this.model.mode == "editor") {
+                app.status.setCurrentLayer( this.model );
+            }
         },
 
         /* editor fxns */
