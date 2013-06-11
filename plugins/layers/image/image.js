@@ -84,13 +84,6 @@ function( app, Layer, Visual, Asker ){
             if ( this.model.getAttr("page_background")) {
                 this.visualProperties = ["opacity"];
             }
-
-            this.stopListening( this.model );
-            this.model.off("toggle_page_background");
-            this.model.on("toggle_page_background", this.togglePageBackgroundState, this );
-            
-            this.model.off("resized");
-            this.model.on("resized", this.onResize, this );
         },
 
         afterEditorRender: function() {
@@ -104,6 +97,10 @@ function( app, Layer, Visual, Asker ){
                 this.makePageBackground();
                 this.disableDrag();
             }
+
+            this.stopListening( this.model );
+            this.model.on("toggle_page_background", this.togglePageBackgroundState, this );
+            this.model.on("resized", this.onResize, this );
         },
 
         onResize: function( attr ) {
