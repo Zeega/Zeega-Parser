@@ -208,12 +208,6 @@ function( app, _Layer, Visual, TextModal ) {
                 fontFamily: this.model.get("attr").fontFamily
             });
 
-            this.$el.unbind("mouseup");
-
-            this.$el.bind("mouseup", function() {
-                this.launchTextModal();
-            }.bind( this ));
-
             this.on("sync", function() {
                 this.updateStyle();
             });
@@ -254,17 +248,27 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         events: {
-            "click": "onClick"
+            "mousedown": "onMouseDown",
+            "mouseup": "onMouseUp"
         },
 
-        onClick: function() {
+        mousedown: false,
 
-            if ( this.model.mode == "editor" ) {
-                app.status.setCurrentLayer( this.model );
-            } else {
-                this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+        onMouseDown: function() {
+            this.mousedown = true;
+        },
+
+        onMouseUp: function() {
+
+            if ( this.mousedown ) {
+                this.launchTextModal();
+                if ( this.model.mode == "editor" ) {
+                    app.status.setCurrentLayer( this.model );
+                } else {
+                    this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+                }
             }
-            return false;
+            this.mousedown = false;
         }
   });
 

@@ -86,6 +86,7 @@ function( app ) {
         }, 500 ),
 
         updateVisual: function( value ) {
+            // console.log("UPDATE visual", this, this.$visual, value )
             this.$visual.css( this.propertyName, value );
         },
 
