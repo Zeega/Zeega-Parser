@@ -35,7 +35,7 @@ function( Zeega, ControlView ) {
                 var attr = {};
 
                 attr[ this.propertyName ] = this.$("input").is(":checked");
-                if ( this._userOptions ) this.update( attr );
+                if ( this._userOptions.save ) this.update( attr );
 
                 if ( this._userOptions.triggerEvent ) {
                     this.model.trigger( this._userOptions.triggerEvent, attr );

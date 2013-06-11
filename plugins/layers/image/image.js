@@ -162,10 +162,13 @@ function( app, Layer, Visual, Asker ){
         },
 
         makePageBackground: function() {
-            _.each( this.model.pageBackgroundPositioning, function( val, key ) {
+            var vals = _.extend({}, this.model.pageBackgroundPositioning );
+            
+            _.each( vals, function( val, key ) {
                 this.$el.css( key, val +"%" );
             }, this );
-            this.model.saveAttr( this.model.pageBackgroundPositioning );
+
+            this.model.saveAttr(_.extend({ page_background: true }, vals ));
         },
 
         fitToWorkspace: function() {
