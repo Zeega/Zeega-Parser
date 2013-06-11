@@ -140,14 +140,14 @@ function( app, Layer, Visual, Asker ){
         disableDrag: function() {
             this.model.trigger("control_drag_disable");
             this.$el.bind("mousedown.imageDrag", function() {
-
-                new Asker({
-                    question: "Manually position this image?",
-                    description: "Right now the image is set to fullscreen",
-                    okay: function() {
-                        this.fitToWorkspace();
-                    }.bind( this )
-                });
+                this.fitToWorkspace();
+                // new Asker({
+                //     question: "Manually position this image?",
+                //     description: "Right now the image is set to fullscreen",
+                //     okay: function() {
+                //         this.fitToWorkspace();
+                //     }.bind( this )
+                // });
 
             }.bind( this ));
         },
