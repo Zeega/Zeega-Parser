@@ -141,7 +141,6 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         onResize: function() {
-            console.log("ONRESIZE")
             this.$el.css({ height: "auto"});
         },
 
