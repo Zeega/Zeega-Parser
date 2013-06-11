@@ -41,7 +41,7 @@ function( app, _Layer, Visual, TextModal ) {
                 type: "resize",
                 options: {
                     aspectRatio: false,
-                    handles: "se"
+                    handles: "e"
                 }
             },
             { type: "slider",
@@ -134,6 +134,16 @@ function( app, _Layer, Visual, TextModal ) {
             "opacity",
             "lineHeight"
         ],
+
+        init: function() {
+            this.model.off("resized");
+            this.model.on("resized", this.onResize, this );
+        },
+
+        onResize: function() {
+            console.log("ONRESIZE")
+            this.$el.css({ height: "auto"});
+        },
 
         serialize: function() {
             return this.model.toJSON();
