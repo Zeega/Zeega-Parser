@@ -40,7 +40,7 @@ function( app, Layers ) {
         initSoundtrackModel: function( layers ) {
             if ( this.get("attr").soundtrack ) {
                 this.soundtrackModel = app.soundtrack = layers.get( this.get("attr").soundtrack );
-                this.soundtrackModel.status = app.status;
+                this.soundtrackModel.status = app.player.status;
             }
         },
 
