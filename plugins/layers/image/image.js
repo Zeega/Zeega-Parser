@@ -140,7 +140,9 @@ function( app, Layer, Visual, Asker ){
         disableDrag: function() {
             this.model.trigger("control_drag_disable");
             this.$el.bind("mousedown.imageDrag", function() {
-                this.fitToWorkspace();
+                if ( this.getAttr("aspectRatio") ) {
+                    this.fitToWorkspace();
+                }
                 // new Asker({
                 //     question: "Manually position this image?",
                 //     description: "Right now the image is set to fullscreen",
