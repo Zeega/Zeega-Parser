@@ -103,26 +103,16 @@ function( app, Layer, Visual, Asker ){
             this.model.on("resized", this.onResize, this );
         },
 
-        onResize: function( attr ) {
-            /*
-            if ( attr.width > 100 || attr.height > 100 ) {
-                new Asker({
-                    question: "Make this layer fullscreen?",
-                    okay: function() {
-                        this.disableDrag();
-                        this.makePageBackground();
-                    }.bind( this )
-                });
-            }
-            */
-        },
+        onResize: function( attr ) {},
 
         determineAspectRatio: function() {
-            var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
-                position: "absolute",
-                top: "-1000%",
-                left: "-1000%"
-            });
+            var $img = $("<img>")
+                .attr("src", this.getAttr("uri") )
+                .css({
+                    position: "absolute",
+                    top: "-1000%",
+                    left: "-1000%"
+                });
 
             $img.imagesLoaded();
             $img.done(function() {
@@ -143,14 +133,6 @@ function( app, Layer, Visual, Asker ){
                 if ( this.getAttr("aspectRatio") ) {
                     this.fitToWorkspace();
                 }
-                // new Asker({
-                //     question: "Manually position this image?",
-                //     description: "Right now the image is set to fullscreen",
-                //     okay: function() {
-                //         this.fitToWorkspace();
-                //     }.bind( this )
-                // });
-
             }.bind( this ));
         },
 
@@ -210,13 +192,31 @@ function( app, Layer, Visual, Asker ){
         },
 
         verifyReady: function() {
-            var img = app.$( this.$("img") ).imagesLoaded();
+            var $img = $("<img>")
+                .attr("src", this.getAttr("uri"))
+                .css({
+                    height: "1px",
+                    width: "1px",
+                    position: "absolute",
+                    left: "-1000%",
+                    top: "-1000%"
+                });
+            $("body").append( $img );
+            $img.imagesLoaded();
 
-            img.done(function() {
-                this.model.trigger( "visual_ready", this.model.id );
+            $img.done(function() {
+                if ( this.model.id == "51c0cabb14c50a0e14000012" ) {
+                    setTimeout(function() {
+                        this.model.trigger( "visual_ready", this.model.id );
+                    }.bind(this), 5000 )
+                } else {
+                    this.model.trigger( "visual_ready", this.model.id );
+                }
+                $img.remove();
             }.bind(this));
 
-            img.fail(function() {
+            $img.fail(function() {
+                $img.remove();
                 this.model.trigger( "visual_error", this.model.id );
             }.bind(this));
         }
