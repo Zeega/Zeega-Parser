@@ -7,7 +7,7 @@ function( app ) {
 
     return app.Backbone.View.extend({
 
-        template: "text_v2/textmodal",
+        template: "app/engine/plugins/layers/text_v2/textmodal",
         serialize: function() {
             return this.model.toJSON();
         },
@@ -90,20 +90,27 @@ function( app ) {
         },
 
         submit: function() {
-            this.model.setAttr({ content: this.$("textarea").val() });
             this.closeThis();
-            this.updateVisualElement();
 
-            if ( this.selectedFrame !== null && this.selectedFrame == "NEW_FRAME" ) {
-                this.linkToNewPage();
-                this.closeThis();
-                this.model.visual.$el.addClass("linked-layer");
-                this.model.save();
-            } else if ( this.selectedFrame !== null && !_.isUndefined( this.selectedFrame )) {
-                this.model.saveAttr({ to_frame: this.selectedFrame });
-                this.model.trigger("change:to_frame", this.model, this.selectedFrame );
-                this.closeThis();
-                this.model.visual.$el.addClass("linked-layer");
+            if ( this.$("textarea").val() !== "" ) {
+                this.model.setAttr({ content: this.$("textarea").val() });
+                this.updateVisualElement();
+
+                if ( this.selectedFrame !== null && this.selectedFrame == "NEW_FRAME" ) {
+                    this.linkToNewPage();
+                    this.closeThis();
+                    this.model.visual.$el.addClass("linked-layer");
+                    this.model.save();
+                } else if ( this.selectedFrame !== null && !_.isUndefined( this.selectedFrame )) {
+                    this.model.saveAttr({ to_frame: this.selectedFrame });
+                    this.model.trigger("change:to_frame", this.model, this.selectedFrame );
+                    this.closeThis();
+                    this.model.visual.$el.addClass("linked-layer");
+                }
+            } else {
+                this.model.collection.remove( this.model );
+                app.emit("layer_deleted", this.model );
+                $(".ZEEGA-control-floater").remove();
             }
         },
 
@@ -167,29 +174,6 @@ function( app ) {
         onNewFrameSave: function( newFrame ) {
             this.model.saveAttr({ to_frame: newFrame.id });
             this.model.trigger("change:to_frame", this.model, newFrame.id );
-        },
-
-        fetch: function( path ) {
-            // Initialize done for use in async-mode
-            var done;
-            // Concatenate the file extension.
-            path = app.parserPath + "plugins/layers/" + path + ".html";
-            // remove app/templates/ via regexp // hacky? yes. probably.
-            path = path.replace("app/templates/","");
-
-            // If cached, use the compiled template.
-            if ( JST[ path ] ) {
-                return JST[ path ];
-            } else {
-                // Put fetch into `async-mode`.
-                done = this.async();
-                // Seek out the template asynchronously.
-                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
-                    done(
-                      JST[ path ] = _.template( contents )
-                    );
-                });
-            }
         }
     });
 

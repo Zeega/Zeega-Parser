@@ -16,7 +16,7 @@ function( app, _Layer, Visual, TextModal ) {
         attr: {
             citation: false,
             color: "#FFF",
-            content: "text",
+            content: "",
             fontSize: 375,
             fontFamily: "Archivo Black",
             default_controls: true,
@@ -195,7 +195,7 @@ function( app, _Layer, Visual, TextModal ) {
         afterEditorRender: function() {
             if ( this.textModal === null ) {
                 this.textModal = new TextModal({ model: this.model });
-                if ( this.model.get("attr").content == "text" ) {
+                if ( this.model.get("attr").content == "" ) {
                     this.launchTextModal();
                 }
             }
