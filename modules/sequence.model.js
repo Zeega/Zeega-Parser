@@ -39,8 +39,14 @@ function( app, Layers ) {
 
         initSoundtrackModel: function( layers ) {
             if ( this.get("attr").soundtrack ) {
+
                 this.soundtrackModel = app.soundtrack = layers.get( this.get("attr").soundtrack );
-                this.soundtrackModel.status = app.player ? app.player.status : app.state;
+
+                if ( app.mode == "editor" ) {
+                    this.soundtrackModel.status = app;
+                } else {
+                    this.soundtrackModel.status = app.player ? app.player.status : app.state;
+                }
             }
         },
 
