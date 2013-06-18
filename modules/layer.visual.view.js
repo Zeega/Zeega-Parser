@@ -71,8 +71,10 @@ function( app, Controls ) {
 
         beforeRender: function() {
             if ( this.model.mode == "player") {
+                
                 var target = this.model.status.target ? this.model.status.target.find(".ZEEGA-player-window") :
-                                            $(".ZEEGA-workspace");
+                                            $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
+
 
                 this.className = this._className + " " + this.className;
                 this.beforePlayerRender();

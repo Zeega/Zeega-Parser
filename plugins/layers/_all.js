@@ -11,9 +11,7 @@ define([
     "engine/plugins/layers/link/link",
     "engine/plugins/layers/audio/audio",
     "engine/plugins/layers/rectangle/rectangle",
-    "engine/plugins/layers/text/text",
     "engine/plugins/layers/text_v2/text",
-    "engine/plugins/layers/youtube/youtube",
     "engine/plugins/layers/end_page/endpage"
 ],
 function(
@@ -21,9 +19,7 @@ function(
     link,
     audio,
     rectangle,
-    text,
     textV2,
-    youtube,
     endpage
 ) {
     var Plugins = {};
@@ -34,9 +30,7 @@ function(
         link,
         audio,
         rectangle,
-        text,
         textV2,
-        youtube,
         endpage
     );
 });
