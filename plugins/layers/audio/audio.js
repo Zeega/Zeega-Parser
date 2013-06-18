@@ -231,11 +231,11 @@ function( app, _Layer, Visual ){
             },
 
             onExit: function() {
-                this.audio.pause();
+                this.onPause();
             },
 
             destroy: function() {
-
+                this.onPause();
             },
 
             editor_onLayerEnter: function() {
@@ -243,15 +243,15 @@ function( app, _Layer, Visual ){
             },
 
             editor_onLayerExit: function() {
-
+                this.onPause();
             },
 
             playPause: function() {
                 
                 if ( this.paused ) {
-                    this.audio.play();
+                    this.onPlay();
                 } else {
-                    this.audio.pause();
+                    this.onPause();
                 }
             },
 
@@ -259,33 +259,39 @@ function( app, _Layer, Visual ){
                 var flashvars,
                     params,
                     attributes,
-                    containerId = "flash-" + this.model.id,
-                    _this = this;
+                    containerId = "flash-" + this.model.id;
 
 
-                jQuery("#audio-"+containerId).on("player-loaded", function(){
-                    _this.onPlayerLoaded();
-                }).on("loading", function( event, value ){
-                    _this.onLoading(value);
-                }).on("state-change", function( event, event_id, value ){
-                    _this.onStateChange(event_id,value);
-                });
+
+                $("#audio-"+containerId).on("player-loaded", 
+                        $.proxy(function(){
+                            this.onPlayerLoaded();
+                        }, this)
+                    ).on("loading",
+                        $.proxy(function( event, value ){
+                            this.onLoading( value );
+                        }, this)
+                    ).on("state-change", 
+                        $.proxy(function( event, event_id, value  ){
+                            this.onStateChange( event_id, value );
+                        }, this)
+                    );
 
                 // expose a callback to this scope, that is called from the global callback youtube calls
                 onPlayerLoaded[ containerId ] = function() {
                     
-                    jQuery("#audio-"+containerId).trigger( "player-loaded" );
+                    $("#audio-"+containerId).trigger( "player-loaded" );
 
-                    var src = jQuery("#audio-"+containerId).data("src"),
-                        cue_in = jQuery("#audio-"+containerId).data("cue_in");
+                    var src = $("#audio-"+containerId).data("src"),
+                        cue_in = $("#audio-"+containerId).data("cue_in");
 
                     flashvideoObject = document.getElementById (containerId);
                     onLoading[ containerId ] = function (value){
-                        jQuery("#audio-"+containerId).trigger( "loading", [ value ] );
+                        $("#audio-"+containerId).trigger( "loading", [ value ] );
                     };
 
                     onStateChange[ containerId ] = function (event_id, value){
-                        jQuery("#audio-"+containerId).trigger( "state-change", [ event_id, value ] );
+                        $("#audio-"+containerId).trigger( "state-change", [ event_id, value ] );
                     };
                     
                     flashvideoObject.sendToFlash("load", src + ',' + cue_in );
