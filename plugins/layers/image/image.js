@@ -205,13 +205,7 @@ function( app, Layer, Visual, Asker ){
             $img.imagesLoaded();
 
             $img.done(function() {
-                if ( this.model.id == "51c0cabb14c50a0e14000012" ) {
-                    setTimeout(function() {
-                        this.model.trigger( "visual_ready", this.model.id );
-                    }.bind(this), 5000 )
-                } else {
-                    this.model.trigger( "visual_ready", this.model.id );
-                }
+                this.model.trigger( "visual_ready", this.model.id );
                 $img.remove();
             }.bind(this));
 
