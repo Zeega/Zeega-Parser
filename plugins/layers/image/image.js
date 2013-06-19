@@ -211,7 +211,8 @@ function( app, Layer, Visual, Asker ){
 
             $img.fail(function() {
                 $img.remove();
-                this.model.trigger( "visual_error", this.model.id );
+                this.model.trigger("visual_error", this.model.id );
+                this.model.trigger("visual_ready", this.model.id );
             }.bind(this));
         }
     });
