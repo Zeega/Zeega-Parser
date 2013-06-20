@@ -108,11 +108,13 @@ function( app, Layer, Visual ){
         onResize: function( attr ) {},
 
         determineAspectRatio: function() {
-            var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
-                position: "absolute",
-                top: "-1000%",
-                left: "-1000%"
-            });
+            var $img = $("<img>")
+                .attr("src", this.getAttr("uri") )
+                .css({
+                    position: "absolute",
+                    top: "-1000%",
+                    left: "-1000%"
+                });
 
             $img.imagesLoaded();
             $img.done(function() {
@@ -195,14 +197,27 @@ function( app, Layer, Visual ){
         },
 
         verifyReady: function() {
-            var img = app.$( this.$("img") ).imagesLoaded();
+            var $img = $("<img>")
+                .attr("src", this.getAttr("uri"))
+                .css({
+                    height: "1px",
+                    width: "1px",
+                    position: "absolute",
+                    left: "-1000%",
+                    top: "-1000%"
+                });
+            $("body").append( $img );
+            $img.imagesLoaded();
 
-            img.done(function() {
+            $img.done(function() {
                 this.model.trigger( "visual_ready", this.model.id );
+                $img.remove();
             }.bind(this));
 
-            img.fail(function() {
-                this.model.trigger( "visual_error", this.model.id );
+            $img.fail(function() {
+                $img.remove();
+                this.model.trigger("visual_error", this.model.id );
+                this.model.trigger("visual_ready", this.model.id );
             }.bind(this));
         }
     });
