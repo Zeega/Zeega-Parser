@@ -2,13 +2,12 @@ define([
     "app",
     "engine/modules/layer.model",
     "engine/modules/layer.visual.view",
-    "engine/modules/askers/asker",
 
     //plugins
     "engineVendor/jquery.imagesloaded.min"
 ],
 
-function( app, Layer, Visual, Asker ){
+function( app, Layer, Visual ){
 
     var L = {};
 
@@ -89,7 +88,10 @@ function( app, Layer, Visual, Asker ){
         afterEditorRender: function() {
             // add height attribute if not already there
             // this may break if the aspect ratio changes
-            if ( _.isNull( this.getAttr("aspectRatio") ) ) {
+
+            this.aspectRatio = this.getAttr("aspectRatio")
+
+            if ( _.isNull( this.aspectRatio ) ) {
                 this.determineAspectRatio();
             }
 
@@ -103,19 +105,7 @@ function( app, Layer, Visual, Asker ){
             this.model.on("resized", this.onResize, this );
         },
 
-        onResize: function( attr ) {
-            /*
-            if ( attr.width > 100 || attr.height > 100 ) {
-                new Asker({
-                    question: "Make this layer fullscreen?",
-                    okay: function() {
-                        this.disableDrag();
-                        this.makePageBackground();
-                    }.bind( this )
-                });
-            }
-            */
-        },
+        onResize: function( attr ) {},
 
         determineAspectRatio: function() {
             var $img = $("<img>").attr("src", this.getAttr("uri") ).css({
@@ -131,6 +121,7 @@ function( app, Layer, Visual, Asker ){
                 this.model.saveAttr({
                     aspectRatio: $img.width()/ $img.height()
                 });
+                this.aspectRatio = $img.width()/ $img.height();
 
                 $img.remove();
             }.bind( this ));
@@ -143,18 +134,11 @@ function( app, Layer, Visual, Asker ){
                 if ( this.getAttr("aspectRatio") ) {
                     this.fitToWorkspace();
                 }
-                // new Asker({
-                //     question: "Manually position this image?",
-                //     description: "Right now the image is set to fullscreen",
-                //     okay: function() {
-                //         this.fitToWorkspace();
-                //     }.bind( this )
-                // });
-
             }.bind( this ));
         },
 
         togglePageBackgroundState: function( state ) {
+
             if ( state.page_background ) {
                 this.disableDrag();
                 this.makePageBackground();
@@ -181,12 +165,12 @@ function( app, Layer, Visual, Asker ){
 
             workspaceRatio = this.$workspace().width() / this.$workspace().height();
 
-            if ( this.getAttr("aspectRatio") > workspaceRatio ) {
+            if ( this.aspectRatio > workspaceRatio ) {
                 width = this.$workspace().width();
-                height = width / this.getAttr("aspectRatio");
+                height = width / this.aspectRatio;
             } else {
                 height = this.$workspace().height();
-                width = height * this.getAttr("aspectRatio");
+                width = height * this.aspectRatio;
             }
 
             width = width / this.$workspace().width() * 100;
@@ -201,6 +185,7 @@ function( app, Layer, Visual, Asker ){
                 left: left + "%"
             });
             this.model.saveAttr({
+                aspectRatio: this.aspectRatio,
                 page_background: false,
                 height: height,
                 width: width,
