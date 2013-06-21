@@ -8,6 +8,7 @@ function( app, Layers ) {
     return app.Backbone.Model.extend({
 
         soundtrackModel: null,
+        modelType: "sequence",
 
         defaults: {
             advance_to: null,
@@ -85,22 +86,23 @@ function( app, Layers ) {
                 if ( _.isArray( attr ) ) {
                     attr = {};
                 }
-
+                app.emit("soundtrack_added_success", newLayer);
                 this.soundtrackModel = newLayer;
                 attr.soundtrack = newLayer.id;
                 this.set("attr", attr );
                 view.setSoundtrackLayer( newLayer );
-
                 this.lazySave();
+
             }.bind( this ));
         },
 
         removeSoundtrack: function( layer ) {
             var attr = this.get("attr");
-
+            app.emit("soundtrack_delete", layer);
             layer.destroy();
             attr.soundtrack = false;
             this.set("attr", attr );
+
         },
 
         persistLayer: function( layer ) {

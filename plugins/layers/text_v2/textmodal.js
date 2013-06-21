@@ -132,6 +132,7 @@ function( app ) {
                 onSelected: function(data){
                     this.model.setAttr({ fontFamily: data.selectedData.value });
                     this.updateSample();
+
                 }.bind( this )
             });
         },
@@ -139,6 +140,9 @@ function( app ) {
         updateSample: function() {
             this.$("textarea").css({
                 fontFamily: this.model.getAttr("fontFamily")
+            });
+            app.emit("layer_font_change", {
+                font: this.model.getAttr("fontFamily")
             });
         },
 
