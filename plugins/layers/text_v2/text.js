@@ -195,7 +195,7 @@ function( app, _Layer, Visual, TextModal ) {
         afterEditorRender: function() {
             if ( this.textModal === null ) {
                 this.textModal = new TextModal({ model: this.model });
-                if ( this.model.get("attr").content == "" ) {
+                if ( this.model.get("attr").content === "" ) {
                     this.launchTextModal();
                 }
             }

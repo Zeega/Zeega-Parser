@@ -238,6 +238,8 @@ function( app, Backbone, Layers, ThumbWorker ) {
             // if frame is completely loaded, then just render it
             // else try preloading the layers
             if ( this.ready ) {
+
+                app.spinner.stop();
                 // only render non-common layers. allows for persistent layers
                 commonLayers = this.get("common_layers")[ oldID ] || [];
                 // if the frame is "ready", then just render the layers
@@ -257,7 +259,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
             } else {
                 this.renderOnReady = oldID;
-                app.spinner.spin( app.$(".ZEEGA-player")[0] );
+                app.spinner.spin( $(".ZEEGA-player-window")[0] );
             }
             /* determines the z-index of the layer in relation to other layers on the frame */
             _.each( this.get("layers"), function( layerID, i ) {
@@ -343,6 +345,8 @@ function( app, Backbone, Layers, ThumbWorker ) {
                     layer.exit();
                 }
             });
+
+            this.renderOnReady = null;
         },
 
         unrender: function( newID ) {

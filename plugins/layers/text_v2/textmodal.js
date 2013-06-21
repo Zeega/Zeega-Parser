@@ -100,13 +100,14 @@ function( app ) {
                     this.linkToNewPage();
                     this.closeThis();
                     this.model.visual.$el.addClass("linked-layer");
-                    this.model.save();
+                    // this.model.save();
                 } else if ( this.selectedFrame !== null && !_.isUndefined( this.selectedFrame )) {
-                    this.model.saveAttr({ to_frame: this.selectedFrame });
+                    this.model.setAttr({ to_frame: this.selectedFrame });
                     this.model.trigger("change:to_frame", this.model, this.selectedFrame );
                     this.closeThis();
                     this.model.visual.$el.addClass("linked-layer");
                 }
+                this.model.save();
             } else {
                 this.model.collection.remove( this.model );
                 app.emit("layer_deleted", this.model );
