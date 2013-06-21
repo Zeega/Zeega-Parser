@@ -13,6 +13,7 @@ function( app, _Layer, Visual ){
     Layer.Audio = _Layer.extend({
 
         layerType: "Audio",
+        modelType: "layer",
 
         canplay: false,
 

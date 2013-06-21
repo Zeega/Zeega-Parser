@@ -14,6 +14,7 @@ function( app, Controls ) {
         order: [],
         controls: [],
         visual: null,
+        modelType: "layer",
 
         editorProperties: {
             draggable: true

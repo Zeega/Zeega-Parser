@@ -9,6 +9,7 @@ function( app, SequenceCollection ) {
 
         updated: false,
         frameKey: {},
+        modelType: "project",
 
         defaults: {
             aspect_ratio: 0.751174,

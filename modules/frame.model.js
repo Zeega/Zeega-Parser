@@ -14,6 +14,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
         state: "waiting",
         hasPlayed: false,
         elapsed: 0,
+        modelType: "frame",
 
         // frame render as soon as it's loaded. used primarily for the initial frame
         renderOnReady: null,
