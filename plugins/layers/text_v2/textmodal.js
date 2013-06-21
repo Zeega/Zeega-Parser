@@ -130,7 +130,14 @@ function( app ) {
             $('#font-list-' + this.model.id ).ddslick({
                 height: "200px",
                 onSelected: function(data){
+                    if(this.model.getAttr("fontFamily") != data.selectedData.value ){
+                        app.emit("layer_font_change", {
+                            font: data.selectedData.value
+                        });
+                    }
+
                     this.model.setAttr({ fontFamily: data.selectedData.value });
+
                     this.updateSample();
 
                 }.bind( this )
