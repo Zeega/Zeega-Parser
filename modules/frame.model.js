@@ -116,14 +116,12 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
             this.set("attr", this.defaults.attr );
 
-            /*
-            // initially set images as background images
-            if ( type == "Image") {
-
-            }
-            */
-
             newLayer.order[ this.id ] = this.layers.length;
+
+            // set image layer opacity to 0.5 for layers on top of other layers
+            if ( this.layers.length && newLayer.get("type") != "TextV2") {
+                newLayer.setAttr({ opacity: 0.5 });
+            }
 
             app.emit("layer_added_start", newLayer );
             newLayer.save().success(function( response ) {
@@ -138,23 +136,13 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 type: item.get("layer_type"),
                 attr: _.extend({}, item.toJSON() )
             });
-            var oldYoutube = this.layers.find(function(layer){ return layer.get("type") == "Youtube"; });
-                
 
-            if ( newLayer.get("type") == "Youtube" ){
-                if( oldYoutube ){
-                    oldYoutube.trigger("remove");
-                    this.layers.remove( oldYoutube, { silent: true } );
-                }
-                newLayer.order [ this.id ] = 100;
-                newLayer.status = this.status;
-            } else{
-                if( oldYoutube ){
-                    oldYoutube.order[ this.id ] = 100;
-                }
-                newLayer.order[ this.id ] = this.layers.length;
+            // set image layer opacity to 0.5 for layers on top of other layers
+            if ( this.layers.length && newLayer.get("type") != "TextV2") {
+                newLayer.setAttr({ opacity: 0.5 });
             }
-            
+
+            newLayer.order[ this.id ] = this.layers.length;
             app.emit("layer_added_start", newLayer );
 
             newLayer.save().success(function( response ) {

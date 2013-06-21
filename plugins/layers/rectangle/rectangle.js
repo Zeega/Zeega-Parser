@@ -18,7 +18,7 @@ function( app, LayerModel, Visual ) {
             // height: 100,
             // left: 0,
             linkable: false,
-            opacity: 0.75,
+            opacity: 1,
             title: "Color Filter",
             // top: 0,
             // width: 100,
