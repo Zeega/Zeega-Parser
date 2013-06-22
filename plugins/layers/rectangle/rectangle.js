@@ -119,8 +119,10 @@ function( app, LayerModel, Visual ) {
             if ( state.page_background ) {
                 this.disableDrag();
                 this.makePageBackground();
+                app.emit("toggle_page_background", { type:"filter", state: "fit-to-page", action: "toggle-button" });
             } else {
                 this.fitToWorkspace();
+                app.emit("toggle_page_background", { type:"filter", state: "fit-to-page", action: "toggle-button" });
             }
         },
 

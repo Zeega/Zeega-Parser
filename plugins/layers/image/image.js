@@ -135,6 +135,7 @@ function( app, Layer, Visual ){
             this.$el.bind("mousedown.imageDrag", function() {
                 if ( this.getAttr("aspectRatio") ) {
                     this.fitToWorkspace();
+                    app.emit("toggle_page_background", { type:"image", state: "fit-to-page", action: "drag" });
                 }
             }.bind( this ));
         },
@@ -144,8 +145,10 @@ function( app, Layer, Visual ){
             if ( state.page_background ) {
                 this.disableDrag();
                 this.makePageBackground();
+                app.emit("toggle_page_background", { type:"image", state: "background", action: "toggle-button" });
             } else {
                 this.fitToWorkspace();
+                app.emit("toggle_page_background", { type:"image", state: "fit-to-page", action: "toggle-button" });
             }
         },
 

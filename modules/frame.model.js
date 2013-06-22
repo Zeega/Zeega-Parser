@@ -132,7 +132,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
             }.bind( this ));
         },
 
-        addLayerByItem: function( item ) {
+        addLayerByItem: function( item, eventData ) {
             var newLayer = new Layers[ item.get("layer_type") ]({
                 type: item.get("layer_type"),
                 attr: _.extend({}, item.toJSON() )
@@ -144,6 +144,8 @@ function( app, Backbone, Layers, ThumbWorker ) {
             }
 
             newLayer.order[ this.id ] = this.layers.length;
+            
+            newLayer.eventData = eventData;
             app.emit("layer_added_start", newLayer );
 
             newLayer.save().success(function( response ) {
