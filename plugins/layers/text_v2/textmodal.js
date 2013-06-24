@@ -73,8 +73,10 @@ function( app ) {
         },
 
         openLinkDrawer: function() {
+
             this.$(".page-chooser-wrapper").slideDown();
             this.$(".link-page-open").hide();
+            app.emit("init_link", this.model );
         },
 
         unlink: function() {
@@ -86,6 +88,7 @@ function( app ) {
             this.$(".page-chooser-wrapper").slideUp(function(){
                 $(this).parent().find(".link-page-open").show();
             });
+            app.emit("unlink", this.model );
             
         },
 
@@ -131,6 +134,7 @@ function( app ) {
                 height: "200px",
                 onSelected: function(data){
                     if(this.model.getAttr("fontFamily") != data.selectedData.value ){
+                        console.log(this.model.getAttr("fontFamily"),data.selectedData.value )
                         app.emit("layer_font_change", {
                             font: data.selectedData.value
                         });
@@ -148,9 +152,6 @@ function( app ) {
             this.$("textarea").css({
                 fontFamily: this.model.getAttr("fontFamily")
             });
-            app.emit("layer_font_change", {
-                font: this.model.getAttr("fontFamily")
-            });
         },
 
         updateVisualElement: function() {
@@ -158,6 +159,7 @@ function( app ) {
         },
 
         selectPage: function( e ) {
+            app.emit("select_link_page", this.model );
             var $frameLI = $(e.target).closest("li");
 
             if ( !$frameLI.hasClass("inactive") ) {
@@ -177,6 +179,7 @@ function( app ) {
         },
 
         linkToNewPage: function() {
+            app.emit("link_new_page", this.model );
             var newFrame = app.status.get("currentSequence").frames.addFrame( "auto", false );
 
             newFrame.once("sync", this.onNewFrameSave, this );
