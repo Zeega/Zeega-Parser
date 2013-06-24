@@ -58,7 +58,7 @@ function( app, Layers ) {
             this.frames.sort();
         },
 
-        setSoundtrack: function( item, view ) {
+        setSoundtrack: function( item, view, eventData ) {
             var newLayer, oldlayer;
 
             oldLayer = app.project.getLayer( this.get("attr").soundtrack );
@@ -79,7 +79,7 @@ function( app, Layers ) {
                 item.toJSON())
             );
 
-
+            newLayer.eventData = eventData;
             newLayer.save().success(function( response ) {
                 var attr = this.get("attr");
 
