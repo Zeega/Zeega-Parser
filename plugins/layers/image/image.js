@@ -89,7 +89,7 @@ function( app, Layer, Visual ){
             // add height attribute if not already there
             // this may break if the aspect ratio changes
 
-            this.aspectRatio = this.getAttr("aspectRatio")
+            this.aspectRatio = this.getAttr("aspectRatio");
 
             if ( _.isNull( this.aspectRatio ) ) {
                 this.determineAspectRatio();
