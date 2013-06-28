@@ -80,6 +80,17 @@ function( app, Layer, Visual ){
 
         init: function() {
 
+            if( app.mobile && this.model.get("attr") && this.model.get("attr").archive == "Giphy" ){
+                
+                var attr = this.model.get("attr");
+
+                attr.uri = attr.uri.replace("giphy.gif", "200w.gif");
+                attr.uri = attr.uri.replace("original.gif", "200w.gif");
+    
+                this.model.set("attr", attr );
+            
+            }
+
             if ( this.model.getAttr("page_background")) {
                 this.visualProperties = ["opacity"];
             }
