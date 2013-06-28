@@ -80,7 +80,7 @@ function( app, Layer, Visual ){
 
         init: function() {
 
-            if( app.mobile && this.model.get("attr") && this.model.get("attr").archive == "Giphy" ){
+            if( this.model.get("attr") && this.model.get("attr").uri.indexOf("giphy") > 0 ){
                 
                 var attr = this.model.get("attr");
 
