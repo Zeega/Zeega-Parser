@@ -46,6 +46,7 @@ function( app, SequenceCollection ) {
             this.options = _.defaults( options, this.defaultOptions );
             this.parser = options.parser;
             this.parseSequences();
+            this.initSaveEvents();
         },
 
         parseSequences: function() {
