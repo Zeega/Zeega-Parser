@@ -88,6 +88,8 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 });
 
             }, 1000);
+
+            this.initSaveEvents();
         },
 
 // editor
