@@ -21,7 +21,6 @@ function( app, Controls ) {
             this.init();
 
             if ( this.model.mode == "editor" ) {
-                console.log("sadfasdfdsaf")
                 this.model.off("blur focus");
                 this.model.on("focus", this.onFocus, this );
                 this.model.on("blur", this.onBlur, this );
