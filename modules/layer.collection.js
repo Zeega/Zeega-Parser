@@ -19,7 +19,8 @@ function( app, Layers ) {
         },
 
         onAdd: function( layer ) {
-            if( app.mode != "player" ){
+
+            if( layer.mode == "editor" ){
                 if ( layer ) {
                     layer.addCollection( this );
                     layer.initVisual( Layers[ layer.get("type") ]);

@@ -38,7 +38,7 @@ function( app, Controls ) {
         initialize: function( attr, opt ) {
             var augmentAttr = _.extend({}, this.attr, this.toJSON().attr );
 
-            this.mode = opt.mode;
+            // this.mode = opt.mode || this.mode;
             
             this.set("attr", augmentAttr );
             this.order = {};
