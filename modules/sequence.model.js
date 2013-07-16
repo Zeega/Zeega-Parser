@@ -36,6 +36,7 @@ function( app, Layers ) {
             this.lazySave = _.debounce(function() {
                 this.save();
             }.bind( this ), 1000 );
+            // this.initSaveEvents();
         },
 
         initSoundtrackModel: function( layers ) {
