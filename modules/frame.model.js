@@ -15,6 +15,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
         hasPlayed: false,
         elapsed: 0,
         modelType: "frame",
+        mode: "editor",
 
         // frame render as soon as it's loaded. used primarily for the initial frame
         renderOnReady: null,
@@ -59,7 +60,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
         startThumbWorker: null,
 
         initialize: function() {
-
+            this.mode = this.collection.mode;
             this.lazySave = _.debounce(function() {
                 this.save();
             }.bind( this ), 1000 );
@@ -92,9 +93,11 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
 // editor
         listenToLayers: function() {
-            this.stopListening( this.layers );
-            this.layers.on("sort", this.onLayerSort, this );
-            this.layers.on("add remove", this.onLayerAddRemove, this );
+            if ( this.mode == "editor ") {
+                this.stopListening( this.layers );
+                this.layers.on("sort", this.onLayerSort, this );
+                this.layers.on("add remove", this.onLayerAddRemove, this );
+            }
         },
 
         onLayerAddRemove: function() {
@@ -215,7 +218,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
             } else if ( !this.ready && !isFrameReady ) {
                 this.layers.each(function( layer ) {
                     if ( layer.state === "waiting" || layer.state === "loading" ) {
-                        layer.on( "layer_ready", this.onLayerReady, this );
+                        layer.once( "layer_ready", this.onLayerReady, this );
                         layer.render();
                     }
                 }, this );

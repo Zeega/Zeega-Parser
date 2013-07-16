@@ -10,7 +10,7 @@ function( app, Controls ) {
         ready: false,
         state: "waiting", // waiting, loading, ready, destroyed, error
 
-        mode: "player",
+        mode: "editor",
         order: [],
         controls: [],
         visual: null,
@@ -35,16 +35,16 @@ function( app, Controls ) {
             }
         },
 
-        initialize: function() {
+        initialize: function( attr, opt ) {
             var augmentAttr = _.extend({}, this.attr, this.toJSON().attr );
 
-            this.mode = "player",
+            this.mode = opt.mode;
             
             this.set("attr", augmentAttr );
             this.order = {};
         
-            this.on( "visual_ready", this.onVisualReady, this );
-            this.on( "visual_error", this.onVisualError, this );
+            this.once( "visual_ready", this.onVisualReady, this );
+            this.once( "visual_error", this.onVisualError, this );
         },
 
         getAttr: function( attrName ) {
@@ -73,8 +73,10 @@ function( app, Controls ) {
         },
 
         addCollection: function( collection ) {
-            this.collection = collection;
-            this.collection.on("sort", this.onSort, this );
+            if ( this.mode == "editor" ) {
+                this.collection = collection;
+                this.collection.on("sort", this.onSort, this );
+            }
         },
 
         // when the parent collection is resorted as in a layer shuffle

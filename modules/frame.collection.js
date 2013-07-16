@@ -10,11 +10,17 @@ function( app, FrameModel, LayerCollection ) {
     return app.Backbone.Collection.extend({
         model: FrameModel,
 
-        initialize: function() {
-            if ( app.mode != "player") {
-                this.on("add", this.onFrameAdd, this );
-                this.on("remove", this.onFrameRemove, this );
-            }
+        mode: "editor",
+
+        setMode: function( mode ) {
+            this.mode = mode;
+
+            if ( mode == "editor") this.initEditor();
+        },
+
+        initEditor: function() {
+            this.on("add", this.onFrameAdd, this );
+            this.on("remove", this.onFrameRemove, this );
         },
 
         initLayers: function( layerCollection, options ) {

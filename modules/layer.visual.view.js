@@ -19,14 +19,18 @@ function( app, Controls ) {
 
         initialize: function() {
             this.init();
-            this.model.off("blur focus");
-            this.model.on("focus", this.onFocus, this );
-            this.model.on("blur", this.onBlur, this );
 
-            this.listenToFrame = _.once(function() {
-                this.model.collection.frame.on("focus", this.editor_onLayerEnter, this );
-                this.model.collection.frame.on("blur", this.editor_onLayerExit, this );
-            }.bind( this ));
+            if ( this.model.mode == "editor" ) {
+                console.log("sadfasdfdsaf")
+                this.model.off("blur focus");
+                this.model.on("focus", this.onFocus, this );
+                this.model.on("blur", this.onBlur, this );
+
+                this.listenToFrame = _.once(function() {
+                    this.model.collection.frame.on("focus", this.editor_onLayerEnter, this );
+                    this.model.collection.frame.on("blur", this.editor_onLayerExit, this );
+                }.bind( this ));
+            }
         },
 
         events: {},

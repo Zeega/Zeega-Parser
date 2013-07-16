@@ -14,7 +14,6 @@ function() {
         return false;
     };
 
-
     // cleanses bad data from legacy projects
     var removeDupeSoundtrack = function( response ) {
         
@@ -27,7 +26,6 @@ function() {
 
     Parser[type].parse = function( response, opts ) {
         response = response.items[0].text;
-
         removeDupeSoundtrack( response );
 
         if ( opts.endPage ) {

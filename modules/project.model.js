@@ -26,6 +26,7 @@ function( app, SequenceCollection ) {
             item_id: null,
             layers: [],
             location: null,
+            mode: "editor",
             published: true,
             sequences: [],
             tags: "",
@@ -50,6 +51,7 @@ function( app, SequenceCollection ) {
 
         parseSequences: function() {
             this.sequences = new SequenceCollection( this.get("sequences") );
+            this.sequences.mode = this.options.mode;
 
             this.sequences.initFrames( this.get("frames"), this.get("layers"), this.options );
 
