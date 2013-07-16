@@ -20,7 +20,6 @@ function( app, SequenceCollection ) {
             date_updated: null,
             description: null,
             enabled: true,
-            estimated_time: null,
             frames: [],
             id: null,
             item_id: null,
@@ -28,6 +27,18 @@ function( app, SequenceCollection ) {
             location: null,
             mode: "editor",
             published: true,
+
+            // remix: null, // default
+
+            // for remix testing
+            remix: {
+                username: "Justin Bieber",
+                displayname: "jBeebz",
+                user_profile_image: "http://media0.giphy.com/media/10E6FjHheLtKWQ/original.gif",
+                zeega_id: "99999",
+                zeega_cover_image: "http://media3.giphy.com/media/103WrEimC8qFAQ/original.gif"
+            },
+
             sequences: [],
             tags: "",
             title: "Untitled",
@@ -47,7 +58,9 @@ function( app, SequenceCollection ) {
             this.options = _.defaults( options, this.defaultOptions );
             this.parser = options.parser;
             this.parseSequences();
-            // this.initSaveEvents();
+            this.initSaveEvents();
+
+            console.log("init:", this, app)
         },
 
         parseSequences: function() {

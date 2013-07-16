@@ -90,7 +90,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
             }, 1000);
 
-            // this.initSaveEvents();
+            this.initSaveEvents();
         },
 
         // editor

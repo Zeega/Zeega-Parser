@@ -17,17 +17,16 @@ function( Zeega, _, ProjectModel, DataParser ) {
         // determine which parser to use
         _.each( DataParser, function( p ) {
             if ( p.validate( data ) ) {
-                if ( options.debugEvents ) {
-                    console.log( "parsed using: " + p.name );
-                }
-                options.parser = p.name;
 
+                if ( options.debugEvents ) console.log( "parsed using: " + p.name );
+
+                options.parser = p.name;
                 // parse the data
                 parsed = p.parse( data, options );
                 return false;
             }
         }, this );
-
+console.log("parsed:", parsed)
         if ( parsed !== undefined ) {
             return new ProjectModel( parsed, options );
         } else {

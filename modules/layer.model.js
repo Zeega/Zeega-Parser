@@ -45,7 +45,7 @@ function( app, Controls ) {
         
             this.once( "visual_ready", this.onVisualReady, this );
             this.once( "visual_error", this.onVisualError, this );
-            // this.initSaveEvents();
+            this.initSaveEvents();
         },
 
         getAttr: function( attrName ) {

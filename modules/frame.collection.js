@@ -11,10 +11,11 @@ function( app, FrameModel, LayerCollection ) {
         model: FrameModel,
 
         mode: "editor",
+        remixPageMax: 5,
 
         setMode: function( mode ) {
+            console.log("FRAMES:", this, app)
             this.mode = mode;
-
             if ( mode == "editor") this.initEditor();
         },
 
@@ -59,38 +60,43 @@ function( app, FrameModel, LayerCollection ) {
         // add frame at a specified index.
         // omit index to append frame
         addFrame: function( index, skipTo ) {
-            var newFrame, continuingLayers = [];
 
-            skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
-            index = index == "auto" ? undefined : index;
+            if ( app.project.get("remix") !== null && this.length < this.remixPageMax ) {
+                var newFrame, continuingLayers = [];
 
-            newFrame = new FrameModel({
-                _order: index
-            });
+                skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
+                index = index == "auto" ? undefined : index;
 
-            newFrame.status = app.status;
-            newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
-            newFrame.layers.frame = newFrame;
-            newFrame.listenToLayers();
-            newFrame.editorAdvanceToPage = skipTo;
-
-            newFrame.save().success(function() {
-                app.project.addFrameToKey( newFrame.id, this.sequence.id );
-
-                if ( _.isUndefined( index ) ) {
-                    this.push( newFrame );
-                } else {
-                    this.add( newFrame, { at: index });
-                }
-
-                this.each(function( frame, i ) {
-                    frame.set("_order", i );
+                newFrame = new FrameModel({
+                    _order: index
                 });
 
-                app.trigger("frame_add", newFrame );
-            }.bind( this ));
+                newFrame.status = app.status;
+                newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
+                newFrame.layers.frame = newFrame;
+                newFrame.listenToLayers();
+                newFrame.editorAdvanceToPage = skipTo;
 
-            return newFrame;
+                newFrame.save().success(function() {
+                    app.project.addFrameToKey( newFrame.id, this.sequence.id );
+
+                    if ( _.isUndefined( index ) ) {
+                        this.push( newFrame );
+                    } else {
+                        this.add( newFrame, { at: index });
+                    }
+
+                    this.each(function( frame, i ) {
+                        frame.set("_order", i );
+                    });
+
+                    app.trigger("frame_add", newFrame );
+                }.bind( this ));
+
+                return newFrame;
+            } else {
+                alert("too many pages!")
+            }
         },
 
         onFrameAdd: function( frame ) {
