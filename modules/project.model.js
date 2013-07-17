@@ -28,16 +28,34 @@ function( app, SequenceCollection ) {
             mode: "editor",
             published: true,
 
-            // remix: null, // default
+            remix: { remix: false }, // default
 
             // for remix testing
+            /*
             remix: {
-                username: "Justin Bieber",
-                displayname: "jBeebz",
-                user_profile_image: "http://media0.giphy.com/media/10E6FjHheLtKWQ/original.gif",
-                zeega_id: "99999",
-                zeega_cover_image: "http://media3.giphy.com/media/103WrEimC8qFAQ/original.gif"
+                remix: true,
+                root: {
+                    id: "51df7f2a7131b23816000003",
+                    cover_image: "http://zeegaimages1.s3.amazonaws.com/8ab8368e700191ed5bc5e6ea5c45f2a7_7.jpg",
+                    user: {
+                        id: "51dc7711d4567b571b000128",
+                        display_name: "Rich Jones",
+                        username: "user10144",
+                        thumbnail_url: "http://zeegaimages1.s3.amazonaws.com/0352673e20dd302727c95efb8029bab3_4.jpg"
+                    }
+                },
+                parent: {
+                    id: "51df7f2a7131b23816000003",
+                    cover_image: "http://zeegaimages1.s3.amazonaws.com/8ab8368e700191ed5bc5e6ea5c45f2a7_7.jpg",
+                    user: {
+                        id: "51dc7711d4567b571b000128",
+                        display_name: "Rich Jones",
+                        username: "user10144",
+                        thumbnail_url: "http://zeegaimages1.s3.amazonaws.com/0352673e20dd302727c95efb8029bab3_4.jpg"
+                    }
+                }
             },
+            */
 
             sequences: [],
             tags: "",

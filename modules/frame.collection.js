@@ -14,7 +14,6 @@ function( app, FrameModel, LayerCollection ) {
         remixPageMax: 5,
 
         setMode: function( mode ) {
-            console.log("FRAMES:", this, app)
             this.mode = mode;
             if ( mode == "editor") this.initEditor();
         },
@@ -61,7 +60,7 @@ function( app, FrameModel, LayerCollection ) {
         // omit index to append frame
         addFrame: function( index, skipTo ) {
 
-            if ( app.project.get("remix") !== null && this.length < this.remixPageMax ) {
+            if ( app.project.get("remix").remix && this.length < this.remixPageMax ) {
                 var newFrame, continuingLayers = [];
 
                 skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
