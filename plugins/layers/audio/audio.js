@@ -7,7 +7,7 @@ define([
 
 function( app, _Layer, Visual ){
 
-    var Layer = app.module(),
+    var Layer = {},
         canPlayMpeg;
 
     Layer.Audio = _Layer.extend({

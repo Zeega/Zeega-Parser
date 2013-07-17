@@ -7,7 +7,7 @@ define([
 
 function( app, _Layer, Visual, FrameChooser ) {
 
-    var Layer = app.module();
+    var Layer = {};
 
     Layer.Link = _Layer.extend({
 

@@ -6,7 +6,7 @@ define([
 ],
 function( app, _Layer, Visual, TextModal ) {
 
-    var Layer = app.module();
+    var Layer = {};
 
     Layer.TextV2 = _Layer.extend({
         // TODO: is the redundant naming necessary? If this program knows
