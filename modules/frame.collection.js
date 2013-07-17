@@ -60,7 +60,7 @@ function( app, FrameModel, LayerCollection ) {
         // omit index to append frame
         addFrame: function( index, skipTo ) {
 
-            if ( app.project.get("remix").remix && this.length < this.remixPageMax ) {
+            if ( !app.project.get("remix").remix || ( app.project.get("remix").remix && this.length < this.remixPageMax )) {
                 var newFrame, continuingLayers = [];
 
                 skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
@@ -94,7 +94,7 @@ function( app, FrameModel, LayerCollection ) {
 
                 return newFrame;
             } else {
-                alert("too many pages!")
+                // too many pages. do nothing
             }
         },
 

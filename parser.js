@@ -26,7 +26,7 @@ function( Zeega, _, ProjectModel, DataParser ) {
                 return false;
             }
         }, this );
-console.log("parsed:", parsed)
+
         if ( parsed !== undefined ) {
             return new ProjectModel( parsed, options );
         } else {
