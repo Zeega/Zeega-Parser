@@ -36,11 +36,11 @@ function( app, Layer, Visual ){
         ],
 
         onPlay: function() {
-            app.status.emit("endpage_enter");
+            this.model.zeega.emit("endpage_enter");
         },
 
         onExit: function() {
-            app.status.emit("endpage_exit");
+            this.model.zeega.emit("endpage_exit");
         }
     });
 

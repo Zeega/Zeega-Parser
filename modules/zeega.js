@@ -18,7 +18,7 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         defaults: {
             mode: "editor",
-            
+
             currentProject: null,
             currentPage: null,
             currentLayer: null,
@@ -48,19 +48,21 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
             LayerModel.prototype.zeega = this;
         },
 
-        gotoNextPage: function() {
-            var nextPage = this.getCurrentPage()
-
-            this.emit("page_change:next")
+        focusPage: function( page ) {
+            this.blurPage( this.get("currentPage") );
+            this.set("currentPage", page );
+            page.trigger("focus");
         },
 
-        gotoPreviousPage: function() {
-
-            this.emit("page_change:prev")
+        blurPage: function( page ) {
+            this.set("previousPage", page );
+            page.trigger("blur")
         },
 
         getNextPage: function( page ) {
-            return this.getCurrentProject().pages.at( page.get("_order") + 1 ) || false;
+            var p = page || this.getCurrentPage();
+
+            return this.getCurrentProject().pages.at( p.get("_order") + 1 ) || false;
         },
 
         getPreviousPage: function( page ) {

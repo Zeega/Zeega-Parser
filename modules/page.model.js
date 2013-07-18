@@ -64,14 +64,15 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         initialize: function() {
-            // this.mode = this.collection ? this.collection.mode : this.mode;
+            if ( this.zeega.get("mode") == "editor" ) {
+                this.initEditorListeners();
+            } else if ( this.zeega.get("mode") == "player" ) {
+                this.initPlayerListeners();
+            }
+
             // this.lazySave = _.debounce(function() {
             //     this.save();
             // }.bind( this ), 1000 );
-
-            // if ( _.isArray( this.get("attr") ) ) {
-            //     this.set("attr", this.defaults.attr );
-            // }
 
             // this.startThumbWorker = _.debounce(function() {
             //     var worker = new Worker( app.webRoot + "js/helpers/thumbworker.js" );
@@ -95,6 +96,15 @@ function( app, Backbone, LayerCollection, Layers ) {
             // }, 1000);
 
             // this.initSaveEvents();
+        },
+
+        initPlayerListeners: function() {
+            this.on("focus", this.play, this );
+            this.on("blur", this.exit, this );
+        },
+
+        initEditorListeners: function() {
+            
         },
 
         loadLayers: function( layers ) {
@@ -134,6 +144,7 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         onLayersReady: function( layers ) {
+            this.state = "ready";
             this.zeega.trigger("page_ready:" + this.id, this );
         },
 
