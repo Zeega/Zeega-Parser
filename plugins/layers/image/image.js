@@ -213,14 +213,14 @@ function( app, Layer, Visual ){
             $img.imagesLoaded();
 
             $img.done(function() {
-                this.model.trigger( "visual_ready", this.model.id );
+                this.model.trigger( "visual_ready", this.model );
                 $img.remove();
             }.bind(this));
 
             $img.fail(function() {
                 $img.remove();
-                this.model.trigger("visual_error", this.model.id );
-                this.model.trigger("visual_ready", this.model.id );
+                this.model.trigger("visual_error", this.model );
+                this.model.trigger("visual_ready", this.model );
             }.bind(this));
         }
     });

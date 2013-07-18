@@ -1,21 +1,18 @@
 // parser.js
 define([
-    "app",
-    "lodash",
-
-    "engine/modules/project.model",
+    "engine/modules/zeega",
     "engine/data-parsers/_all"
 ],
 
-function( Zeega, _, ProjectModel, DataParser ) {
+function( Zeega, DataParsers ) {
 
-    var ZeegaParser = {};
+    var Engine = {};
 
-    ZeegaParser.parse = function( data, options ) {
+    Engine.parse = function( data, options ) {
         var parsed;
 
         // determine which parser to use
-        _.each( DataParser, function( p ) {
+        _.each( DataParsers, function( p ) {
             if ( p.validate( data ) ) {
 
                 if ( options.debugEvents ) console.log( "parsed using: " + p.name );
@@ -27,12 +24,20 @@ function( Zeega, _, ProjectModel, DataParser ) {
             }
         }, this );
 
+        return parsed;
+    }
+
+    Engine.generateZeega = function( data, options ) {
+        var parsed = Engine.parse( data, options );
+
         if ( parsed !== undefined ) {
-            return new ProjectModel( parsed, options );
+            return new Zeega( options, {
+                    projects: [ parsed ]
+                });
         } else {
             throw new Error("Valid parser not found");
         }
     };
 
-    return ZeegaParser;
+    return Engine;
 });

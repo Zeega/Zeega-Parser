@@ -1,60 +1,43 @@
 // frame.js
 define([
     "app",
-    "engine/modules/frame.model",
+    "engine/modules/page.model",
     "engine/modules/layer.collection"
 ],
 
-function( app, FrameModel, LayerCollection ) {
+function( app, PageModel, LayerCollection ) {
 
     return app.Backbone.Collection.extend({
-        model: FrameModel,
 
-        mode: "editor",
+        model: PageModel,
+
+        zeega: null,
         remixPageMax: 5,
 
-        setMode: function( mode ) {
-            this.mode = mode;
-            if ( mode == "editor") this.initEditor();
+        loadLayers: function( layers ) {
+            this.each(function( page ) {
+                page.loadLayers( layers );
+            });
         },
+
+        setPageOrder: function( sequence ) {
+            _.each( sequence.frames, function( sequenceID, index ) {
+                this.get( sequenceID ).set("_order", index );
+            }, this );
+
+            this.sort({ silent: true });
+        },
+
+
+
+        /////
+
 
         initEditor: function() {
             this.on("add", this.onFrameAdd, this );
             this.on("remove", this.onFrameRemove, this );
         },
 
-        initLayers: function( layerCollection, options ) {
-
-            this.each(function( frame ) {
-                var frameLayers = layerCollection.filter(function( layer ) {
-                    var invalidLink, index;
-
-                    invalidLink = layer.get("type") == "Link" && layer.get("attr").to_frame == frame.id;
-                    index = _.indexOf( frame.get("layers"), layer.id );
-
-                    if ( invalidLink ) {
-                        // remove invalid link ids from frames. this kind of sucks
-                        // have filipe rm these from the data??
-                        frame.put("layers", _.without( frame.get("layers"), layer.id ) );
-                        return false;
-                    } else if ( index > -1 ) {
-                        layer.order[ frame.id ] = index;
-                        return true;
-                    }
-                    return false;
-                });
-
-                frame.layers = new LayerCollection( frameLayers );
-                frame.layers.frame = frame;
-                frame.layers.sort({ silent: true });
-                // update the layer collection attribute
-                frame.layers.each(function( layer ) {
-                    layer.addCollection( frame.layers );
-                    layer.pluginsPath = options.pluginsPath;
-                });
-                frame.listenToLayers();
-            });
-        },
 
         // add frame at a specified index.
         // omit index to append frame

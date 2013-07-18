@@ -73,11 +73,9 @@ function( app, Controls ) {
         beforePlayerRender: function() {},
 
         beforeRender: function() {
-            if ( this.model.mode == "player") {
-                
-                var target = this.model.status.target ? this.model.status.target.find(".ZEEGA-player-window") :
+            if ( this.model.zeega.get("mode") == "player") {
+                var target = app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
                                             $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
-
 
                 this.className = this._className + " " + this.className;
                 this.beforePlayerRender();
@@ -88,7 +86,7 @@ function( app, Controls ) {
                 this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
                 this.moveOffStage();
                 this.applyStyles();
-            } else if ( this.model.mode == "editor") {
+            } else if ( this.model.zeega.get("mode") == "editor") {
 
             }
             this.visualBeforeRender();
@@ -100,10 +98,10 @@ function( app, Controls ) {
 
         afterRender: function() {
             this.$visual = this.$(".visual-target");
-            
-            if ( this.model.mode == "player") {
+
+            if ( this.model.zeega.get("mode") == "player") {
                 this.verifyReady();
-            } else if ( this.model.mode == "editor") {
+            } else if ( this.model.zeega.get("mode") == "editor") {
                 this.loadControls();
                 this.afterEditorRender();
             }
@@ -145,13 +143,10 @@ function( app, Controls ) {
 
         // default verify fxn. return ready immediately
         verifyReady: function() {
-            this.model.trigger("visual_ready", this.model.id );
+            this.model.trigger("visual_ready", this.model );
         },
 
         player_onPlay: function() {
-            if ( this.getAttr("blink_on_start") ) {
-                this.glowOnFrameStart();
-            }
             this.onPlay();
         },
 
@@ -175,13 +170,6 @@ function( app, Controls ) {
 
         player_onPreload: function() {
             this.render();
-        },
-
-        glowOnFrameStart: function() {
-            this.model.visual.$el.addClass("glow-blink");
-            _.delay(function() {
-                this.model.visual.$el.removeClass("glow-blink");
-            }.bind( this ), 1000 );
         },
 
         updateZIndex: function( zIndex ) {

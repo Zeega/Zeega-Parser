@@ -10,7 +10,6 @@ function( app, Controls ) {
         ready: false,
         state: "waiting", // waiting, loading, ready, destroyed, error
 
-        mode: "editor",
         order: [],
         controls: [],
         visual: null,
@@ -37,8 +36,6 @@ function( app, Controls ) {
 
         initialize: function( attr, opt ) {
             var augmentAttr = _.extend({}, this.attr, this.toJSON().attr );
-
-            this.mode = opt?  opt.mode : this.mode;
             
             this.set("attr", augmentAttr );
             this.order = {};
@@ -64,17 +61,8 @@ function( app, Controls ) {
             this.save("attr", _.extend( attr, attrObj ) );
         },
 
-        initVisual: function( layerClass ) {
-            this.visual = new layerClass.Visual({
-                model: this,
-                attributes: {
-                    "data-id": this.id
-                }
-            });
-        },
-
         addCollection: function( collection ) {
-            if ( this.mode == "editor" ) {
+            if ( this.zeega.get("mode") == "editor" ) {
                 this.collection = collection;
                 this.collection.on("sort", this.onSort, this );
             }
@@ -95,11 +83,10 @@ function( app, Controls ) {
         render: function() {
             // make sure the layer class is loaded or fail gracefully
             if ( this.visual ) {
-
                 // if the layer is ready, then just show it
                 if ( this.state == "waiting") {
                     this.state = "loading";
-                    this.status.emit("layer_loading", this.toJSON());
+                    // this.zeega.emit("layer_loading", this.toJSON());
                     this.visual.player_onPreload();
                 } else if( this.state == "ready" ) {
                     this.visual.play();
@@ -111,7 +98,6 @@ function( app, Controls ) {
 
         // editor mode skips preload and renders immediately
         enterEditorMode: function() {
-            this.mode = "editor",
             this.loadControls();
             this.visual.enterEditorMode();
             this.visual.moveOnStage();
@@ -141,8 +127,8 @@ function( app, Controls ) {
         onVisualReady: function() {
             this.ready = true;
             this.state = "ready";
-            this.status.emit("layer_ready", this.toJSON() );
-            this.trigger("layer_ready", this.toJSON());
+            // this.zeega.emit("layer_ready", this );
+            // this.trigger("layer_ready", this.toJSON());
         },
 
         onVisualError: function() {
@@ -160,6 +146,7 @@ function( app, Controls ) {
         },
 
         play: function() {
+            this.visual.play();
             this.visual.player_onPlay();
         },
 
