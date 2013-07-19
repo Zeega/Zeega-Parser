@@ -1,14 +1,16 @@
 define([
     "app",
-    "engine/modules/page.collection"
+    "engine/modules/page.collection",
+    "engine/plugins/layers/_all"
 ],
 
-function( app, PageCollection ) {
+function( app, PageCollection, Layers ) {
 
     return app.Backbone.Model.extend({
 
         pages: null,
         zeega: null,
+        soundtrack: false,
 
 ////
 
@@ -17,6 +19,7 @@ function( app, PageCollection ) {
         modelType: "project",
 
         defaults: {
+            _soundtrack: {},
             id: null,
             user: {
                 id: null,
@@ -64,18 +67,34 @@ function( app, PageCollection ) {
         },
 
         initialize: function( data, options ) {
-            this.pages = new PageCollection( this.get("frames") );
-            this.pages.loadLayers( this.get("layers") );
-            this.pages.setPageOrder( this.get("sequences")[0] )
+            this._loadPages();
+            this._loadSoundtrack();
 
             this.initSaveEvents();
         },
 
+        _loadPages: function() {
+            this.pages = new PageCollection( this.get("frames") );
+            this.pages.loadLayers( this.get("layers") );
+            this.pages.setPageOrder( this.get("sequences")[0] );
+        },
+
+        _loadSoundtrack: function() {
+            if ( this.get("_soundtrack") ) {
+                this.soundtrack = new Layers["Audio"]( _.extend( this.get("_soundtrack"), { type: "Audio" }) );
+
+                this.soundtrack.visual = new Layers["Audio"].Visual({
+                        model: this.soundtrack,
+                        attributes: {
+                            "data-id": this.get("_soundtrack").id
+                        }
+                    });
+            }
+        },
 
 
 
         ///////
-
 
 
 

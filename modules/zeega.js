@@ -52,21 +52,29 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
             this.blurPage( this.get("currentPage") );
             this.set("currentPage", page );
             page.trigger("focus");
+            this.emit("page page:focus", page );
         },
 
         blurPage: function( page ) {
             this.set("previousPage", page );
             page.trigger("blur")
+            this.emit("page page:blur", page );
+        },
+
+        getFirstPage: function() {
+            return this.projects.at(0).pages.at(0);
         },
 
         getNextPage: function( page ) {
             var p = page || this.getCurrentPage();
 
-            return this.getCurrentProject().pages.at( p.get("_order") + 1 ) || false;
+            return p.get("_order") < p.layers.length +1 ? this.getCurrentProject().pages.at( p.get("_order") + 1 ) : false;
         },
 
         getPreviousPage: function( page ) {
-            return this.getCurrentProject().pages.at( page.get("_order") - 1 ) || false;
+            var p = page || this.getCurrentPage();
+
+            return p.get("_order") > 0 ? this.getCurrentProject().pages.at( p.get("_order") - 1 ) : false;
         },
 
         getCurrentProject: function() {

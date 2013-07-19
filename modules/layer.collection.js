@@ -21,7 +21,7 @@ function( app, Layers ) {
         },
 
         initPlayerListeners: function() {
-            this.on("visual_ready", this.onVisualReady, this );
+            this.on("layer:visual_ready", this.onVisualReady, this );
         },
 
         initEditorListeners: function() {
@@ -40,16 +40,17 @@ function( app, Layers ) {
             var allReady = this.every(function( layer ) { return layer.state == "ready" });
 
             if ( allReady ) {
-                this.off("visual_ready");
+                this.off("layer:visual_ready");
                 this.state = "ready";
-                this.page.trigger("layers_ready", this );
+                this.page.trigger("layers layers:ready", this );
             }
         },
 
         play: function() {
-            this.each(function( layer ) {
+            this.each(function( layer, i ) {
+                layer.updateZIndex( this.length - i );
                 layer.play();
-            });
+            }, this );
         },
 
 

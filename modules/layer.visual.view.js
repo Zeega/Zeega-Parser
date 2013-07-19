@@ -74,13 +74,13 @@ function( app, Controls ) {
 
         beforeRender: function() {
             if ( this.model.zeega.get("mode") == "player") {
-                var target = app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
-                                            $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
+                // var target = app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
+                //                             $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
 
                 this.className = this._className + " " + this.className;
                 this.beforePlayerRender();
 
-                target.append( this.el );
+                this.model.getTarget().append( this.el );
                 //Zeega.$( target ).append( this.el );
 
                 this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
@@ -143,7 +143,7 @@ function( app, Controls ) {
 
         // default verify fxn. return ready immediately
         verifyReady: function() {
-            this.model.trigger("visual_ready", this.model );
+            this.model.trigger("layer layer:visual_ready", this.model );
         },
 
         player_onPlay: function() {

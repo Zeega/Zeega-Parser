@@ -20,6 +20,7 @@ function( app, Controls ) {
         },
 
         defaults: {
+            _target: false,
             attr: {},
             id: null,
             project_id: null,
@@ -40,9 +41,18 @@ function( app, Controls ) {
             this.set("attr", augmentAttr );
             this.order = {};
         
-            this.once( "visual_ready", this.onVisualReady, this );
-            this.once( "visual_error", this.onVisualError, this );
+            this.once( "layer:visual_ready", this.onVisualReady, this );
+            this.once( "layer:visual_error", this.onVisualError, this );
             this.initSaveEvents();
+        },
+
+        getTarget: function() {
+            if ( this.get("_target") ) {
+                return this.get("_target")
+            } else {
+                return app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
+                                            $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
+            }
         },
 
         getAttr: function( attrName ) {
@@ -86,7 +96,7 @@ function( app, Controls ) {
                 // if the layer is ready, then just show it
                 if ( this.state == "waiting") {
                     this.state = "loading";
-                    // this.zeega.emit("layer_loading", this.toJSON());
+                    this.zeega.emit("layer layer:loading", this.toJSON());
                     this.visual.player_onPreload();
                 } else if( this.state == "ready" ) {
                     this.visual.play();
@@ -127,14 +137,14 @@ function( app, Controls ) {
         onVisualReady: function() {
             this.ready = true;
             this.state = "ready";
-            // this.zeega.emit("layer_ready", this );
-            // this.trigger("layer_ready", this.toJSON());
+            this.zeega.emit("layer layer:ready", this );
+            this.trigger("layer layer:ready", this );
         },
 
         onVisualError: function() {
             this.ready = true;
             this.state = "error";
-            this.trigger("layer_error", this.toJSON());
+            this.trigger("layer layer:error", this );
         },
 
         updateZIndex: function( zIndex ) {

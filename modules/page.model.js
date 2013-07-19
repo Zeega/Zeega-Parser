@@ -137,18 +137,22 @@ function( app, Backbone, LayerCollection, Layers ) {
             // only try to preload if preload has not been attempted yet
             if ( this.state == "waiting" ) {
                 this.state = "loading";
-
-                this.once("layers_ready", this.onLayersReady, this );
+                this.once("layers:ready", this.onLayersReady, this );
                 this.layers.preload();
             }
         },
 
         onLayersReady: function( layers ) {
             this.state = "ready";
-            this.zeega.trigger("page_ready:" + this.id, this );
+            this.zeega.emit("page page:ready page:ready-" + this.id, this );
+
+            if ( this.zeega.get("currentPage").id == this.id ) this.play();
         },
 
         play: function() {
+            this.zeega.emit("page page:play", this );
+            if ( this.state != "ready") app.spin();
+            else app.spinStop();
             this.layers.play();
         },
 
@@ -159,9 +163,18 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         exit: function( newID ) {
+            app.spinStop();
             this.layers.each(function( layer ) {
                 layer.exit();
             });
+        },
+
+        getNextPage: function() {
+            return this.zeega.getNextPage( this );
+        },
+
+        getPrevPage: function() {
+            return this.zeega.getPreviousPage( this );
         },
 
 

@@ -87,9 +87,7 @@ function( app, _Layer, Visual ){
                 this.audio = null;
             },
 
-            editor_onLayerEnter: function() {
-                // this.render();
-            },
+            editor_onLayerEnter: function() {},
 
             editor_onLayerExit: function() {
                 this.$("audio").attr("src", "");
@@ -108,20 +106,18 @@ function( app, _Layer, Visual ){
 
             setAudio: function() {
                 if ( this.audio === null ) {
-                    this.audio = this.$("#audio-el-" + this.model.id )[0];
-                    // this.audio = document.getElementById("audio-el-" + this.model.id );
-                    this.listen();
+                    this.audio = this.$("audio")[0];
                     this.audio.load();
                 }
             },
 
             getAudio: function() {
                 this.setAudio();
+
                 return this.audio;
             },
 
             verifyReady: function() {
-
                 this.audio = this.$("#audio-el-" + this.model.id )[0];
 
                 this.audio.load();
@@ -131,51 +127,17 @@ function( app, _Layer, Visual ){
             },
 
             init: function() {
-                //console.log("initiing this shit", this.model.id)
                 this.onCanPlay = _.once(function() {
                     this.audio.pause();
-                    this.audio.currentTime = this.getAttr("cue_in");
-
-                    if ( this.getAttr("cue_out") || this.getAttr("loop") ) {
-                        this.listen();
-                    }
-                    this.model.trigger( "visual_ready", this.model.id );
-                    this.model.status.emit("audio_play", this.model );
+                    this.model.trigger("layer layer:ready", this.model );
                 });
             },
 
-            onCanPlay: function() {},
+            onVisualReady: function() {
+                console.log('visual ready audio')
+            },
 
-            listen: _.once(function() {
-                // don't need to listen to audio time if there's no cue out!
-                if ( this.getAttr("cue_out") !== null ) {
-                    this.audio.addEventListener("timeupdate", function(){
-                        var currentTime = this.audio.currentTime;
-
-                        if ( currentTime >= this.getAttr("cue_out" ) ) {
-                            if ( this.getAttr("loop") ) {
-                                this.audio.pause();
-                                this.audio.currentTime = this.getAttr("cue_in");
-                                this.audio.play();
-                            } else {
-                                this.audio.pause();
-                                this.audio.currentTime = this.getAttr("cue_in");
-                            }
-                        }
-                    }.bind( this ));
-                }
-
-                this.audio.addEventListener("ended", function(){
-                    if ( this.getAttr("loop") ) {
-                        this.audio.pause();
-                        this.audio.currentTime = this.getAttr("cue_in");
-                        this.audio.play();
-                    } else {
-                        this.audio.pause();
-                        this.audio.currentTime = this.getAttr("cue_in");
-                    }
-                }.bind( this ));
-            })
+            onCanPlay: function() {}
 
         });
     } else {
@@ -323,11 +285,9 @@ function( app, _Layer, Visual ){
             },
 
             onLoading: function( value ){
-
                 if( value == 3 ) {
-                    this.model.trigger( "visual_ready", this.model.id );
+                    this.model.trigger( "layer:visual_ready", this.model.id );
                 }
-
             },
 
             onStateChange: function( event_id, value ){

@@ -13,18 +13,37 @@ function() {
         return false;
     };
 
+    var getSoundtrackID = function( response ) {
+        return response.sequences[0].attr.soundtrack || false;
+    }
+
     var removeDupeSoundtrack = function( response ) {
-        
-        if ( response.sequences[0].attr.soundtrack ) {
+        var soundtrackID = getSoundtrackID( response );
+
+        if ( soundtrackID ) {
             _.each( response.frames, function( frame ) {
-                frame.layers = _.without( frame.layers, response.sequences[0].attr.soundtrack );
+                frame.layers = _.without( frame.layers, soundtrackID );
             });
         }
     };
 
+    var getSoundtrackLayer = function( response ) {
+        var soundtrackID = getSoundtrackID( response );
+
+        if ( soundtrackID ) {
+            var soundtrackLayer = _.find( response.layers, function( layer ) {
+                return layer.id == soundtrackID;
+            });
+
+            return soundtrackLayer || false;
+        }
+        return false;
+    }
+
     // no op. projects are already formatted
     Parser[type].parse = function( response, opts ) {
         removeDupeSoundtrack( response.project );
+        response.project._soundtrack = getSoundtrackLayer( response.project );
 
         if ( opts.endPage ) {
             var endId, lastPageId, lastPage, endPage, endLayers;
