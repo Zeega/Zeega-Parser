@@ -1,4 +1,3 @@
-// frame.js
 define([
     "app",
     "backbone",
@@ -16,25 +15,8 @@ function( app, Backbone, LayerCollection, Layers ) {
         state: "waiting",
         modelType: "frame",
 
-
-
-////
-
-
-        // hasPlayed: false,
-        // mode: "editor",
-
-        // frame render as soon as it's loaded. used primarily for the initial frame
-        // renderOnReady: null,
-
         // lazySave: null,
         // startThumbWorker: null,
-
-
-////
-
-
-
 
         defaults: {
             _order: 0,

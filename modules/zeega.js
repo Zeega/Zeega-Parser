@@ -1,6 +1,6 @@
 define([
     "app",
-    "engine/engine",
+    "engine/parser",
 
     "engine/modules/project.collection",
     "engine/modules/project.model",
@@ -10,7 +10,7 @@ define([
     "engine/modules/layer.model"
 ],
 
-function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageModel, LayerCollection, LayerModel ) {
+function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageModel, LayerCollection, LayerModel ) {
 
     return app.Backbone.Model.extend({
 
@@ -34,9 +34,15 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
 
             if ( options.projects ) this.projects = new ProjectCollection( options.projects );
 
+            this.projects.each(function( project ) {
+                project._loadProject();
+            });
+
             this._initCurrentState();
-            
-            console.log( "ZEEGA", this )
+        },
+
+        generateZeega: function( projectData ) {
+
         },
 
         injectZeega: function() {
@@ -49,6 +55,11 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         focusPage: function( page ) {
+
+            if ( !this.getCurrentProject().pages.get( page.id) ) {
+                this.set("currentProject", this.getNextProject() );
+            }
+
             this.blurPage( this.get("currentPage") );
             this.set("currentPage", page );
             page.trigger("focus");
@@ -67,8 +78,16 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         getNextPage: function( page ) {
             var p = page || this.getCurrentPage();
+            var nextPage = false;
 
-            return p.get("_order") < p.layers.length +1 ? this.getCurrentProject().pages.at( p.get("_order") + 1 ) : false;
+            if ( p.get("_order") + 1 < this.getCurrentProject().pages.length ) {
+                nextPage = this.getCurrentProject().pages.at( p.get("_order") + 1 );
+            } else if ( this.getNextProject() ) {
+
+                nextPage = this.getNextProject().pages.at(0);
+            }
+
+            return nextPage;
         },
 
         getPreviousPage: function( page ) {
@@ -79,6 +98,13 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         getCurrentProject: function() {
             return this.get("currentProject");
+        },
+
+// not working
+        getNextProject: function() {
+            var index = this.projects.indexOf( this.getCurrentProject() );
+            // console.log("index:", index, this.projects.at( index + 1 ) )
+            return this.projects.at( index + 1 );
         },
 
         getCurrentPage: function() {
@@ -94,8 +120,42 @@ function( app, Engine, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         getSoundtrack: function() {
-
+            return this.getCurrentProject().soundtrack;
         },
+
+        preloadNextZeega: function() {
+            var remixData = this.getCurrentProject().getRemixData();
+
+            this.waiting = true
+            // only preload if the project does not already exist
+            if ( remixData.remix && !this.projects.get( remixData.parent.id ) && this.waiting ) {
+                var projectUrl = "http:" + app.metadata.hostname +'api/projects/' + remixData.parent.id;
+
+                $.getJSON( projectUrl, function( data ) {
+                    this._onDataLoaded( data );
+                }.bind(this));
+
+                this.waiting = false;
+            }
+        },
+
+        _onDataLoaded: function( data ) {
+            var newProjectData = Parser( data,
+                _.extend({},
+                    this.toJSON(),
+                    {
+                        mode: "player"
+                    })
+                );
+
+            var newProject = new ProjectModel( newProjectData );
+
+            newProject._loadProject();
+
+            this.projects.push( newProject );
+        },
+
+
 
         addProject: function( project ) {
 

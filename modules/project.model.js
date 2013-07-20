@@ -12,10 +12,6 @@ function( app, PageCollection, Layers ) {
         zeega: null,
         soundtrack: false,
 
-////
-
-        updated: false,
-        frameKey: {},
         modelType: "project",
 
         defaults: {
@@ -55,21 +51,13 @@ function( app, PageCollection, Layers ) {
             }
         },
 
-        defaultOptions: {
-            // preloadRadius: 2,
-            // attach: {}, // ?
-            // aspect_ratio: 0.751174, // ?
-            // mode: "editor" // ?
-        },
-
         url : function() {
             return app.api +'projects/' + this.id;
         },
 
-        initialize: function( data, options ) {
+        _loadProject: function() {
             this._loadPages();
             this._loadSoundtrack();
-
             this.initSaveEvents();
         },
 
@@ -90,6 +78,10 @@ function( app, PageCollection, Layers ) {
                         }
                     });
             }
+        },
+
+        getRemixData: function() {
+            return this.get("remix");
         },
 
 
