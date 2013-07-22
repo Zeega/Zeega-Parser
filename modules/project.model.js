@@ -63,7 +63,7 @@ function( app, PageCollection, Layers ) {
 
         _loadPages: function() {
             this.pages = new PageCollection( this.get("frames") );
-            this.pages.loadLayers( this.get("layers") );
+            this.pages.load( this.get("layers"), this );
             this.pages.setPageOrder( this.get("sequences")[0] );
         },
 

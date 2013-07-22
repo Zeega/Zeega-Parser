@@ -14,9 +14,10 @@ function( app, PageModel, LayerCollection ) {
         zeega: null,
         remixPageMax: 5,
 
-        loadLayers: function( layers ) {
+        load: function( layers, project ) {
             this.each(function( page ) {
                 page.loadLayers( layers );
+                page.project = project;
             });
         },
 

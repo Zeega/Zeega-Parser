@@ -41,10 +41,6 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             this._initCurrentState();
         },
 
-        generateZeega: function( projectData ) {
-
-        },
-
         injectZeega: function() {
             ProjectCollection.prototype.zeega =
             ProjectModel.prototype.zeega =
@@ -55,9 +51,8 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         focusPage: function( page ) {
-
-            if ( !this.getCurrentProject().pages.get( page.id) ) {
-                this.set("currentProject", this.getNextProject() );
+            if ( this.getCurrentProject().id != page.project.id ) {
+                this.set("currentProject", page.project );
             }
 
             this.blurPage( this.get("currentPage") );
@@ -83,7 +78,6 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             if ( p.get("_order") + 1 < this.getCurrentProject().pages.length ) {
                 nextPage = this.getCurrentProject().pages.at( p.get("_order") + 1 );
             } else if ( this.getNextProject() ) {
-
                 nextPage = this.getNextProject().pages.at(0);
             }
 
@@ -92,20 +86,33 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         getPreviousPage: function( page ) {
             var p = page || this.getCurrentPage();
+            var previousPage = false;
 
-            return p.get("_order") > 0 ? this.getCurrentProject().pages.at( p.get("_order") - 1 ) : false;
+            if ( p.get("_order") > 0 ) {
+                previousPage = this.getCurrentProject().pages.at( p.get("_order") - 1 );
+            } else if ( this.getPreviousProject() ) {
+                previousPage = this.getPreviousProject().pages.at( this.getPreviousProject().pages.length - 1 );
+            }
+
+            return previousPage;
         },
 
         getCurrentProject: function() {
             return this.get("currentProject");
         },
 
-// not working
         getNextProject: function() {
             var index = this.projects.indexOf( this.getCurrentProject() );
-            // console.log("index:", index, this.projects.at( index + 1 ) )
+
             return this.projects.at( index + 1 );
         },
+
+        getPreviousProject: function() {
+            var index = this.projects.indexOf( this.getCurrentProject() );
+
+            return this.projects.at( index - 1 );
+        },
+
 
         getCurrentPage: function() {
             return this.get("currentPage");
@@ -120,7 +127,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         getSoundtrack: function() {
-            return this.getCurrentProject().soundtrack;
+            return this.projects.at(0).soundtrack;
         },
 
         preloadNextZeega: function() {
@@ -133,9 +140,9 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
                 $.getJSON( projectUrl, function( data ) {
                     this._onDataLoaded( data );
+                    this.waiting = false;
                 }.bind(this));
 
-                this.waiting = false;
             }
         },
 
@@ -147,7 +154,6 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                         mode: "player"
                     })
                 );
-
             var newProject = new ProjectModel( newProjectData );
 
             newProject._loadProject();
