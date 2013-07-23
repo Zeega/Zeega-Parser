@@ -118,6 +118,18 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             return this.get("currentPage");
         },
 
+        getPages: function() {
+            var pagesArray = [];
+            
+            this.projects.each(function( project ) {
+                project.pages.each(function( page ) {
+                    pagesArray.push( page )
+                });
+            });
+
+            return pagesArray;
+        },
+
         getPage: function( pageID ) {
 
         },
