@@ -62,7 +62,13 @@ function( app, PageCollection, Layers ) {
         },
 
         _loadPages: function() {
-            this.pages = new PageCollection( this.get("frames") );
+            var pageArray = _.map( this.get("sequences")[0].frames, function( pageId ) {
+                return _.find( this.get("frames"), function( page ) {
+                    return page.id == pageId
+                });
+            }, this );
+
+            this.pages = new PageCollection( pageArray );
             this.pages.load( this.get("layers"), this );
             this.pages.setPageOrder( this.get("sequences")[0] );
         },

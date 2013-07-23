@@ -178,7 +178,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         // can be updated to use the startFrame property. good for now
         _initCurrentState: function() {
             var currentProject = this.projects.at(0),
-                currentPage = currentProject.pages.at(0);
+                currentPage = this.getFirstPage();
 
             this.set({
                 currentProject: currentProject,

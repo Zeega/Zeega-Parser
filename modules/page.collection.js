@@ -29,9 +29,9 @@ function( app, PageModel, LayerCollection ) {
             this.sort({ silent: true });
         },
 
-
-
         /////
+
+
 
 
         initEditor: function() {
