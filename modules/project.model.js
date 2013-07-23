@@ -52,10 +52,12 @@ function( app, PageCollection, Layers ) {
         },
 
         url : function() {
-            return app.api +'projects/' + this.id;
+            return "html:" + app.metadata.hostname + app.metadata.directory +'api/projects/' + this.id;
         },
 
         _loadProject: function() {
+
+            console.log("URL", this.url() )
             this._loadPages();
             this._loadSoundtrack();
             this.initSaveEvents();
