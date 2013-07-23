@@ -134,7 +134,7 @@ function( app, _Layer, Visual ){
             },
 
             onVisualReady: function() {
-                console.log('visual ready audio')
+
             },
 
             onCanPlay: function() {}

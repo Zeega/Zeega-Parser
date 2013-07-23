@@ -48,7 +48,7 @@ function( app, Controls ) {
 
         getTarget: function() {
             if ( this.get("_target") ) {
-                return this.get("_target")
+                return this.get("_target");
             } else {
                 return app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
                                             $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");

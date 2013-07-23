@@ -26,7 +26,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             // do I need these?
             previousProject: null,
             previousPage: null,
-            previousLayer: null,
+            previousLayer: null
         },
 
         initialize: function( models, options ) {
@@ -63,7 +63,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         blurPage: function( page ) {
             this.set("previousPage", page );
-            page.trigger("blur")
+            page.trigger("blur");
             this.emit("page page:blur", page );
         },
 
@@ -133,7 +133,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         preloadNextZeega: function() {
             var remixData = this.getCurrentProject().getRemixData();
 
-            this.waiting = true
+            this.waiting = true;
             // only preload if the project does not already exist
             if ( remixData.remix && !this.projects.get( remixData.parent.id ) && this.waiting ) {
                 var projectUrl = "http:" + app.metadata.hostname +'api/projects/' + remixData.parent.id;
@@ -187,7 +187,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         _setFirstPage: function() {
-            this.projects.at(0)
+            this.projects.at(0);
         }
     });
 

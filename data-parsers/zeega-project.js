@@ -15,7 +15,7 @@ function() {
 
     var getSoundtrackID = function( response ) {
         return response.sequences[0].attr.soundtrack || false;
-    }
+    };
 
     var removeDupeSoundtrack = function( response ) {
         var soundtrackID = getSoundtrackID( response );
@@ -38,7 +38,7 @@ function() {
             return soundtrackLayer || false;
         }
         return false;
-    }
+    };
 
     // no op. projects are already formatted
     Parser[type].parse = function( response, opts ) {

@@ -1,10 +1,9 @@
 // layer.js
 define([
-    "app",
-    // "engine/plugins/layers/_all"
+    "app"
 ],
 
-function( app, Layers ) {
+function( app ) {
 
     return app.Backbone.Collection.extend({
 
@@ -37,7 +36,7 @@ function( app, Layers ) {
         },
 
         onVisualReady: function( layer ) {
-            var allReady = this.every(function( layer ) { return layer.state == "ready" });
+            var allReady = this.every(function( layer ) { return layer.state == "ready"; });
 
             if ( allReady ) {
                 this.off("layer:visual_ready");
