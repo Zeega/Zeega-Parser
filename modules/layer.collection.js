@@ -47,7 +47,7 @@ function( app ) {
 
         play: function() {
             this.each(function( layer, i ) {
-                layer.updateZIndex( this.length - i );
+                layer.updateZIndex( layer.get("_order") );
                 layer.play();
             }, this );
         },
@@ -87,9 +87,10 @@ function( app ) {
         },
 
         comparator: function( layer ) {
-            if ( this.page ) {
-                return layer.order[ this.page.id ];
-            }
+            return this.get("_order");
+            // if ( this.page ) {
+            //     return layer.order[ this.page.id ];
+            // }
         }
     });
     

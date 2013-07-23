@@ -98,8 +98,11 @@ function( app, Backbone, LayerCollection, Layers ) {
             }.bind(this));
 
             // make layer type array
-            classedLayers = _.map( pageLayers, function( layer ) {
-                var classedLayer = new Layers[ layer.type ]( _.extend( layer, { type: layer.type }));
+            classedLayers = _.map( pageLayers, function( layer, i ) {
+                var classedLayer = new Layers[ layer.type ]( _.extend( layer, {
+                    type: layer.type,
+                    _order: i
+                }));
 
                 classedLayer.visual = new Layers[ layer.type ].Visual({
                     model: classedLayer,

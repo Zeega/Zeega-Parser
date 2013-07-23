@@ -56,8 +56,6 @@ function( app, PageCollection, Layers ) {
         },
 
         _loadProject: function() {
-
-            console.log("URL", this.url() )
             this._loadPages();
             this._loadSoundtrack();
             this.initSaveEvents();
