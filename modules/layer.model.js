@@ -50,8 +50,7 @@ function( app, Controls ) {
             if ( this.get("_target") ) {
                 return this.get("_target");
             } else {
-                return app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
-                                            $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
+                return $(".ZEEGA-player-window") || $(".ZEEGA-workspace");
             }
         },
 
