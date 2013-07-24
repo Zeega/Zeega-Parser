@@ -1,5 +1,5 @@
 define([
-    "player/app",
+    "app",
     "engine/modules/layer.model",
     "engine/modules/layer.visual.view"
 ],
