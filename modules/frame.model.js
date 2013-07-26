@@ -50,9 +50,9 @@ function( app, Backbone, Layers, ThumbWorker ) {
 
         url: function() {
             if( this.isNew() ) {
-                return app.api + 'projects/' + app.project.id +'/sequences/'+ app.status.get("currentSequence").id +'/frames';
+                return app.getApi() + 'projects/' + app.project.id +'/sequences/'+ app.status.get("currentSequence").id +'/frames';
             } else {
-                return app.api + 'projects/' + app.project.id + '/frames/'+ this.id;
+                return app.getApi() + 'projects/' + app.project.id + '/frames/'+ this.id;
             }
         },
 
@@ -70,7 +70,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
             }
 
             this.startThumbWorker = _.debounce(function() {
-                var worker = new Worker( app.webRoot + "js/helpers/thumbworker.js" );
+                var worker = new Worker( app.getApi() + "js/helpers/thumbworker.js" );
                 
                 worker.addEventListener("message", function(e) {
 

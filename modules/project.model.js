@@ -42,7 +42,7 @@ function( app, SequenceCollection ) {
         },
 
         url : function() {
-            return app.api +'projects/' + this.id;
+            return app.getApi() +'projects/' + this.id;
         },
 
         initialize: function( data, options ) {

@@ -29,9 +29,9 @@ function( app, Controls ) {
 
         url: function() {
             if ( this.isNew() ) {
-                return app.api + "projects/" + app.project.id + "/layers";
+                return app.getApi() + "projects/" + app.project.id + "/layers";
             } else {
-                return app.api + "projects/" + app.project.id + "/layers/" + this.id;
+                return app.getApi() + "projects/" + app.project.id + "/layers/" + this.id;
             }
         },
 

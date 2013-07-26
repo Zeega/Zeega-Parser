@@ -24,9 +24,9 @@ function( app, Layers ) {
 
         url : function() {
             if ( this.isNew() ) {
-                return app.api + 'projects/'+ app.project.id +'/sequences';
+                return app.getApi() + 'projects/'+ app.project.id +'/sequences';
             } else {
-                return app.api + 'projects/'+ app.project.id +'/sequences/' + this.id;
+                return app.getApi() + 'projects/'+ app.project.id +'/sequences/' + this.id;
             }
         },
 

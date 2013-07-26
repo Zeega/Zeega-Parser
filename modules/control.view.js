@@ -119,7 +119,7 @@ function( app ) {
                 // Put fetch into `async-mode`.
                 done = this.async();
                 // Seek out the template asynchronously.
-                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
+                return app.$.ajax({ url: app.getTemplateBase() + path }).then(function( contents ) {
                     done(
                       JST[ path ] = _.template( contents )
                     );
