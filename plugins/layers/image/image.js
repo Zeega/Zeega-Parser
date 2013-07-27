@@ -66,7 +66,14 @@ function( app, Layer, Visual ){
 
     L.Image.Visual = Visual.extend({
 
-        template: "image/image",
+        isAnimated: function(){
+
+            if(!_.isNull(this.model.getAttr("zga_uri")) && !_.isUndefined(this.model.getAttr("zga_uri"))){
+                return true;
+            } else {
+                return false;
+            }
+        },
 
         visualProperties: [
             "height",
@@ -80,8 +87,26 @@ function( app, Layer, Visual ){
 
         init: function() {
 
+
+            var attr = this.model.get("attr");
+
+            if( this.isAnimated() ){
+                this.template = "image/animation";
+                attr.uri = attr.zga_uri;
+                this.model.set( { attr: attr } );
+            } else {
+                this.template = "image/image";
+            }
+
             if ( this.model.getAttr("page_background")) {
                 this.visualProperties = ["opacity"];
+            }
+        },
+
+        visualAfterRender: function(){
+            if(this.isAnimated()){
+                this.setKeyframes();
+                this.initAnimation();
             }
         },
 
@@ -222,6 +247,59 @@ function( app, Layer, Visual ){
                 this.model.trigger("visual_error", this.model.id );
                 this.model.trigger("visual_ready", this.model.id );
             }.bind(this));
+        },
+        setKeyframes: function(){
+
+            var attr=this.model.getAttr("zga_uri").match(/\d+\d*_/g);
+            var keyframes = {
+                name: "zga-layer-" + this.model.id
+            };
+
+            var width  = attr[ 0 ].split("_")[0],
+                height = attr[ 1 ].split("_")[0],
+                frames = attr[ 2 ].split("_")[0],
+                delay  = attr[ 3 ].split("_")[0];
+
+            console.log(attr, width, height, frames, delay );
+
+
+
+            var percentDuration = 100.0 / frames;
+
+            console.log ("percentDuration", percentDuration );
+
+            var percent;
+            for (var i = 0; i < frames ; i++ ){
+                //percent = Math.floor(i * percentDuration);
+                percent = i * percentDuration;
+                offset =  i * 100;
+                keyframes[ percent + "%" ] = "background-position: -" +offset + "% 0; -webkit-animation-timing-function: steps(1);";
+
+            }
+
+
+            
+
+            this.backgroundSize = 100 * frames;
+            this.duration = frames * delay / 100.0;
+
+            $.fn.addKeyframe([keyframes]);
+            console.log(keyframes);
+
+        },
+
+        initAnimation: function(){
+
+            this.$(".visual-target").css({
+                "background-size": this.backgroundSize+"%",
+                "-webkit-animation-name": "zga-layer-" + this.model.id,
+                "-webkit-animation-duration": this.duration + "s",
+                "-webkit-animation-iteration-count": "infinite",
+                "-webkit-backface-visibility": "hidden"
+  
+
+            });
+           
         }
     });
 
