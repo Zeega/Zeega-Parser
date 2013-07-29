@@ -68,7 +68,7 @@ function( app, Layer, Visual ){
 
         isAnimated: function(){
 
-            if(!_.isNull(this.model.getAttr("zga_uri")) && !_.isNull(this.model.getAttr("zga_uri"))){
+            if(!_.isNull(this.model.getAttr("zga_uri")) && !_.isUndefined(this.model.getAttr("zga_uri"))){
                 return true;
             } else {
                 return false;
