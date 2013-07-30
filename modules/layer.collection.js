@@ -19,7 +19,7 @@ function( app, Layers ) {
         },
 
         onAdd: function( layer ) {
-            if( app.mode != "player" ){
+            if( app.mode != "player"  ){
                 if ( layer ) {
                     layer.addCollection( this );
                     layer.initVisual( Layers[ layer.get("type") ]);

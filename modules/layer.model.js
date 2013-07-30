@@ -65,12 +65,15 @@ function( app, Controls ) {
         },
 
         initVisual: function( layerClass ) {
-            this.visual = new layerClass.Visual({
+           if(!this.visual){
+                this.visual = new layerClass.Visual({
                 model: this,
                 attributes: {
                     "data-id": this.id
                 }
             });
+           }
+            
         },
 
         addCollection: function( collection ) {
