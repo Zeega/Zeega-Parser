@@ -94,6 +94,7 @@ function( app, Layer, Visual ){
                 this.template = "image/animation";
                 attr.uri = attr.zga_uri;
                 this.model.set( { attr: attr } );
+                this.setKeyframes();
             } else {
                 this.template = "image/image";
             }
@@ -105,7 +106,7 @@ function( app, Layer, Visual ){
 
         visualAfterRender: function(){
             if(this.isAnimated()){
-                this.setKeyframes();
+
                 this.initAnimation();
             }
         },
