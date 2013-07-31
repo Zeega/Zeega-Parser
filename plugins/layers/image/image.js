@@ -195,10 +195,9 @@ function( app, Layer, Visual ){
              var realAspect = 2.10 / (this.$workspace().height()/this.$workspace().width());
     
 
-            console.log("realAspect", realAspect, this.$workspace().height(), this.$workspace().width())
             if( this.aspectRatio >= realAspect ){
 
-                console.log("this shit is wide");
+                
                 this.model.pageBackgroundPositioning = {
                     width: this.aspectRatio * 236.72 / realAspect,
                     height: 112.67,
