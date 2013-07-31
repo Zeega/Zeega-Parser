@@ -142,7 +142,7 @@ function( app, Backbone, Layers, ThumbWorker ) {
                 type: item.get("layer_type"),
                 attr: _.extend({}, item.toJSON() )
             });
-console.log("add layer", item, eventData)
+
             // set image layer opacity to 0.5 for layers on top of other layers
             if ( this.layers.length && newLayer.get("type") != "TextV2") {
                 newLayer.setAttr({ opacity: 0.5 });
