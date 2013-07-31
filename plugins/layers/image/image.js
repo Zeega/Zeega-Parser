@@ -261,13 +261,12 @@ function( app, Layer, Visual ){
                 frames = attr[ 2 ].split("_")[0],
                 delay  = attr[ 3 ].split("_")[0];
 
-            console.log(attr, width, height, frames, delay );
+            
 
 
 
             var percentDuration = 100.0 / frames;
 
-            console.log ("percentDuration", percentDuration );
 
             var percent;
             for (var i = 0; i < frames ; i++ ){
@@ -285,7 +284,7 @@ function( app, Layer, Visual ){
             this.duration = frames * delay / 100.0;
 
             $.fn.addKeyframe([keyframes]);
-            console.log(keyframes);
+            
 
         },
 
