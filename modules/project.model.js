@@ -1,10 +1,11 @@
 define([
     "app",
     "engine/modules/page.collection",
-    "engine/plugins/layers/_all"
+    "engine/plugins/layers/_all",
+    "engine/modules/sequence.model"
 ],
 
-function( app, PageCollection, Layers ) {
+function( app, PageCollection, Layers, SequenceModel ) {
 
     return app.Backbone.Model.extend({
 
@@ -56,9 +57,16 @@ function( app, PageCollection, Layers ) {
         },
 
         _loadProject: function() {
+            this._loadSequence(); // sequences should be eraticated
             this._loadPages();
             this._loadSoundtrack();
             this.initSaveEvents();
+        },
+
+        // sequences should be eraticated
+        _loadSequence: function() {
+            this.sequence = new SequenceModel( this.get("sequences"))
+            console.log("   load sequences:", this);
         },
 
         _loadPages: function() {
