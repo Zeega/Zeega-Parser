@@ -79,7 +79,7 @@ function( app, Layer, Visual ){
         },
 
         init: function() {
-
+console.log("** init image viz")
             if ( this.model.getAttr("page_background")) {
                 this.visualProperties = ["opacity"];
             }
@@ -88,7 +88,7 @@ function( app, Layer, Visual ){
         afterEditorRender: function() {
             // add height attribute if not already there
             // this may break if the aspect ratio changes
-
+console.log("** after editor render")
             this.aspectRatio = this.getAttr("aspectRatio");
 
             if ( _.isNull( this.aspectRatio ) ) {

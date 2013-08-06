@@ -29,9 +29,9 @@ function( app, Controls ) {
 
         url: function() {
             if ( this.isNew() ) {
-                return app.api + "projects/" + app.project.id + "/layers";
+                return app.getApi() + "projects/" + app.zeega.getCurrentProject().id + "/layers";
             } else {
-                return app.api + "projects/" + app.project.id + "/layers/" + this.id;
+                return app.getApi() + "projects/" + app.zeega.getCurrentProject().id + "/layers/" + this.id;
             }
         },
 
@@ -41,8 +41,8 @@ function( app, Controls ) {
             this.set("attr", augmentAttr );
             this.order = {};
         
-            this.once( "layer:visual_ready", this.onVisualReady, this );
-            this.once( "layer:visual_error", this.onVisualError, this );
+            this.once("layer:visual_ready", this.onVisualReady, this );
+            this.once("layer:visual_error", this.onVisualError, this );
             this.initSaveEvents();
         },
 
@@ -71,7 +71,7 @@ function( app, Controls ) {
         },
 
         addCollection: function( collection ) {
-            if ( this.zeega.get("mode") == "editor" ) {
+            if ( app.mode == "editor" ) {
                 this.collection = collection;
                 this.collection.on("sort", this.onSort, this );
             }
@@ -79,7 +79,7 @@ function( app, Controls ) {
 
         // when the parent collection is resorted as in a layer shuffle
         onSort: function( collection ) {
-            var zIndex = this.order[ collection.frame.id ];
+            var zIndex = this.order[ collection.page.id ];
 
             this.updateZIndex( zIndex );
         },

@@ -39,45 +39,44 @@ function( app, Backbone, LayerCollection, Layers ) {
 
         url: function() {
             if( this.isNew() ) {
-                return app.api + 'projects/' + app.project.id +'/sequences/'+ app.status.get("currentSequence").id +'/frames';
+                return app.api + 'projects/' + app.zeega.getCurrentProject().id +'/sequences/'+ app.zeega.getCurrentProject().sequence.id +'/frames';
             } else {
-                return app.api + 'projects/' + app.project.id + '/frames/'+ this.id;
+                return app.api + 'projects/' + app.zeega.getCurrentProject().id + '/frames/'+ this.id;
             }
         },
 
         initialize: function() {
-            if ( this.zeega.get("mode") == "editor" ) {
-                this.initEditorListeners();
-            } else if ( this.zeega.get("mode") == "player" ) {
+            if ( app.mode == "editor" ) {
+                // this.initEditorListeners();
+            } else if ( app.mode == "player" ) {
                 this.initPlayerListeners();
             }
 
-            // this.lazySave = _.debounce(function() {
-            //     this.save();
-            // }.bind( this ), 1000 );
+            this.lazySave = _.debounce(function() {
+                this.save();
+            }.bind( this ), 1000 );
 
-            // this.startThumbWorker = _.debounce(function() {
-            //     var worker = new Worker( app.webRoot + "js/helpers/thumbworker.js" );
+            this.startThumbWorker = _.debounce(function() {
+                var worker = new Worker( app.webRoot + "js/helpers/thumbworker.js" );
             
-            //     worker.addEventListener("message", function(e) {
+                worker.addEventListener("message", function(e) {
 
-            //         if( e.data ) {
-            //             this.set("thumbnail_url", e.data );
-            //             this.lazySave();
-            //         } else {
-            //             this.trigger('thumbUpdateFail');
-            //         }
-            //         worker.terminate();
-            //     }.bind( this ), false);
+                    if( e.data ) {
+                        this.set("thumbnail_url", e.data );
+                        this.lazySave();
+                    } else {
+                        this.trigger('thumbUpdateFail');
+                    }
+                    worker.terminate();
+                }.bind( this ), false);
 
-            //     worker.postMessage({
-            //         cmd: 'capture',
-            //         msg: app.api + "projects/" + app.project.id + "/frames/" + this.id + "/thumbnail"
-            //     });
+                worker.postMessage({
+                    cmd: 'capture',
+                    msg: app.getApi() + "projects/" + app.zeega.getCurrentProject().id + "/frames/" + this.id + "/thumbnail"
+                });
 
-            // }, 1000);
+            }, 1000);
 
-            // this.initSaveEvents();
         },
 
         initPlayerListeners: function() {
@@ -86,7 +85,9 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         initEditorListeners: function() {
-            
+            this.stopListening( this.layers );
+            this.layers.on("sort", this.onLayerSort, this );
+            this.layers.on("add remove", this.onLayerAddRemove, this );
         },
 
         loadLayers: function( layers ) {
@@ -104,18 +105,28 @@ function( app, Backbone, LayerCollection, Layers ) {
                     _order: i
                 }));
 
-                classedLayer.visual = new Layers[ layer.type ].Visual({
-                    model: classedLayer,
-                    attributes: {
-                        "data-id": layer.id
-                    }
-                });
+                this.addLayerVisual( classedLayer );
 
                 return classedLayer;
             }.bind(this));
 
             this.layers = new LayerCollection( classedLayers );
             this.layers.page = this;
+
+            if ( app.mode == "editor" ) {
+                this.initEditorListeners();
+            }
+        },
+
+        addLayerVisual: function( layer ) {
+            layer.visual = new Layers[ layer.get("type") ].Visual({
+                model: layer,
+                attributes: {
+                    "data-id": layer.id
+                }
+            });
+
+            return layer;
         },
 
         preload: function() {
@@ -164,20 +175,10 @@ function( app, Backbone, LayerCollection, Layers ) {
 
 
 
-
-
-
-
         // editor
-        listenToLayers: function() {
-            if ( this.mode == "editor") {
-                this.stopListening( this.layers );
-                this.layers.on("sort", this.onLayerSort, this );
-                this.layers.on("add remove", this.onLayerAddRemove, this );
-            }
-        },
 
         onLayerAddRemove: function() {
+            console.log("on layer add remove")
             this.onLayerSort();
             this.once("sync", function() {
                 this.updateThumb();
@@ -185,6 +186,7 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         onLayerSort: function() {
+            console.log('on layer sort')
             this.set("layers", this.layers.pluck("id") );
             this.lazySave();
             this.once("sync", function() {
@@ -217,6 +219,8 @@ function( app, Backbone, LayerCollection, Layers ) {
                 type: item.get("layer_type"),
                 attr: _.extend({}, item.toJSON() )
             });
+
+            this.addLayerVisual( newLayer );
 
             // set image layer opacity to 0.5 for layers on top of other layers
             if ( this.layers.length && newLayer.get("type") != "TextV2") {

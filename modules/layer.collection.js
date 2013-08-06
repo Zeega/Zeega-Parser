@@ -12,9 +12,9 @@ function( app ) {
         state: "waiting",
 
         initialize: function( models ) {
-            if ( this.zeega.get("mode") == "editor" ) {
+            if ( app.mode == "editor" ) {
                 this.initEditorListeners();
-            } else if ( this.zeega.get("mode") == "player" ) {
+            } else if ( app.mode == "player" ) {
                 this.initPlayerListeners();
             }
         },
@@ -53,26 +53,22 @@ function( app ) {
         },
 
 
+        // EDITOR
 
 
+        onAdd: function( layer ) {
 
-
-
-        // onAdd: function( layer ) {
-
-        //     if( layer.mode == "editor" ){
-        //         if ( layer ) {
-        //             layer.addCollection( this );
-        //             layer.initVisual( Layers[ layer.get("type") ]);
-        //             app.trigger("layer_added", layer );
-        //         } else {
-        //             this.each(function( layer ){
-        //                 layer.addCollection( this );
-        //                 layer.initVisual( Layers[ layer.get("type") ]);
-        //             });
-        //         }
-        //     }
-        // },
+            if( app.mode == "editor" ){
+                if ( layer ) {
+                    layer.addCollection( this );
+                    app.trigger("layer_added", layer );
+                } else {
+                    this.each(function( layer ){
+                        layer.addCollection( this );
+                    });
+                }
+            }
+        },
 
         onRemove: function( layer ) {
             layer.editorCleanup();
@@ -88,9 +84,6 @@ function( app ) {
 
         comparator: function( layer ) {
             return this.get("_order");
-            // if ( this.page ) {
-            //     return layer.order[ this.page.id ];
-            // }
         }
     });
     

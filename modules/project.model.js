@@ -53,7 +53,7 @@ function( app, PageCollection, Layers, SequenceModel ) {
         },
 
         url : function() {
-            return "html:" + app.metadata.hostname + app.metadata.directory +'api/projects/' + this.id;
+            return app.getApi() + "projects/" + this.id;
         },
 
         _loadProject: function() {
@@ -66,7 +66,6 @@ function( app, PageCollection, Layers, SequenceModel ) {
         // sequences should be eraticated
         _loadSequence: function() {
             this.sequence = new SequenceModel( this.get("sequences"))
-            console.log("   load sequences:", this);
         },
 
         _loadPages: function() {

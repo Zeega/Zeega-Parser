@@ -20,14 +20,15 @@ function( app, Controls ) {
         initialize: function() {
             this.init();
 
-            if ( this.model.mode == "editor" ) {
+            if ( app.mode == "editor" ) {
                 this.model.off("blur focus");
                 this.model.on("focus", this.onFocus, this );
                 this.model.on("blur", this.onBlur, this );
 
                 this.listenToFrame = _.once(function() {
-                    this.model.collection.frame.on("focus", this.editor_onLayerEnter, this );
-                    this.model.collection.frame.on("blur", this.editor_onLayerExit, this );
+                    console.log("LISTEN", this)
+                    this.model.collection.page.on("focus", this.editor_onLayerEnter, this );
+                    this.model.collection.page.on("blur", this.editor_onLayerExit, this );
                 }.bind( this ));
             }
         },
@@ -38,7 +39,7 @@ function( app, Controls ) {
         },
 
         onClick: function() {
-            if ( this.model.mode == "editor") {
+            if ( app.mode == "editor") {
                 app.status.setCurrentLayer( this.model );
             }
         },
@@ -73,7 +74,7 @@ function( app, Controls ) {
         beforePlayerRender: function() {},
 
         beforeRender: function() {
-            if ( this.model.zeega.get("mode") == "player") {
+            if ( app.mode == "player") {
                 // var target = app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
                 //                             $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
 
@@ -86,7 +87,7 @@ function( app, Controls ) {
                 this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
                 this.moveOffStage();
                 this.applyStyles();
-            } else if ( this.model.zeega.get("mode") == "editor") {
+            } else if ( app.mode == "editor") {
 
             }
             this.visualBeforeRender();
@@ -99,9 +100,9 @@ function( app, Controls ) {
         afterRender: function() {
             this.$visual = this.$(".visual-target");
 
-            if ( this.model.zeega.get("mode") == "player") {
+            if ( app.mode == "player") {
                 this.verifyReady();
-            } else if ( this.model.zeega.get("mode") == "editor") {
+            } else if ( app.mode == "editor") {
                 this.loadControls();
                 this.afterEditorRender();
             }
@@ -126,7 +127,7 @@ function( app, Controls ) {
         applyVisualProperties: function() {
             var mediaTargetCSS = {},
                 containerCSS = {};
-
+console.log("APPLY VIZ PROPS", this.model)
             _.each( this.visualProperties, function( prop ) {
                 if ( _.contains( this.containerAttributes, prop ) ) {
                     containerCSS[ prop ] = this.getAttr( prop ) + ( this.units[ prop ] ? this.units[ prop ] : "" );
@@ -236,6 +237,8 @@ function( app, Controls ) {
             var done;
  
             path = "app/engine/plugins/layers/"+ path + ".html";
+
+            console.log("path:", path )
             // If cached, use the compiled template.
             if ( JST[ path ] ) {
                 return JST[ path ];
@@ -243,7 +246,7 @@ function( app, Controls ) {
                 // Put fetch into `async-mode`.
                 done = this.async();
                 // Seek out the template asynchronously.
-                return app.$.ajax({ url: app.root + path }).then(function( contents ) {
+                return app.$.ajax({ url: path }).then(function( contents ) {
                     done(
                       JST[ path ] = _.template( contents )
                     );
