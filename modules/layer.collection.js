@@ -19,6 +19,12 @@ function( app ) {
             }
         },
 
+        afterInit: function() {
+            this.each(function( layer ) {
+                layer.afterInit();
+            });
+        },
+
         initPlayerListeners: function() {
             this.on("layer:visual_ready", this.onVisualReady, this );
         },
@@ -83,7 +89,7 @@ function( app ) {
         },
 
         comparator: function( layer ) {
-            return this.get("_order");
+            return layer.get("_order");
         }
     });
     

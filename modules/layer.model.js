@@ -44,6 +44,14 @@ function( app, Controls ) {
             this.once("layer:visual_ready", this.onVisualReady, this );
             this.once("layer:visual_error", this.onVisualError, this );
             this.initSaveEvents();
+
+            
+        },
+
+        afterInit: function() {
+            if ( app.mode == "editor" ) {
+                this.collection.on("sort", this.onSort, this );
+            }
         },
 
         getTarget: function() {
@@ -70,16 +78,9 @@ function( app, Controls ) {
             this.save("attr", _.extend( attr, attrObj ) );
         },
 
-        addCollection: function( collection ) {
-            if ( app.mode == "editor" ) {
-                this.collection = collection;
-                this.collection.on("sort", this.onSort, this );
-            }
-        },
-
         // when the parent collection is resorted as in a layer shuffle
         onSort: function( collection ) {
-            var zIndex = this.order[ collection.page.id ];
+            var zIndex = this.get("_order");
 
             this.updateZIndex( zIndex );
         },

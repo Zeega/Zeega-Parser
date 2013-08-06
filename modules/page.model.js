@@ -102,7 +102,7 @@ function( app, Backbone, LayerCollection, Layers ) {
             classedLayers = _.map( pageLayers, function( layer, i ) {
                 var classedLayer = new Layers[ layer.type ]( _.extend( layer, {
                     type: layer.type,
-                    _order: i
+                    _order: _.indexOf( this.get("layers"), layer.id )
                 }));
 
                 this.addLayerVisual( classedLayer );
@@ -111,6 +111,7 @@ function( app, Backbone, LayerCollection, Layers ) {
             }.bind(this));
 
             this.layers = new LayerCollection( classedLayers );
+            this.layers.afterInit();
             this.layers.page = this;
 
             if ( app.mode == "editor" ) {
@@ -186,9 +187,12 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         onLayerSort: function() {
-            console.log('on layer sort')
             this.set("layers", this.layers.pluck("id") );
             this.lazySave();
+
+
+            console.log('on layer sort', this.layers.pluck("id"),this.layers.pluck("_order"))
+
             this.once("sync", function() {
                 this.updateThumb();
             }.bind( this ));

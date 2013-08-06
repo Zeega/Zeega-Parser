@@ -26,7 +26,6 @@ function( app, Controls ) {
                 this.model.on("blur", this.onBlur, this );
 
                 this.listenToFrame = _.once(function() {
-                    console.log("LISTEN", this)
                     this.model.collection.page.on("focus", this.editor_onLayerEnter, this );
                     this.model.collection.page.on("blur", this.editor_onLayerExit, this );
                 }.bind( this ));
@@ -127,7 +126,7 @@ function( app, Controls ) {
         applyVisualProperties: function() {
             var mediaTargetCSS = {},
                 containerCSS = {};
-console.log("APPLY VIZ PROPS", this.model)
+
             _.each( this.visualProperties, function( prop ) {
                 if ( _.contains( this.containerAttributes, prop ) ) {
                     containerCSS[ prop ] = this.getAttr( prop ) + ( this.units[ prop ] ? this.units[ prop ] : "" );
@@ -238,7 +237,6 @@ console.log("APPLY VIZ PROPS", this.model)
  
             path = "app/engine/plugins/layers/"+ path + ".html";
 
-            console.log("path:", path )
             // If cached, use the compiled template.
             if ( JST[ path ] ) {
                 return JST[ path ];

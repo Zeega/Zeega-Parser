@@ -79,7 +79,6 @@ function( app, Layer, Visual ){
         },
 
         init: function() {
-console.log("** init image viz")
             if ( this.model.getAttr("page_background")) {
                 this.visualProperties = ["opacity"];
             }
@@ -88,7 +87,6 @@ console.log("** init image viz")
         afterEditorRender: function() {
             // add height attribute if not already there
             // this may break if the aspect ratio changes
-console.log("** after editor render")
             this.aspectRatio = this.getAttr("aspectRatio");
 
             if ( _.isNull( this.aspectRatio ) ) {
@@ -119,7 +117,7 @@ console.log("** after editor render")
             $img.imagesLoaded();
             $img.done(function() {
                 var width, height, top, left, imgRatio, workspaceRatio;
-
+console.log("determine aspect rat")
                 this.model.saveAttr({
                     aspectRatio: $img.width()/ $img.height()
                 });
@@ -158,8 +156,10 @@ console.log("** after editor render")
             _.each( vals, function( val, key ) {
                 this.$el.css( key, val +"%" );
             }, this );
-
-            this.model.saveAttr(_.extend({ page_background: true }, vals ));
+console.log("make page bg")
+            if ( !this.getAttr("page_background") ) {
+                this.model.saveAttr(_.extend({ page_background: true }, vals ));
+            }
         },
 
         fitToWorkspace: function() {
@@ -189,6 +189,7 @@ console.log("** after editor render")
                 top: top + "%",
                 left: left + "%"
             });
+            console.log('fit to workspace')
             this.model.saveAttr({
                 aspectRatio: this.aspectRatio,
                 page_background: false,
