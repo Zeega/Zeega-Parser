@@ -117,7 +117,7 @@ function( app, Layer, Visual ){
             $img.imagesLoaded();
             $img.done(function() {
                 var width, height, top, left, imgRatio, workspaceRatio;
-console.log("determine aspect rat")
+
                 this.model.saveAttr({
                     aspectRatio: $img.width()/ $img.height()
                 });
@@ -156,7 +156,7 @@ console.log("determine aspect rat")
             _.each( vals, function( val, key ) {
                 this.$el.css( key, val +"%" );
             }, this );
-console.log("make page bg")
+
             if ( !this.getAttr("page_background") ) {
                 this.model.saveAttr(_.extend({ page_background: true }, vals ));
             }
@@ -189,7 +189,7 @@ console.log("make page bg")
                 top: top + "%",
                 left: left + "%"
             });
-            console.log('fit to workspace')
+
             this.model.saveAttr({
                 aspectRatio: this.aspectRatio,
                 page_background: false,

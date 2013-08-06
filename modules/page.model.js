@@ -179,7 +179,6 @@ function( app, Backbone, LayerCollection, Layers ) {
         // editor
 
         onLayerAddRemove: function() {
-            console.log("on layer add remove")
             this.onLayerSort();
             this.once("sync", function() {
                 this.updateThumb();
@@ -189,9 +188,6 @@ function( app, Backbone, LayerCollection, Layers ) {
         onLayerSort: function() {
             this.set("layers", this.layers.pluck("id") );
             this.lazySave();
-
-
-            console.log('on layer sort', this.layers.pluck("id"),this.layers.pluck("_order"))
 
             this.once("sync", function() {
                 this.updateThumb();
@@ -221,9 +217,12 @@ function( app, Backbone, LayerCollection, Layers ) {
         addLayerByItem: function( item, eventData ) {
             var newLayer = new Layers[ item.get("layer_type") ]({
                 type: item.get("layer_type"),
-                attr: _.extend({}, item.toJSON() )
+                attr: _.extend({}, item.toJSON() ),
+                _order: this.layers.length
             });
 
+            newLayer.collection = this.layers;
+            newLayer.afterInit();
             this.addLayerVisual( newLayer );
 
             // set image layer opacity to 0.5 for layers on top of other layers
@@ -231,8 +230,6 @@ function( app, Backbone, LayerCollection, Layers ) {
                 newLayer.setAttr({ opacity: 0.5 });
             }
 
-            newLayer.order[ this.id ] = this.layers.length;
-            
             newLayer.eventData = eventData;
             app.emit("layer_added_start", newLayer );
 

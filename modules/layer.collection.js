@@ -66,7 +66,7 @@ function( app ) {
 
             if( app.mode == "editor" ){
                 if ( layer ) {
-                    layer.addCollection( this );
+                    // layer.addCollection( this );
                     app.trigger("layer_added", layer );
                 } else {
                     this.each(function( layer ){
