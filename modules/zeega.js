@@ -175,6 +175,10 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             return this.projects.at(0).soundtrack;
         },
 
+        isRemix: function() {
+            return this.getCurrentProject().get("remix").remix;
+        },
+
         preloadNextZeega: function() {
             var remixData = this.getCurrentProject().getRemixData();
 

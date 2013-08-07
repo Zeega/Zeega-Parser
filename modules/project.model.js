@@ -101,6 +101,51 @@ function( app, PageCollection, Layers, SequenceModel ) {
             this.sequence.save("frames", order );
         },
 
+        
+        setSoundtrack: function( item, soundtrackView, eventData ) {
+            var newLayer;
+
+            if ( this.soundtrack ) this.removeSoundtrack( this.soundtrack );
+
+            newLayer = new Layers[ item.get("layer_type") ]({
+                    type: item.get("layer_type")
+                });
+
+            newLayer.set( "attr", _.extend({},
+                newLayer.get("attr"),
+                {
+                    loop: true,
+                    soundtrack: true
+                },
+                item.toJSON())
+            );
+
+            newLayer.eventData = eventData;
+            newLayer
+                .save()
+                .success(function( response ) {
+                    this.soundtrack = newLayer;
+
+                    this.sequence.save({
+                            attr: _.extend({}, this.sequence.get("attr"), { soundtrack: newLayer.id })
+                        });
+
+                    soundtrackView.setSoundtrackLayer( newLayer );
+                    app.emit("soundtrack_added_success", newLayer);
+                }.bind( this ));
+        },
+
+        removeSoundtrack: function( layer ) {
+            if ( this.soundtrack ) {
+                this.sequence.save({
+                        attr: _.extend({}, this.sequence.get("attr"), { soundtrack: false })
+                    });
+                app.emit("soundtrack_delete", this.soundtrack);
+                this.soundtrack.destroy();
+            }
+            
+        },
+
 
         ///////
 
