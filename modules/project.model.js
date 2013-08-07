@@ -98,13 +98,11 @@ function( app, PageCollection, Layers, SequenceModel ) {
         },
 
         setPageOrder: function( order ) {
-            console.log("** set page order", order, this.sequence )
             this.sequence.save("frames", order );
         },
 
 
         ///////
-
 
 
         getProjectJSON: function() {

@@ -40,7 +40,6 @@ function( app, PageModel, LayerCollection ) {
         /////
 
         initEditor: function() {
-            console.log("init editor!!!!")
             this.on("add", this.onFrameAdd, this );
             this.on("remove", this.onPageRemove, this );
         },
@@ -61,12 +60,11 @@ function( app, PageModel, LayerCollection ) {
 
 //                newPage.status = app.status;
                 newPage.layers = new LayerCollection( _.compact( continuingLayers ) );
-                newPage.layers.frame = newPage;
+                newPage.layers.page = newPage;
                 newPage.initEditorListeners();
                 newPage.editorAdvanceToPage = skipTo;
 
                 newPage.save().success(function() {
-                    // app.zeega.getCurrentProject().addFrameToKey( newPage.id, this.sequence.id );
 
                     if ( _.isUndefined( index ) ) {
                         this.push( newPage );
@@ -88,21 +86,26 @@ function( app, PageModel, LayerCollection ) {
         },
 
         onFrameAdd: function( frame ) {
-            this.sequence.save("frames", this.pluck("id") );
+            app.zeega.getCurrentProject().setPageOrder( this.pluck("id") );
         },
 
         onPageRemove: function( pageModel ) {
-            var pageID = pageModel.id;
+            var pageID = pageModel.id,
+                index = pageModel.get("_order");
 
-            app.trigger("frame_remove", pageModel );
-            pageModel.destroy();
             this.sort();
 
             if ( this.length === 0 ) {
                 this.addPage();
             } else {
                 app.zeega.getCurrentProject().setPageOrder( this.pluck("id") );
+                if ( app.zeega.getCurrentPage().id == pageID ) {
+                    app.zeega.setCurrentPage( this.at( this.length <= index ? 0 : index ));
+                }
             }
+
+            app.trigger("frame_remove", pageModel );
+            pageModel.destroy();
         },
 
         comparator: function( frame ) {
