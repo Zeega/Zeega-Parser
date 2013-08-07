@@ -14,6 +14,14 @@ function( app, PageModel, LayerCollection ) {
         zeega: null,
         remixPageMax: 5,
 
+        initialize: function() {
+            if ( app.mode == "editor" ) {
+                this.initEditor()
+            } else if ( app.mode == "player") {
+
+            }
+        },
+
         load: function( layers, project ) {
             this.each(function( page ) {
                 page.loadLayers( layers );
@@ -31,52 +39,49 @@ function( app, PageModel, LayerCollection ) {
 
         /////
 
-
-
-
         initEditor: function() {
+            console.log("init editor!!!!")
             this.on("add", this.onFrameAdd, this );
-            this.on("remove", this.onFrameRemove, this );
+            this.on("remove", this.onPageRemove, this );
         },
-
 
         // add frame at a specified index.
         // omit index to append frame
-        addFrame: function( index, skipTo ) {
+        addPage: function( index, skipTo ) {
 
-            if ( !app.project.get("remix").remix || ( app.project.get("remix").remix && this.length < this.remixPageMax )) {
-                var newFrame, continuingLayers = [];
+            if ( !app.zeega.getCurrentProject().get("remix").remix || ( app.zeega.getCurrentProject().get("remix").remix && this.length < this.remixPageMax )) {
+                var newPage, continuingLayers = [];
 
                 skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
                 index = index == "auto" ? undefined : index;
 
-                newFrame = new FrameModel({
+                newPage = new PageModel({
                     _order: index
                 });
 
-                newFrame.status = app.status;
-                newFrame.layers = new LayerCollection( _.compact( continuingLayers ) );
-                newFrame.layers.frame = newFrame;
-                newFrame.listenToLayers();
-                newFrame.editorAdvanceToPage = skipTo;
+//                newPage.status = app.status;
+                newPage.layers = new LayerCollection( _.compact( continuingLayers ) );
+                newPage.layers.frame = newPage;
+                newPage.initEditorListeners();
+                newPage.editorAdvanceToPage = skipTo;
 
-                newFrame.save().success(function() {
-                    app.project.addFrameToKey( newFrame.id, this.sequence.id );
+                newPage.save().success(function() {
+                    // app.zeega.getCurrentProject().addFrameToKey( newPage.id, this.sequence.id );
 
                     if ( _.isUndefined( index ) ) {
-                        this.push( newFrame );
+                        this.push( newPage );
                     } else {
-                        this.add( newFrame, { at: index });
+                        this.add( newPage, { at: index });
                     }
 
                     this.each(function( frame, i ) {
                         frame.set("_order", i );
                     });
 
-                    app.trigger("frame_add", newFrame );
+                    app.trigger("frame_add", newPage );
                 }.bind( this ));
 
-                return newFrame;
+                return newPage;
             } else {
                 // too many pages. do nothing
             }
@@ -86,28 +91,17 @@ function( app, PageModel, LayerCollection ) {
             this.sequence.save("frames", this.pluck("id") );
         },
 
-        onFrameRemove: function( frameModel ) {
-            var frameID = frameModel.id;
+        onPageRemove: function( pageModel ) {
+            var pageID = pageModel.id;
 
-            app.trigger("frame_remove", frameModel );
-            frameModel.destroy();
+            app.trigger("frame_remove", pageModel );
+            pageModel.destroy();
             this.sort();
 
-            // remove link layers targeting the deleted frame
-            app.project.sequences.each(function( sequence ) {
-                sequence.frames.each(function( frame ) {
-                    frame.layers.each( function( layer ) {
-                        if ( layer.get("type") == "Link" && layer.get("attr").to_frame == frameID ) {
-                            layer.collection.remove( layer );
-                        }
-                    });
-                });
-            });
-
             if ( this.length === 0 ) {
-                this.addFrame();
+                this.addPage();
             } else {
-                this.sequence.save("frames", this.pluck("id") );
+                app.zeega.getCurrentProject().setPageOrder( this.pluck("id") );
             }
         },
 

@@ -111,12 +111,13 @@ function( app, Backbone, LayerCollection, Layers ) {
             }.bind(this));
 
             this.layers = new LayerCollection( classedLayers );
-            this.layers.afterInit();
             this.layers.page = this;
 
             if ( app.mode == "editor" ) {
                 this.initEditorListeners();
             }
+            
+            this.layers.afterInit();
         },
 
         addLayerVisual: function( layer ) {
@@ -209,7 +210,7 @@ function( app, Backbone, LayerCollection, Layers ) {
             app.emit("layer_added_start", newLayer );
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
-                app.status.setCurrentLayer( newLayer );
+//                app.status.setCurrentLayer( newLayer );
                 app.emit("layer_added_success", newLayer );
             }.bind( this ));
         },
@@ -222,7 +223,6 @@ function( app, Backbone, LayerCollection, Layers ) {
             });
 
             newLayer.collection = this.layers;
-            newLayer.afterInit();
             this.addLayerVisual( newLayer );
 
             // set image layer opacity to 0.5 for layers on top of other layers
@@ -236,10 +236,11 @@ function( app, Backbone, LayerCollection, Layers ) {
             newLayer.save()
                 .success(function( response ) {
                     this.layers.add( newLayer );
-                    app.status.setCurrentLayer( newLayer );
+                    app.zeega.setCurrentLayer( newLayer );
                     app.emit("layer_added_success", newLayer );
                 }.bind( this ));
             
+            newLayer.afterInit();
         },
 
         pasteLayer: function( layer ) {
@@ -248,7 +249,7 @@ function( app, Backbone, LayerCollection, Layers ) {
             newLayer.order[ this.id ] = this.layers.length;
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
-                app.status.setCurrentLayer( newLayer );
+//                app.status.setCurrentLayer( newLayer );
             }.bind( this ));
 
         },

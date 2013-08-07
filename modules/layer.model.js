@@ -40,17 +40,15 @@ function( app, Controls ) {
             
             this.set("attr", augmentAttr );
             this.order = {};
-        
             this.once("layer:visual_ready", this.onVisualReady, this );
             this.once("layer:visual_error", this.onVisualError, this );
             this.initSaveEvents();
-
-            
         },
 
         afterInit: function() {
             if ( app.mode == "editor" ) {
                 this.collection.on("sort", this.onSort, this );
+                this.visual.afterInit();
             }
         },
 
@@ -109,7 +107,6 @@ function( app, Controls ) {
         // editor mode skips preload and renders immediately
         enterEditorMode: function() {
             this.loadControls();
-            this.visual.enterEditorMode();
             this.visual.moveOnStage();
         },
 

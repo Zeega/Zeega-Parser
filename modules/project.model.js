@@ -65,7 +65,7 @@ function( app, PageCollection, Layers, SequenceModel ) {
 
         // sequences should be eraticated
         _loadSequence: function() {
-            this.sequence = new SequenceModel( this.get("sequences"))
+            this.sequence = new SequenceModel( this.get("sequences")[0])
         },
 
         _loadPages: function() {
@@ -97,6 +97,10 @@ function( app, PageCollection, Layers, SequenceModel ) {
             return this.get("remix");
         },
 
+        setPageOrder: function( order ) {
+            console.log("** set page order", order, this.sequence )
+            this.sequence.save("frames", order );
+        },
 
 
         ///////

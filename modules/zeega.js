@@ -26,7 +26,9 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             // do I need these?
             previousProject: null,
             previousPage: null,
-            previousLayer: null
+            previousLayer: null,
+
+            copiedLayer: null
         },
 
         initialize: function( models, options ) {
@@ -113,9 +115,25 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             return this.projects.at( index - 1 );
         },
 
-
         getCurrentPage: function() {
             return this.get("currentPage");
+        },
+
+        setCurrentPage: function( page ) {
+            var oldPage = this.get("currentPage");
+
+            this.setCurrentLayer( null );
+
+            if ( oldPage && page ) {
+                oldPage.trigger("blur");
+            }
+
+            if ( page ) {
+                this.set("currentPage", page );
+                page.trigger("focus");
+            } else if ( page === null ) { // should this be allowed?
+                this.set("currentPage", null);
+            }
         },
 
         getPages: function() {
@@ -135,7 +153,22 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         getCurrentLayer: function() {
+            return this.get("currentLayer");
+        },
 
+        setCurrentLayer: function( layer ) {
+            var oldLayer = this.get("currentLayer");
+
+            if ( oldLayer && layer ) {
+                oldLayer.trigger("blur");
+            }
+
+            if ( layer ) {
+                this.set("currentLayer", layer );
+                layer.trigger("focus")
+            } else if ( layer === null ) {
+                this.set("currentLayer", null );
+            }
         },
 
         getSoundtrack: function() {

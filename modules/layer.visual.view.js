@@ -17,6 +17,8 @@ function( app, Controls ) {
         _allowedControls: [ "resize", "position" ],
         $visual: null,
 
+        listenToFrame: null,
+
         initialize: function() {
             this.init();
 
@@ -32,6 +34,17 @@ function( app, Controls ) {
             }
         },
 
+        afterInit: function() {
+            if ( app.mode == "editor" ) {
+                this.listenToFrame();
+
+                // this.loadControls();
+                this.delegateEvents( _.extend( this.events, this.editorEvents ));
+            } else if ( app.mode == "player" ) {
+
+            }
+        },
+
         events: {},
         editorEvents: {
             "click": "onClick"
@@ -39,19 +52,9 @@ function( app, Controls ) {
 
         onClick: function() {
             if ( app.mode == "editor") {
-                app.status.setCurrentLayer( this.model );
+                app.zeega.setCurrentLayer( this.model );
             }
         },
-
-        /* editor fxns */
-        enterEditorMode: function() {
-            this.listenToFrame();
-
-            // this.loadControls();
-            this.delegateEvents( _.extend( this.events, this.editorEvents ));
-        },
-
-        listenToFrame: null,
 
         onFocus: function() {
             this.$el.addClass('active');
