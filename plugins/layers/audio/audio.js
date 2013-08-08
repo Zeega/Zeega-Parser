@@ -74,6 +74,7 @@ function( app, _Layer, Visual ){
             },
 
             onPause: function() {
+                this.setAudio();
                 this.audio.pause();
             },
 
@@ -89,12 +90,11 @@ function( app, _Layer, Visual ){
             editor_onLayerEnter: function() {},
 
             editor_onLayerExit: function() {
-                this.$("audio").attr("src", "");
-                this.audio = null;
-                this.render();
+                this.destroy();
             },
 
             playPause: function() {
+                this.setAudio();
                 if ( this.audio.paused ) {
                     this.audio.play();
                 } else {

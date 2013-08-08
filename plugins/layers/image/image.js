@@ -104,7 +104,7 @@ function( app, Layer, Visual ){
             this.model.on("resized", this.onResize, this );
         },
 
-        afterPlayerRender: function() {
+        onPlay: function() {
             if ( this.model.getAttr("page_background")) {
                 this.makePageBackground();
             }
