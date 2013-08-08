@@ -86,7 +86,6 @@ function( app, Layer, Visual ){
         },
 
         afterEditorRender: function() {
-            console.log("AFTER EDITOR RENDER", this.model.id)
             // add height attribute if not already there
             // this may break if the aspect ratio changes
             this.aspectRatio = this.getAttr("aspectRatio");

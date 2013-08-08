@@ -32,7 +32,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         initialize: function( models, options ) {
-            this.injectZeega();
+            this.injectZeega( this );
 
             if ( options.projects ) this.projects = new ProjectCollection( options.projects );
 
@@ -43,15 +43,13 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             this._initCurrentState();
         },
 
-        injectZeega: function() {
+        injectZeega: function( zeega ) {
             ProjectCollection.prototype.zeega =
             ProjectModel.prototype.zeega =
             PageCollection.prototype.zeega =
             PageModel.prototype.zeega =
             LayerCollection.prototype.zeega =
-            LayerModel.prototype.zeega = this;
-
-            
+            LayerModel.prototype.zeega = zeega;
         },
 
         focusPage: function( page ) {

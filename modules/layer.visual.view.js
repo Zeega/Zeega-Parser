@@ -76,8 +76,6 @@ function( app, Controls ) {
         beforePlayerRender: function() {},
 
         beforeRender: function() {
-
-            console.log("&& before VIZ render", this.model.zeega.cid , this.model.zeega.get("mode"), this.model );
             if ( this.model.zeega.get("mode") == "player") {
                 this.className = this._className + " " + this.className;
                 this.beforePlayerRender();
