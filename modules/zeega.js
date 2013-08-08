@@ -50,6 +50,8 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             PageModel.prototype.zeega =
             LayerCollection.prototype.zeega =
             LayerModel.prototype.zeega = this;
+
+            
         },
 
         focusPage: function( page ) {
