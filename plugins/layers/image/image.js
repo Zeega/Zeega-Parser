@@ -80,6 +80,7 @@ function( app, Layer, Visual ){
 
         init: function() {
             if ( this.model.getAttr("page_background")) {
+                this.model.setAttr( this.model.pageBackgroundPositioning );
                 this.visualProperties = ["opacity"];
             }
         },
@@ -101,6 +102,12 @@ function( app, Layer, Visual ){
             this.stopListening( this.model );
             this.model.on("toggle_page_background", this.togglePageBackgroundState, this );
             this.model.on("resized", this.onResize, this );
+        },
+
+        afterPlayerRender: function() {
+            if ( this.model.getAttr("page_background")) {
+                this.makePageBackground();
+            }
         },
 
         onResize: function( attr ) {},

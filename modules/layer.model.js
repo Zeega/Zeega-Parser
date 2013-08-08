@@ -46,7 +46,7 @@ function( app, Controls ) {
         },
 
         afterInit: function() {
-            if ( app.mode == "editor" ) {
+            if ( this.zeega.get("mode") == "editor" ) {
                 this.collection.on("sort", this.onSort, this );
                 this.visual.afterInit();
             }

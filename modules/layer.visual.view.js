@@ -22,7 +22,7 @@ function( app, Controls ) {
         initialize: function() {
             this.init();
 
-            if ( app.mode == "editor" ) {
+            if ( this.model.zeega.get("mode") == "editor" ) {
                 this.model.off("blur focus");
                 this.model.on("focus", this.onFocus, this );
                 this.model.on("blur", this.onBlur, this );
@@ -35,12 +35,12 @@ function( app, Controls ) {
         },
 
         afterInit: function() {
-            if ( app.mode == "editor" ) {
+            if ( this.model.zeega.get("mode") == "editor" ) {
                 this.listenToFrame();
 
                 // this.loadControls();
                 this.delegateEvents( _.extend( this.events, this.editorEvents ));
-            } else if ( app.mode == "player" ) {
+            } else if ( this.model.zeega.get("mode") == "player" ) {
 
             }
         },
@@ -51,7 +51,7 @@ function( app, Controls ) {
         },
 
         onClick: function() {
-            if ( app.mode == "editor") {
+            if ( this.model.zeega.get("mode") == "editor") {
                 app.zeega.setCurrentLayer( this.model );
             }
         },
@@ -76,20 +76,16 @@ function( app, Controls ) {
         beforePlayerRender: function() {},
 
         beforeRender: function() {
-            if ( app.mode == "player") {
-                // var target = app.player.get("target") ? app.player.get("target").find(".ZEEGA-player-window") :
-                //                             $(".ZEEGA-workspace")[0] ? $(".ZEEGA-workspace") : $(".ZEEGA-player-window");
-
+            if ( this.model.zeega.get("mode") == "player") {
                 this.className = this._className + " " + this.className;
                 this.beforePlayerRender();
 
                 this.model.getTarget().append( this.el );
-                //Zeega.$( target ).append( this.el );
 
                 this.$el.addClass( "visual-element-" + this.model.get("type").toLowerCase() );
                 this.moveOffStage();
                 this.applyStyles();
-            } else if ( app.mode == "editor") {
+            } else if ( this.model.zeega.get("mode") == "editor") {
 
             }
             this.visualBeforeRender();
@@ -102,9 +98,10 @@ function( app, Controls ) {
         afterRender: function() {
             this.$visual = this.$(".visual-target");
 
-            if ( app.mode == "player") {
+            if ( this.model.zeega.get("mode") == "player") {
                 this.verifyReady();
-            } else if ( app.mode == "editor") {
+                this.afterPlayerRender();
+            } else if ( this.model.zeega.get("mode") == "editor") {
                 this.loadControls();
                 this.afterEditorRender();
             }
@@ -129,7 +126,6 @@ function( app, Controls ) {
         applyVisualProperties: function() {
             var mediaTargetCSS = {},
                 containerCSS = {};
-
             _.each( this.visualProperties, function( prop ) {
                 if ( _.contains( this.containerAttributes, prop ) ) {
                     containerCSS[ prop ] = this.getAttr( prop ) + ( this.units[ prop ] ? this.units[ prop ] : "" );
@@ -137,12 +133,12 @@ function( app, Controls ) {
                     mediaTargetCSS[ prop ] = this.getAttr( prop ) + ( this.units[ prop ] ? this.units[ prop ] : "" );
                 }
             }, this );
-
             this.$el.css( containerCSS );
             this.$(".visual-target").css( mediaTargetCSS );
         },
 
         afterEditorRender: function() {},
+        afterPlayerRender: function() {},
 
         // default verify fxn. return ready immediately
         verifyReady: function() {

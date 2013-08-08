@@ -46,9 +46,9 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         initialize: function() {
-            if ( app.mode == "editor" ) {
+            if ( this.zeega.get("mode") == "editor" ) {
                 // this.initEditorListeners();
-            } else if ( app.mode == "player" ) {
+            } else if ( this.zeega.get("mode") == "player" ) {
                 this.initPlayerListeners();
             }
 
@@ -113,7 +113,7 @@ function( app, Backbone, LayerCollection, Layers ) {
             this.layers = new LayerCollection( classedLayers );
             this.layers.page = this;
 
-            if ( app.mode == "editor" ) {
+            if ( this.zeega.get("mode") == "editor" ) {
                 this.initEditorListeners();
             }
             
@@ -269,6 +269,13 @@ function( app, Backbone, LayerCollection, Layers ) {
 
             this.set("attr", _.extend( attr, attrObj ) );
             this.lazySave();
+        },
+
+        destroy: function() {
+            this.layers.each(function( layer ) {
+                layer.destroy();
+            });
+            this.state = "destroyed";
         }
 
     });

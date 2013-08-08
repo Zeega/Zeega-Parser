@@ -15,12 +15,18 @@ function( app, PageModel, LayerCollection ) {
         remixPageMax: 5,
 
         initialize: function() {
-            if ( app.mode == "editor" ) {
+            if ( this.zeega.get("mode") == "editor" ) {
                 this.initEditor()
-            } else if ( app.mode == "player") {
+            } else if ( this.zeega.get("mode") == "player") {
 
             }
         },
+
+        initEditor: function() {
+            this.on("add", this.onFrameAdd, this );
+            this.on("remove", this.onPageRemove, this );
+        },
+
 
         load: function( layers, project ) {
             this.each(function( page ) {
@@ -38,11 +44,6 @@ function( app, PageModel, LayerCollection ) {
         },
 
         /////
-
-        initEditor: function() {
-            this.on("add", this.onFrameAdd, this );
-            this.on("remove", this.onPageRemove, this );
-        },
 
         // add frame at a specified index.
         // omit index to append frame

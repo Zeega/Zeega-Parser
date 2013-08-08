@@ -203,14 +203,35 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                         mode: "player"
                     })
                 );
-            var newProject = new ProjectModel( newProjectData );
+            var newProject = new ProjectModel( newProjectData);
 
             newProject._loadProject();
 
             this.projects.push( newProject );
         },
 
+        getProjectJSON: function() {
+            var pData, currentProject, layers, soundtrack;
 
+            pData = {};
+            currentProject = this.getCurrentProject();
+            layers = _.flatten( currentProject.pages.map(function( page ) {
+                    return page.layers.toJSON();
+                }), true );
+            soundtrack = currentProject.soundtrack ? currentProject.soundtrack.toJSON() : {};
+
+            layers.push( soundtrack );
+
+            _.extend( pData, currentProject.toJSON(), {
+                sequences: [ currentProject.sequence.toJSON() ],
+                frames: currentProject.pages.toJSON(),
+                layers: layers
+            });
+
+            pData.sequences = [ currentProject.sequence.toJSON() ];
+
+            return pData;
+        },
 
         addProject: function( project ) {
 
@@ -237,6 +258,13 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         _setFirstPage: function() {
             this.projects.at(0);
+        },
+
+        destroy: function() {
+
+            this.projects.each(function( project ) {
+                project.destroy();
+            });
         }
     });
 

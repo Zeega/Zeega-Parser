@@ -12,9 +12,9 @@ function( app ) {
         state: "waiting",
 
         initialize: function( models ) {
-            if ( app.mode == "editor" ) {
+            if ( this.zeega.get("mode") == "editor" ) {
                 this.initEditorListeners();
-            } else if ( app.mode == "player" ) {
+            } else if ( this.zeega.get("mode") == "player" ) {
                 this.initPlayerListeners();
             }
         },
@@ -64,7 +64,7 @@ function( app ) {
 
         onAdd: function( layer ) {
 
-            if( app.mode == "editor" ){
+            if( this.zeega.get("mode") == "editor" ){
                 if ( layer ) {
                     // layer.addCollection( this );
                     app.trigger("layer_added", layer );

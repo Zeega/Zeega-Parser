@@ -67,18 +67,17 @@ function( app, _Layer, Visual ){
             },
 
             onPlay: function() {
-                this.setAudio();
-                this.ended = false;
-                this.audio.play();
+                if ( this.audio ) {
+                    this.ended = false;
+                    this.audio.play();
+                }
             },
 
             onPause: function() {
-                this.setAudio();
                 this.audio.pause();
             },
 
             onExit: function() {
-                this.setAudio();
                 this.audio.pause();
             },
 
@@ -96,7 +95,6 @@ function( app, _Layer, Visual ){
             },
 
             playPause: function() {
-                this.setAudio();
                 if ( this.audio.paused ) {
                     this.audio.play();
                 } else {
@@ -104,15 +102,20 @@ function( app, _Layer, Visual ){
                 }
             },
 
+            afterPlayerRender: function() {
+                this.setAudio();
+            },
+
             setAudio: function() {
                 if ( this.audio === null ) {
                     this.audio = this.$("audio")[0];
+                    console.log("SET AUDIO", this.audio, this.$("audio")[0])
                     this.audio.load();
                 }
             },
 
             getAudio: function() {
-                this.setAudio();
+                // this.setAudio();
 
                 return this.audio;
             },

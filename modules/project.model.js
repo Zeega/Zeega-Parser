@@ -70,10 +70,10 @@ function( app, PageCollection, Layers, SequenceModel ) {
 
         _loadPages: function() {
             var pageArray = _.map( this.get("sequences")[0].frames, function( pageId ) {
-                return _.find( this.get("frames"), function( page ) {
-                    return page.id == pageId
-                });
-            }, this );
+                    return _.find( this.get("frames"), function( page ) {
+                        return page.id == pageId
+                    });
+                }, this );
 
             this.pages = new PageCollection( pageArray );
             this.pages.load( this.get("layers"), this );
@@ -203,6 +203,13 @@ function( app, PageCollection, Layers, SequenceModel ) {
 
         onProjectPublish: function( model, response ) {
             this.set({ publish_update: 0 });
+        },
+
+        destroy: function() {
+            if ( this.soundtrack ) this.soundtrack.destroy();
+            this.pages.each(function( page ) {
+                page.destroy();
+            });
         }
 
     });
