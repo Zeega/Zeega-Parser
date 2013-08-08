@@ -250,12 +250,16 @@ function( app, Backbone, LayerCollection, Layers ) {
         pasteLayer: function( layer ) {
             var newLayer = new Layers[ layer.get("type") ]( _.extend({}, layer.toJSON(), { id: null } ) );
 
-            newLayer.order[ this.id ] = this.layers.length;
+            newLayer.collection = this.layers;
+            this.addLayerVisual( newLayer );
+            app.emit("layer_added_start", newLayer );
+
             newLayer.save().success(function( response ) {
                 this.layers.add( newLayer );
-//                app.status.setCurrentLayer( newLayer );
+                app.zeega.setCurrentLayer( newLayer );
+                app.emit("layer_added_success", newLayer );
             }.bind( this ));
-
+            newLayer.afterInit();
         },
 
         //update the frame thumbnail

@@ -28,7 +28,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             previousPage: null,
             previousLayer: null,
 
-            copiedLayer: null
+            clipboard: null
         },
 
         initialize: function( models, options ) {
@@ -159,7 +159,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         setCurrentLayer: function( layer ) {
             var oldLayer = this.get("currentLayer");
 
-            if ( oldLayer && layer ) {
+            if ( oldLayer ) {
                 oldLayer.trigger("blur");
             }
 
@@ -177,6 +177,25 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         isRemix: function() {
             return this.getCurrentProject().get("remix").remix;
+        },
+
+        copyLayer: function( layer ) {
+            if ( layer ) {
+                this.set("clipboard", layer );
+                layer.trigger("copy_focus");
+                this.emit("layer_copied", layer );
+            }
+        },
+
+        getClipboard: function() {
+            return this.get("clipboard");
+        },
+
+        emptyClipboard: function() {
+            var old = this.get("clipboard");
+
+            this.set("clipboard", false );
+            return old;
         },
 
         preloadNextZeega: function() {
