@@ -3,7 +3,7 @@ define([
     "engine/modules/control.view"
 ],
 
-function( Zeega, ControlView ) {
+function( app, ControlView ) {
 
     return {
 
@@ -21,7 +21,7 @@ function( Zeega, ControlView ) {
                     handles: "ne, nw, se, sw",
                     start: function( e, ui ) {
                         this.model.visual.transforming = true;
-                        Zeega.status.setCurrentLayer( this.model );
+                        app.zeega.setCurrentLayer( this.model );
                     }.bind( this ),
                     stop: function( e, ui ) {
                         var attr = {}, width, height;

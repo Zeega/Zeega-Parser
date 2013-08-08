@@ -198,9 +198,10 @@ function( app, Backbone, LayerCollection, Layers ) {
         addLayerType: function( type ) {
             var newLayer = new Layers[ type ]({ type: type });
 
-            this.set("attr", this.defaults.attr );
+            newLayer.collection = this.layers;
+            this.addLayerVisual( newLayer );
 
-            newLayer.order[ this.id ] = this.layers.length;
+            this.set("attr", this.defaults.attr );
 
             // set image layer opacity to 0.5 for layers on top of other layers
             if ( this.layers.length && newLayer.get("type") != "TextV2") {
@@ -208,11 +209,14 @@ function( app, Backbone, LayerCollection, Layers ) {
             }
 
             app.emit("layer_added_start", newLayer );
-            newLayer.save().success(function( response ) {
-                this.layers.add( newLayer );
-//                app.status.setCurrentLayer( newLayer );
-                app.emit("layer_added_success", newLayer );
-            }.bind( this ));
+            newLayer
+                .save()
+                .success(function( response ) {
+                    this.layers.add( newLayer );
+                    app.zeega.setCurrentLayer( newLayer );
+                    app.emit("layer_added_success", newLayer );
+                }.bind( this ));
+            newLayer.afterInit();
         },
 
         addLayerByItem: function( item, eventData ) {

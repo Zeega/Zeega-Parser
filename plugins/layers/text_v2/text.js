@@ -212,7 +212,7 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         launchTextModal: function() {
-            if ( !this.transforming && this.model.mode == "editor" ) {
+            if ( !this.transforming && this.model.zeega.get("mode") == "editor" ) {
                 $("body").append( this.textModal.el );
                 this.textModal.render();
             }
@@ -257,12 +257,11 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         onMouseUp: function() {
+            console.log("TEXT MOUSE UP", this.mousedown,this.model.zeega.get("mode"))
             if ( this.mousedown ) {
                 this.launchTextModal();
-                if ( this.model.mode == "editor" ) {
-                    app.status.setCurrentLayer( this.model );
-                } else {
-                    this.model.relay.set( "current_frame", this.getAttr("to_frame") );
+                if ( this.model.zeega.get("mode") == "editor" ) {
+                    app.zeega.setCurrentLayer( this.model );
                 }
             }
             this.mousedown = false;
