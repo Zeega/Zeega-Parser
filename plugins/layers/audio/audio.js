@@ -125,6 +125,7 @@ function( app, _Layer, Visual ){
 
                 this.audio.load();
                 this.audio.addEventListener("canplay", function() {
+                    this.model.state = "ready";
                     this.onCanPlay();
                 }.bind( this ));
             },
@@ -289,6 +290,7 @@ function( app, _Layer, Visual ){
 
             onLoading: function( value ){
                 if( value == 3 ) {
+                    this.model.state = "ready";
                     this.model.trigger( "layer:visual_ready", this.model.id );
                 }
             },
