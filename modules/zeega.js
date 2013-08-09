@@ -141,7 +141,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             
             this.projects.each(function( project ) {
                 project.pages.each(function( page ) {
-                    pagesArray.push( page )
+                    pagesArray.push( page );
                 });
             });
 
@@ -165,7 +165,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
             if ( layer ) {
                 this.set("currentLayer", layer );
-                layer.trigger("focus")
+                layer.trigger("focus");
             } else if ( layer === null ) {
                 this.set("currentLayer", null );
             }

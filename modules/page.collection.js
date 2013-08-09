@@ -16,7 +16,7 @@ function( app, PageModel, LayerCollection ) {
 
         initialize: function() {
             if ( this.zeega.get("mode") == "editor" ) {
-                this.initEditor()
+                this.initEditor();
             } else if ( this.zeega.get("mode") == "player") {
 
             }

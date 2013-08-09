@@ -109,7 +109,6 @@ function( app, _Layer, Visual ){
             setAudio: function() {
                 if ( this.audio === null ) {
                     this.audio = this.$("audio")[0];
-                    console.log("SET AUDIO", this.audio, this.$("audio")[0])
                     this.audio.load();
                 }
             },

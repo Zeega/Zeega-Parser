@@ -257,7 +257,6 @@ function( app, _Layer, Visual, TextModal ) {
         },
 
         onMouseUp: function() {
-            console.log("TEXT MOUSE UP", this.mousedown,this.model.zeega.get("mode"))
             if ( this.mousedown ) {
                 this.launchTextModal();
                 if ( this.model.zeega.get("mode") == "editor" ) {

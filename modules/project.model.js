@@ -65,13 +65,13 @@ function( app, PageCollection, Layers, SequenceModel ) {
 
         // sequences should be eraticated
         _loadSequence: function() {
-            this.sequence = new SequenceModel( this.get("sequences")[0])
+            this.sequence = new SequenceModel( this.get("sequences")[0]);
         },
 
         _loadPages: function() {
             var pageArray = _.map( this.get("sequences")[0].frames, function( pageId ) {
                     return _.find( this.get("frames"), function( page ) {
-                        return page.id == pageId
+                        return page.id == pageId;
                     });
                 }, this );
 
