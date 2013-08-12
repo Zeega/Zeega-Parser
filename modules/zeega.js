@@ -206,11 +206,13 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             if ( remixData.remix && !this.projects.get( remixData.parent.id ) && this.waiting ) {
                 var projectUrl = "http:" + app.metadata.hostname + app.metadata.directory +'api/projects/' + remixData.parent.id;
 
+                this.emit("project:fetching");
+
                 $.getJSON( projectUrl, function( data ) {
                     this._onDataLoaded( data );
                     this.waiting = false;
+                    this.emit("project:fetch_success");
                 }.bind(this));
-
             }
         },
 
