@@ -180,6 +180,10 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             return this.getCurrentProject().get("remix").remix;
         },
 
+        isNew: function() {
+            return this.getCurrentProject().pages.length == 1 && this.getCurrentProject().pages.at(0).layers.length === 0;
+        },
+
         copyLayer: function( layer ) {
             if ( layer ) {
                 this.set("clipboard", layer );
@@ -204,8 +208,9 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
 // console.log("PRELOAD:", this.waiting, remixData.remix, this.projects.get( remixData.parent.id ),remixData.parent.id, this.projects )
             // only preload if the project does not already exist
+
             if ( remixData.remix && !this.projects.get( remixData.parent.id ) && !this.waiting ) {
-                var projectUrl = "http:" + app.metadata.hostname + app.metadata.directory +'api/projects/' + remixData.parent.id;
+                var projectUrl = app.getApi() + "projects/" + remixData.parent.id;
 
                 this.waiting = true;
 

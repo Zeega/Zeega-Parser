@@ -57,7 +57,7 @@ function( app, Backbone, LayerCollection, Layers ) {
             }.bind( this ), 1000 );
 
             this.startThumbWorker = _.debounce(function() {
-                var worker = new Worker( app.webRoot + "js/helpers/thumbworker.js" );
+                var worker = new Worker( app.getWebRoot() + "js/helpers/thumbworker.js" );
             
                 worker.addEventListener("message", function(e) {
 
