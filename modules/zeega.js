@@ -179,6 +179,10 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             return this.getCurrentProject().get("remix").remix;
         },
 
+        isNew: function() {
+            return this.getCurrentProject().pages.length == 1 && this.getCurrentProject().pages.at(0).layers.length === 0;
+        },
+
         copyLayer: function( layer ) {
             if ( layer ) {
                 this.set("clipboard", layer );
