@@ -210,7 +210,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             // only preload if the project does not already exist
 
             if ( remixData.remix && !this.projects.get( remixData.parent.id ) && !this.waiting ) {
-                var projectUrl = "http:" + app.metadata.hostname + app.metadata.directory +'api/projects/' + remixData.parent.id;
+                var projectUrl = app.getApi() + "projects/" + remixData.parent.id;
 
                 this.waiting = true;
 
