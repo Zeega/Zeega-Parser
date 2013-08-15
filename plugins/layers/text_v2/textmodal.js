@@ -20,32 +20,6 @@ function( app ) {
             $("#main").addClass("modal");
             this.loadFonts();
             this.$("textarea").focus().select();
-            this.fillInPages();
-        },
-
-        fillInPages: function() {
-            app.status.get("currentSequence").frames.each(function( frame ) {
-                var fv = $("<li>"),
-                    bg = frame.get("thumbnail_url") === "" ? "black" :
-                        "url(" + frame.get("thumbnail_url") +") no-repeat center center";
-
-                fv.addClass("page")
-                    .data("id", frame.id )
-                    .css({
-                        background: bg,
-                        "-webkit-background-size": "cover"
-                    });
-
-                if ( app.status.get("currentFrame").id == frame.id ) {
-                    fv.addClass("inactive");
-                }
-
-                if ( this.model.getAttr("to_frame") == frame.id ) {
-                    fv.addClass("active");
-                }
-
-                this.$('.page-chooser-list').append( fv );
-            }, this );
         },
 
         events: {
