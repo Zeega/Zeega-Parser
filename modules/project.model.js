@@ -170,6 +170,18 @@ function( app, PageCollection, Layers, SequenceModel ) {
             });
         },
 
+        getSimpleJSON: function() {
+            return _.pick(this.toJSON(),["cover_image", "user", "id"]);
+        },
+
+        getRemixParent: function() {
+
+        },
+
+        getRemixRoot: function() {
+
+        },
+
         getFrame: function( frameID ) {
             
         },

@@ -225,6 +225,29 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             }
         },
 
+        getRemixPath: function() {
+            var isComplete, path, temp;
+
+            path = [ this.projects.at(0).getSimpleJSON() ];
+
+            path = this.projects.map(function( project ) {
+                var remixObj = project.get("remix");
+
+                //isComplete = temp.parent.id == temp.root.id;
+project.getSimpleJSON();
+                // temp = project.get("remix");
+
+                return project.get("remix");
+            });
+
+            console.log("__path", path)
+
+            return {
+                complete: isComplete,
+                path: path
+            }
+        },
+
         _onDataLoaded: function( data ) {
             var newProjectData = Parser( data,
                 _.extend({},
