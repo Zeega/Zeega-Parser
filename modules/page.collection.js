@@ -1,4 +1,3 @@
-// frame.js
 define([
     "app",
     "engine/modules/page.model",
@@ -50,7 +49,7 @@ function( app, PageModel, LayerCollection ) {
         addPage: function( index, skipTo ) {
 
             if ( !app.zeega.getCurrentProject().get("remix").remix || ( app.zeega.getCurrentProject().get("remix").remix && this.length < this.remixPageMax )) {
-                var newPage, continuingLayers = [];
+                var newPage;
 
                 skipTo = !_.isUndefined( skipTo ) ? skipTo : true;
                 index = index == "auto" ? undefined : index;
@@ -60,7 +59,7 @@ function( app, PageModel, LayerCollection ) {
                 });
 
 //                newPage.status = app.status;
-                newPage.layers = new LayerCollection( _.compact( continuingLayers ) );
+                newPage.layers = new LayerCollection();
                 newPage.layers.page = newPage;
                 newPage.initEditorListeners();
                 newPage.editorAdvanceToPage = skipTo;
@@ -73,8 +72,8 @@ function( app, PageModel, LayerCollection ) {
                         this.add( newPage, { at: index });
                     }
 
-                    this.each(function( frame, i ) {
-                        frame.set("_order", i );
+                    this.each(function( page, i ) {
+                        page.set("_order", i );
                     });
 
                     app.trigger("frame_add", newPage );
@@ -84,6 +83,27 @@ function( app, PageModel, LayerCollection ) {
             } else {
                 // too many pages. do nothing
             }
+        },
+
+        addPageByItem: function( item ) {
+            $.post( app.getApi() + "projects/"+ app.zeega.getCurrentProject().id +"/sequences/"+ app.zeega.getCurrentProject().sequence.id +"/itemframes",
+                item.toJSON(),
+                function( pageData ) {
+                    var newPage = new PageModel(_.extend( pageData, {
+                        _order: this.length
+                    }));
+
+                    newPage.layers = new LayerCollection();
+                    newPage.layers.page = newPage;
+                    newPage.initEditorListeners();
+                    newPage.editorAdvanceToPage = true;
+
+                    newPage.addLayerByItem( item, { source: "drag-to-workspace" });
+                    this.push( newPage );
+                    this.each(function( page, i ) {
+                        page.set("_order", i );
+                    });
+                }.bind(this));
         },
 
         onFrameAdd: function( frame ) {
