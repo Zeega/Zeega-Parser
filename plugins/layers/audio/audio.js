@@ -128,9 +128,7 @@ function( app, _Layer, Visual ){
                 this.audio.addEventListener("canplay", function() {
                     this.model.state = "ready";
 
-                    this.persistentPlay();
-
-                    if ( this.playWhenReady ) this.onPlay();
+                    if ( this.playWhenReady ) this.persistentPlay();
                     else this.audio.pause();
                     this.onCanPlay();
                 }.bind( this ));
