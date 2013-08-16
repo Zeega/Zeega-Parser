@@ -17,7 +17,7 @@ function( app, _Layer, Visual, TextModal ) {
             citation: false,
             color: "#FFF",
             content: "",
-            fontSize: 375,
+            fontSize: 200,
             fontFamily: "Archivo Black",
             default_controls: true,
             left: 12.5,
