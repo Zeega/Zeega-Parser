@@ -39,9 +39,9 @@ function( app, Backbone, LayerCollection, Layers ) {
 
         url: function() {
             if( this.isNew() ) {
-                return app.api + 'projects/' + app.zeega.getCurrentProject().id +'/sequences/'+ app.zeega.getCurrentProject().sequence.id +'/frames';
+                return app.getApi() + 'projects/' + app.zeega.getCurrentProject().id +'/sequences/'+ app.zeega.getCurrentProject().sequence.id +'/frames';
             } else {
-                return app.api + 'projects/' + app.zeega.getCurrentProject().id + '/frames/'+ this.id;
+                return app.getApi() + 'projects/' + app.zeega.getCurrentProject().id + '/frames/'+ this.id;
             }
         },
 

@@ -17,9 +17,9 @@ function( app, Layers ) {
 
         url : function() {
             if ( this.isNew() ) {
-                return app.api + 'projects/'+ app.zeega.getCurrentProject().id +'/sequences';
+                return app.getApi() + 'projects/'+ app.zeega.getCurrentProject().id +'/sequences';
             } else {
-                return app.api + 'projects/'+ app.zeega.getCurrentProject().id +'/sequences/' + this.id;
+                return app.getApi() + 'projects/'+ app.zeega.getCurrentProject().id +'/sequences/' + this.id;
             }
         },
 
