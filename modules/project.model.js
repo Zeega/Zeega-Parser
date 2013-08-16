@@ -146,6 +146,16 @@ function( app, PageCollection, Layers, SequenceModel ) {
             
         },
 
+        addPageByItem: function( item ) {
+            console.log("ADD PAGE BY ITEM", item.toJSON() );
+
+            $.post( app.getApi() + "projects/"+ this.id +"/sequences/"+ this.sequence.id +"/itemframes",
+                item.toJSON(),
+                function( response ) {
+                    console.log('get data', response)
+                });
+        },
+
 
         ///////
 
