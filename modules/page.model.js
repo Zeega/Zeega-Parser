@@ -21,19 +21,8 @@ function( app, Backbone, LayerCollection, Layers ) {
         defaults: {
             _order: 0,
             attr: {},
-
             id: null,
-            // id of frame before current
-            // _last: null,
-            // ids of layers contained on frame
-            // come in order of z-index: bottom -> top
             layers: [],
-
-            // preload_frames: [],
-            // id of the next frame
-            // _next: null,
-            // id of frame to be navigated to the left
-            // _prev: null,
             thumbnail_url: null
         },
 
