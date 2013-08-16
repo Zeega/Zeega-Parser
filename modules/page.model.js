@@ -134,9 +134,14 @@ function( app, Backbone, LayerCollection, Layers ) {
         preload: function() {
             // only try to preload if preload has not been attempted yet
             if ( this.state == "waiting" ) {
-                this.state = "loading";
-                this.once("layers:ready", this.onLayersReady, this );
-                this.layers.preload();
+
+                if ( this.layers.length === 0 ) {
+                    this.onLayersReady( this.layers );
+                } else {
+                    this.state = "loading";
+                    this.once("layers:ready", this.onLayersReady, this );
+                    this.layers.preload();
+                }
             }
         },
 
@@ -196,7 +201,10 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         addLayerType: function( type ) {
-            var newLayer = new Layers[ type ]({ type: type });
+            var newLayer = new Layers[ type ]({
+                type: type,
+                _order: this.layers.length
+            });
 
             newLayer.collection = this.layers;
             this.addLayerVisual( newLayer );
