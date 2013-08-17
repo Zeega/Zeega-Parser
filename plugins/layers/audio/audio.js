@@ -200,8 +200,6 @@ function( app, _Layer, Visual ){
                 }
             },
 
-
-
             onPlay: function() {
                 this.audio.sendToFlash('play', this.currentTime );
                 this.paused = false;
@@ -229,7 +227,6 @@ function( app, _Layer, Visual ){
             },
 
             playPause: function() {
-                
                 if ( this.paused ) {
                     this.onPlay();
                 } else {
@@ -237,13 +234,15 @@ function( app, _Layer, Visual ){
                 }
             },
 
+            getAudio: function() {
+                return this;
+            },
+
             flashVideoInit: function() {
                 var flashvars,
                     params,
                     attributes,
                     containerId = "flash-" + this.model.id;
-
-
 
                 $("#audio-"+containerId).on("player-loaded", 
                         $.proxy(function(){
