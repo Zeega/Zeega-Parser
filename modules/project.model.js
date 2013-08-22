@@ -126,6 +126,13 @@ function( app, PageCollection, Layers, SequenceModel ) {
                 .success(function( response ) {
                     this.soundtrack = newLayer;
 
+                    newLayer.visual = new Layers["Audio"].Visual({
+                            model: this.soundtrack,
+                            attributes: {
+                                "data-id": newLayer.id
+                            }
+                        });
+
                     this.sequence.save({
                             attr: _.extend({}, this.sequence.get("attr"), { soundtrack: newLayer.id })
                         });
