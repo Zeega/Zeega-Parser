@@ -15,9 +15,6 @@ function( app, Backbone, LayerCollection, Layers ) {
         state: "waiting",
         modelType: "frame",
 
-        // lazySave: null,
-        // startThumbWorker: null,
-
         defaults: {
             _order: 0,
             attr: {},
@@ -44,27 +41,6 @@ function( app, Backbone, LayerCollection, Layers ) {
             this.lazySave = _.debounce(function() {
                 this.save();
             }.bind( this ), 1000 );
-
-            this.startThumbWorker = _.debounce(function() {
-                var worker = new Worker( app.getWebRoot() + "js/helpers/thumbworker.js" );
-            
-                worker.addEventListener("message", function(e) {
-
-                    if( e.data ) {
-                        this.set("thumbnail_url", e.data );
-                        this.lazySave();
-                    } else {
-                        this.trigger('thumbUpdateFail');
-                    }
-                    worker.terminate();
-                }.bind( this ), false);
-
-                worker.postMessage({
-                    cmd: 'capture',
-                    msg: app.getApi() + "projects/" + app.zeega.getCurrentProject().id + "/frames/" + this.id + "/thumbnail"
-                });
-
-            }, 1000);
 
         },
 
@@ -170,23 +146,17 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
 
-
         // editor
 
         onLayerAddRemove: function() {
             this.onLayerSort();
-            this.once("sync", function() {
-                this.updateThumb();
-            }.bind( this ));
+            this.updateThumbUrl();
         },
 
         onLayerSort: function() {
             this.set("layers", this.layers.pluck("id") );
             this.lazySave();
-
-            this.once("sync", function() {
-                this.updateThumb();
-            }.bind( this ));
+            this.updateThumbUrl();
         },
 
         addLayerType: function( type ) {
@@ -260,9 +230,15 @@ function( app, Backbone, LayerCollection, Layers ) {
         },
 
         //update the frame thumbnail
-        updateThumb: function() {
-            this.trigger("thumbUpdateStart");
-            this.startThumbWorker();
+        updateThumbUrl: function() {
+            var url;
+
+            this.layers.each(function( layer ) {
+                if ( layer.get("type") == "Image" ) {
+                    this.set("thumbnail_url", layer.getAttr("thumbnail_url"));
+                    this.lazySave();
+                }
+            }, this );
         },
 
         saveAttr: function( attrObj ) {
