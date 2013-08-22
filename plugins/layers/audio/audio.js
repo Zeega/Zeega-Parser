@@ -50,6 +50,7 @@ function( app, _Layer, Visual ){
 
     canPlayMpeg = function(){
         var a = document.createElement('audio');
+
         return !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
     };
 
@@ -136,6 +137,16 @@ function( app, _Layer, Visual ){
 
             init: function() {
                 this.onCanPlay = _.once(function() {
+
+                    this.audio.addEventListener("timeupdate", function() {
+                        if ( this.audio ) {
+                            this.model.trigger("timeupdate", {
+                                currentTime: this.audio.currentTime,
+                                duration: this.audio.duration,
+                            });
+                        }
+                    }.bind(this));
+
                     this.audio.pause();
                     this.model.trigger("layer layer:ready", this.model );
                 });
