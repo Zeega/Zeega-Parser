@@ -98,9 +98,9 @@ function( app, _Layer, Visual ){
             playPause: function() {
                 this.setAudio();
                 if ( this.audio.paused ) {
-                    this.audio.play();
+                    this.onPlay();
                 } else {
-                    this.audio.pause();
+                    this.onPause();
                 }
             },
 

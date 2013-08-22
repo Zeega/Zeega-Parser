@@ -107,6 +107,7 @@ function( app, Controls ) {
             }
             this.applyVisualProperties();
             this.visualAfterRender();
+            this.model.trigger("visual:after_render", this );
         },
 
         applyStyles: function() {
