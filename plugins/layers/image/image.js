@@ -303,6 +303,13 @@ function( app, Layer, Visual ){
                 frames = attr[ 2 ].split("_")[0],
                 delay  = attr[ 3 ].split("_")[0];
 
+            if (delay == 0 ){
+                 delay = 10;
+             }
+
+             console.log("delay: " + delay + " & frames: " + frames);
+
+
             
             this.aspectRatio = parseInt(width, 10 )/parseInt(height, 10);
 
@@ -334,15 +341,15 @@ function( app, Layer, Visual ){
             for (var i = 0; i < frames ; i++ ){
                 //percent = Math.floor(i * percentDuration);
                 percent = i * percentDuration;
-                offset =  i * 100;
-                keyframes[ percent + "%" ] = "background-position: -" +offset + "% 0; -webkit-animation-timing-function: steps(1);";
+                offset =  i * 100.0;
+                keyframes[ percent + "%" ] = "background-position: 0 -" +offset + "%; -webkit-animation-timing-function: steps(1);";
 
             }
 
 
             
 
-            this.backgroundSize = 100 * frames;
+            this.backgroundSize = frames * 100;
             this.duration = frames * delay / 100.0;
 
             $.fn.addKeyframe([keyframes]);
@@ -352,7 +359,7 @@ function( app, Layer, Visual ){
         initAnimation: function(){
 
             this.$(".visual-target").css({
-                "background-size": this.backgroundSize+"%",
+                "background-size": "auto " + this.backgroundSize + "%",
                 "-webkit-animation-name": "zga-layer-" + this.model.id,
                 "-webkit-animation-duration": this.duration + "s",
                 "-webkit-animation-iteration-count": "infinite",
