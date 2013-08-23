@@ -1,11 +1,10 @@
 // layer.js
 define([
     "app",
-    "engine/plugins/controls/_all-controls",
-    "engine/plugins/layers/_all"
+    "engine/plugins/controls/_all-controls"
 ],
 
-function( app, Controls, Layers ) {
+function( app, Controls ) {
 
     return app.Backbone.Model.extend({
         ready: false,
