@@ -56,6 +56,8 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         focusPage: function( page ) {
             if ( this.getCurrentProject().id != page.project.id ) {
                 this.set("currentProject", page.project );
+                this.emit("project:project_switch", page.project );
+                console.log("NEW:", page.project)
             }
 
             this.blurPage( this.get("currentPage") );
@@ -121,20 +123,20 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         setCurrentPage: function( page ) {
-            var oldPage = this.get("currentPage");
+            // var oldPage = this.get("currentPage");
 
-            this.setCurrentLayer( null );
+            // this.setCurrentLayer( null );
 
-            if ( oldPage && page ) {
-                oldPage.trigger("blur");
-            }
+            // if ( oldPage && page ) {
+            //     oldPage.trigger("blur");
+            // }
 
-            if ( page ) {
-                this.set("currentPage", page );
-                page.trigger("focus");
-            } else if ( page === null ) { // should this be allowed?
-                this.set("currentPage", null);
-            }
+            // if ( page ) {
+            //     this.set("currentPage", page );
+            //     page.trigger("focus");
+            // } else if ( page === null ) { // should this be allowed?
+            //     this.set("currentPage", null);
+            // }
         },
 
         getPages: function() {
@@ -173,7 +175,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         getSoundtrack: function() {
-            return this.projects.at(0).soundtrack;
+            return this.getCurrentProject().soundtrack;
         },
 
         isRemix: function() {
@@ -206,15 +208,10 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         preloadNextZeega: function() {
             var remixData = this.getCurrentProject().getRemixData();
 
-// console.log("PRELOAD:", this.waiting, remixData.remix, this.projects.get( remixData.parent.id ),remixData.parent.id, this.projects )
-            // only preload if the project does not already exist
-
             if ( remixData.remix && !this.projects.get( remixData.parent.id ) && !this.waiting ) {
                 var projectUrl = app.getApi() + "projects/" + remixData.parent.id;
 
                 this.waiting = true;
-
-// console.log("preloading next!!")
                 this.emit("project:fetching");
 
                 $.getJSON( projectUrl, function( data ) {
@@ -234,7 +231,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                 var remixObj = project.get("remix");
 
                 //isComplete = temp.parent.id == temp.root.id;
-project.getSimpleJSON();
+                project.getSimpleJSON();
                 // temp = project.get("remix");
 
                 return project.get("remix");
