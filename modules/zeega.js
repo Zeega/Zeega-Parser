@@ -55,15 +55,23 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         focusPage: function( page ) {
             if ( this.getCurrentProject().id != page.project.id ) {
+                this.onNewProject( this.getCurrentProject(), page.project );
                 this.set("currentProject", page.project );
                 this.emit("project:project_switch", page.project );
-                console.log("NEW:", page.project)
             }
 
             this.blurPage( this.get("currentPage") );
             this.set("currentPage", page );
             page.trigger("focus");
             this.emit("page page:focus", page );
+        },
+
+        onNewProject: function( previous, next ) {
+            if ( previous.soundtrack.get("attr").uri != next.soundtrack.get("attr").uri ) {
+                this.emit("project:soundtrack_switch", {
+                    next: next.soundtrack,
+                    previous: previous.soundtrack });
+            }
         },
 
         blurPage: function( page ) {

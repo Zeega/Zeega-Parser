@@ -45,7 +45,14 @@ function( app, _Layer, Visual ){
                 }
             },
             "av"
-        ]
+        ],
+
+        play: function() {
+            this.visual.onPlay();
+        },
+        pause: function() {
+            this.visual.onPause();
+        }
     });
 
     canPlayMpeg = function(){
