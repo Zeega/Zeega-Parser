@@ -134,20 +134,20 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         setCurrentPage: function( page ) {
-            // var oldPage = this.get("currentPage");
+            var oldPage = this.get("currentPage");
 
-            // this.setCurrentLayer( null );
+            this.setCurrentLayer( null );
 
-            // if ( oldPage && page ) {
-            //     oldPage.trigger("blur");
-            // }
+            if ( oldPage && page ) {
+                oldPage.trigger("blur");
+            }
 
-            // if ( page ) {
-            //     this.set("currentPage", page );
-            //     page.trigger("focus");
-            // } else if ( page === null ) { // should this be allowed?
-            //     this.set("currentPage", null);
-            // }
+            if ( page ) {
+                this.set("currentPage", page );
+                page.trigger("focus");
+            } else if ( page === null ) { // should this be allowed?
+                this.set("currentPage", null);
+            }
         },
 
         getPages: function() {
