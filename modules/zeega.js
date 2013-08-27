@@ -246,12 +246,10 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                 return project.get("remix");
             });
 
-            console.log("__path", path)
-
             return {
                 complete: isComplete,
                 path: path
-            }
+            };
         },
 
         _onDataLoaded: function( data ) {

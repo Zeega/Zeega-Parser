@@ -82,9 +82,9 @@ function( app, PageCollection, Layers, SequenceModel ) {
 
         _loadSoundtrack: function() {
             if ( this.get("_soundtrack") ) {
-                this.soundtrack = new Layers["Audio"]( _.extend( this.get("_soundtrack"), { type: "Audio" }) );
+                this.soundtrack = new Layers.Audio( _.extend( this.get("_soundtrack"), { type: "Audio" }) );
 
-                this.soundtrack.visual = new Layers["Audio"].Visual({
+                this.soundtrack.visual = new Layers.Audio.Visual({
                         model: this.soundtrack,
                         attributes: {
                             "data-id": this.get("_soundtrack").id
@@ -126,7 +126,7 @@ function( app, PageCollection, Layers, SequenceModel ) {
                 .success(function( response ) {
                     this.soundtrack = newLayer;
 
-                    newLayer.visual = new Layers["Audio"].Visual({
+                    newLayer.visual = new Layers.Audio.Visual({
                             model: this.soundtrack,
                             attributes: {
                                 "data-id": newLayer.id

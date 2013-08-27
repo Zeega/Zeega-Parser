@@ -149,7 +149,7 @@ function( app, _Layer, Visual ){
                         if ( this.audio ) {
                             this.model.trigger("timeupdate", {
                                 currentTime: this.audio.currentTime,
-                                duration: this.audio.duration,
+                                duration: this.audio.duration
                             });
                         }
                     }.bind(this));
