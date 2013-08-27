@@ -67,10 +67,11 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         onNewProject: function( previous, next ) {
-            if ( previous.soundtrack.get("attr").uri != next.soundtrack.get("attr").uri ) {
+            if ( (!previous.soundtrack && next.soundtrack) || (previous.soundtrack && !next.soundtrack) || (previous.soundtrack && next.soundtrack) && (previous.soundtrack.get("attr").uri != next.soundtrack.get("attr").uri) ) {
                 this.emit("project:soundtrack_switch", {
-                    next: next.soundtrack,
-                    previous: previous.soundtrack });
+                        next: next ? next.soundtrack : false,
+                        previous: previous ? previous.soundtrack : false
+                    });
             }
         },
 
