@@ -78,7 +78,6 @@ function( app ) {
         onRemove: function( layer ) {
             layer.trigger("blur");
             layer.editorCleanup();
-            layer.destroy();
             app.trigger("layer_remove", layer );
         },
 

@@ -52,7 +52,8 @@ function( app, Backbone, LayerCollection, Layers ) {
         initEditorListeners: function() {
             this.stopListening( this.layers );
             this.layers.on("sort", this.onLayerSort, this );
-            this.layers.on("add remove", this.onLayerAddRemove, this );
+            this.layers.on("add", this.onLayerAdd, this );
+            this.layers.on("remove", this.onLayerRemove, this );
         },
 
         loadLayers: function( layers ) {
@@ -145,10 +146,17 @@ function( app, Backbone, LayerCollection, Layers ) {
             return this.zeega.getPreviousPage( this );
         },
 
-
         // editor
+        onLayerAdd: function() {
+            this.onLayerSort();
+            this.updateThumbUrl();
+        },
 
-        onLayerAddRemove: function() {
+
+        onLayerRemove: function( layer ) {
+            this.once("sync", function() {
+                layer.destroy();
+            });
             this.onLayerSort();
             this.updateThumbUrl();
         },
