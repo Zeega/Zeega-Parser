@@ -103,7 +103,6 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         getPreviousPage: function( page ) {
             var p = page || this.getCurrentPage();
             var previousPage = false;
-
             if ( p.get("_order") > 0 ) {
                 previousPage = this.getCurrentProject().pages.at( p.get("_order") - 1 );
             } else if ( this.getPreviousProject() ) {
@@ -281,6 +280,8 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
             layers.push( soundtrack );
 
+            currentProject.sequence.clearVirtualPages();
+
             _.extend( pData, currentProject.toJSON(), {
                 sequences: [ currentProject.sequence.toJSON() ],
                 frames: currentProject.pages.toJSON(),
@@ -320,7 +321,6 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         },
 
         destroy: function() {
-
             this.projects.each(function( project ) {
                 project.destroy();
             });

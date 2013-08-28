@@ -36,12 +36,21 @@ function( app, Layer, Visual ){
         ],
 
         onPlay: function() {
-            this.model.zeega.emit("endpage_enter", this.model );
+            this.endEnterEmit();
         },
 
         onExit: function() {
+            this.endExitEmit();
+        },
+
+        endEnterEmit: _.debounce(function() {
+            this.model.zeega.emit("endpage_enter", this.model );
+        }, 250, { leading: true }),
+
+        endExitEmit: _.debounce(function() {
             this.model.zeega.emit("endpage_exit", this.model );
-        }
+        }, 250, { leading: true })
+
     });
 
     return L;

@@ -92,6 +92,12 @@ function( app, Layers ) {
             if ( currentIndex != -1 && this.frames.length > currentIndex + 1 ) {
                 this.frames.at( currentIndex + 1 ).layers.push( layer );
             }
+        },
+
+        clearVirtualPages: function() {
+            var pages = _.without( this.get("frames"), -1 );
+
+            this.set("frames", pages );
         }
 
     });
