@@ -254,7 +254,7 @@ function( app, Backbone, LayerCollection, Layers ) {
 
         destroy: function() {
             this.layers.each(function( layer ) {
-                layer.destroy();
+                layer.softDestroy();
             });
             this.state = "destroyed";
         }

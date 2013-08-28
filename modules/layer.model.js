@@ -165,8 +165,7 @@ function( app, Controls ) {
             this.visual.player_onExit();
         },
 
-        // removes the layer. destroys players, removes from dom, etc
-        destroy: function() {
+        softDestroy: function() {
             // do not attempt to destroy if the layer is waiting or destroyed
             if ( this.state != "waiting" && this.state != "destroyed" ) {
                 this.state = "destroyed";
@@ -174,7 +173,6 @@ function( app, Controls ) {
                 if ( this.visual.destroy ) {
                     this.visual.destroy();
                 }
-
             }
         }
 

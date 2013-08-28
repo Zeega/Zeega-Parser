@@ -1,4 +1,3 @@
-// layer.js
 define([
     "app"
 ],
