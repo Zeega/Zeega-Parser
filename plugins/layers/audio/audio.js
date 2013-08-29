@@ -100,7 +100,7 @@ function( app, _Layer, Visual ){
             editor_onLayerEnter: function() {},
 
             editor_onLayerExit: function() {
-                this.destroy();
+                this.finish();
             },
 
             playPause: function() {

@@ -152,7 +152,6 @@ function( app, Backbone, LayerCollection, Layers ) {
             this.updateThumbUrl();
         },
 
-
         onLayerRemove: function( layer ) {
             this.once("sync", function() {
                 layer.destroy();
@@ -260,9 +259,9 @@ function( app, Backbone, LayerCollection, Layers ) {
             this.lazySave();
         },
 
-        destroy: function() {
+        finish: function() {
             this.layers.each(function( layer ) {
-                layer.softDestroy();
+                layer.finish();
             });
             this.state = "destroyed";
         }

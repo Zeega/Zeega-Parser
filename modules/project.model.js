@@ -148,6 +148,7 @@ function( app, PageCollection, Layers, SequenceModel ) {
                         attr: _.extend({}, this.sequence.get("attr"), { soundtrack: false })
                     });
                 app.emit("soundtrack_delete", this.soundtrack);
+                this.soundtrack.finish();
                 this.soundtrack.destroy();
             }
             
@@ -223,10 +224,10 @@ function( app, PageCollection, Layers, SequenceModel ) {
             this.set({ publish_update: 0 });
         },
 
-        destroy: function() {
-            if ( this.soundtrack ) this.soundtrack.destroy();
+        finish: function() {
+            if ( this.soundtrack ) this.soundtrack.finish();
             this.pages.each(function( page ) {
-                page.destroy();
+                page.finish();
             });
         }
 

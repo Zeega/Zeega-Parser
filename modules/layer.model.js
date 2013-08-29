@@ -165,7 +165,7 @@ function( app, Controls ) {
             this.visual.player_onExit();
         },
 
-        softDestroy: function() {
+        finish: function() {
             // do not attempt to destroy if the layer is waiting or destroyed
             if ( this.state != "waiting" && this.state != "destroyed" ) {
                 this.state = "destroyed";

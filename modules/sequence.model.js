@@ -81,6 +81,7 @@ function( app, Layers ) {
             var attr = this.get("attr");
             
             app.emit("soundtrack_delete", layer);
+            layer.finish();
             layer.destroy();
             attr.soundtrack = false;
             this.set("attr", attr );

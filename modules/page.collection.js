@@ -126,6 +126,7 @@ function( app, PageModel, LayerCollection ) {
             }
 
             app.trigger("frame_remove", pageModel );
+            pageModel.finish();
             pageModel.destroy();
         },
 

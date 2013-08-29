@@ -322,7 +322,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
         destroy: function() {
             this.projects.each(function( project ) {
-                project.destroy();
+                project.finish();
             });
         }
     });
