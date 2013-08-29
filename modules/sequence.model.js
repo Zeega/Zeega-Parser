@@ -97,7 +97,7 @@ function( app, Layers ) {
 
         clearVirtualPages: function() {
             var pages = _.without( this.get("frames"), -1 );
-
+console.log("CLEAR")
             this.set("frames", pages );
         }
 

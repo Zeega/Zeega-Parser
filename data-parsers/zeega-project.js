@@ -42,6 +42,9 @@ function() {
         removeDupeSoundtrack( response.project );
         response.project._soundtrack = getSoundtrackLayer( response.project );
 
+        // remove erroneous -1 pages
+        response.project.sequences[0].frames = _.without(response.project.sequences[0].frames, -1);
+
         if ( opts.endPage ) {
             var endId, lastPageId, lastPage, endPage, endLayers;
 

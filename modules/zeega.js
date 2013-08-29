@@ -103,6 +103,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         getPreviousPage: function( page ) {
             var p = page || this.getCurrentPage();
             var previousPage = false;
+
             if ( p.get("_order") > 0 ) {
                 previousPage = this.getCurrentProject().pages.at( p.get("_order") - 1 );
             } else if ( this.getPreviousProject() ) {
