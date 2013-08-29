@@ -292,6 +292,8 @@ function( app, Layer, Visual ){
 
         setKeyframes: function(){
 
+            //  zga_uri format =  zga_width_height_frames_delay_id.jpg
+
 
             var attr=this.model.getAttr("zga_uri").match(/\d+\d*_/g);
             var keyframes = {
@@ -305,7 +307,7 @@ function( app, Layer, Visual ){
 
             if (delay == 0 ){
                  delay = 10;
-             }
+            }
 
              console.log("delay: " + delay + " & frames: " + frames);
 
