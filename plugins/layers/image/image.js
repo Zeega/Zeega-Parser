@@ -97,7 +97,7 @@ function( app, Layer, Visual ){
             }
 
             if ( this.model.getAttr("page_background")) {
-                this.model.setAttr( this.model.pageBackgroundPositioning ); // +
+                this.model.setAttr( this.model.pageBackgroundPositioning );
                 this.visualProperties = ["opacity"];
             }
         },
@@ -113,15 +113,10 @@ function( app, Layer, Visual ){
             if( !this.isAnimated() ){
                 this.aspectRatio = this.getAttr("aspectRatio");
             }
-            // add height attribute if not already there
-            // this may break if the aspect ratio changes
-            this.aspectRatio = this.getAttr("aspectRatio");
 
-            if ( _.isNull( this.aspectRatio ) ) {
+            if ( _.isNull( this.getAttr("aspectRatio") ) ) {
                 this.determineAspectRatio();
-            }
-
-            if ( this.model.getAttr("page_background")) {
+            } else if ( this.model.getAttr("page_background")) {
                 this.makePageBackground();
                 this.disableDrag();
             }
@@ -149,7 +144,10 @@ function( app, Layer, Visual ){
                 });
 
             $img.imagesLoaded();
+
             if( this.isAnimated() ){
+
+                console.log("SAVE AR", this.aspectRatio)
                 this.model.saveAttr({
                     aspectRatio: this.aspectRatio
                 });
@@ -165,6 +163,11 @@ function( app, Layer, Visual ){
                     this.aspectRatio = $img.width()/ $img.height();
 
                     $img.remove();
+
+                    if ( this.model.getAttr("page_background")) {
+                        this.makePageBackground();
+                        this.disableDrag();
+                    }
                 }.bind( this ));
             }
             $("body").append( $img );
@@ -193,37 +196,50 @@ function( app, Layer, Visual ){
         },
 
         makePageBackground: function() {
-            var realAspect = 2.10 / (this.$workspace().height()/this.$workspace().width());
-    
+            var vals;
 
-            if( this.aspectRatio >= realAspect ){
+            if ( !this.isAnimated() ) {
+                vals = _.extend({}, this.model.pageBackgroundPositioning );
+                
+                _.each( vals, function( val, key ) {
+                    this.$el.css( key, val +"%" );
+                }, this );
 
                 
-                this.model.pageBackgroundPositioning = {
-                    width: this.aspectRatio * 236.72 / realAspect,
-                    height: 112.67,
-                    top: -6.57277,
-                    left: (100 - this.aspectRatio * 236.72 / realAspect)/2
-                };
-
             } else {
-                this.model.pageBackgroundPositioning = {
-                    width: 236.72,
-                    height: 112.67 * realAspect / this.aspectRatio,
-                    top: (100 - 112.67 * realAspect / this.aspectRatio)/2,
-                    left:  -68.4375
-                };
+                var fullscreenRatio = this.model.pageBackgroundPositioning.width / this.model.pageBackgroundPositioning.height;
+
+                if ( this.aspectRatio >= fullscreenRatio ) {
+                    // wider
+                    newBGPos = {
+                        height: this.model.pageBackgroundPositioning.height,
+                        width: this.aspectRatio * this.model.pageBackgroundPositioning.height,
+                        top: this.model.pageBackgroundPositioning.top,
+                        left: -((this.aspectRatio * this.model.pageBackgroundPositioning.height) - this.model.pageBackgroundPositioning.width ) / 2
+                    };
+                } else {
+                    // taller
+                    newBGPos = {
+                        height: this.model.pageBackgroundPositioning.width * Math.pow( this.aspectRatio, -1 ),
+                        width: this.model.pageBackgroundPositioning.width,
+                        top: -(this.model.pageBackgroundPositioning.width * Math.pow( this.aspectRatio, -1 ) - this.model.pageBackgroundPositioning.height ) / 2,
+                        left: this.model.pageBackgroundPositioning.left
+                    };
+                }
+
+                vals = _.extend({}, newBGPos );
+                
+                _.each( vals, function( val, key ) {
+                    this.$el.css( key, val +"%" );
+                }, this );
+
+                // this.model.saveAttr(_.extend({ page_background: true }, vals ));
             }
 
-            var vals = _.extend({}, this.model.pageBackgroundPositioning );
-            
-            _.each( vals, function( val, key ) {
-                this.$el.css( key, val +"%" );
-            }, this );
+            if ( !this.getAttr("page_background") ) {
+                this.model.saveAttr(_.extend({ page_background: true }, vals ));
+            }
 
-            this.model.saveAttr(_.extend({ page_background: true }, vals ));
-
-            this.initAnimation();
         },
 
         fitToWorkspace: function() {
@@ -266,7 +282,7 @@ function( app, Layer, Visual ){
 
         verifyReady: function() {
             var $img = $("<img>")
-                .attr("src", this.getAttr("uri"))
+                .attr("src", this.isAnimated() ? this.getAttr("zga_uri") : this.getAttr("uri"))
                 .css({
                     height: "1px",
                     width: "1px",
@@ -287,6 +303,7 @@ function( app, Layer, Visual ){
                 this.model.trigger("layer layer:visual_error", this.model );
                 this.model.trigger("layer layer:visual_ready", this.model );
             }.bind(this));
+
         },
 
         getAnimationCss: function() {
@@ -302,6 +319,8 @@ function( app, Layer, Visual ){
             delay  = animationMeta[ 3 ].split("_")[0] == 0 ? 10 : animationMeta[ 3 ].split("_")[0];
             percentDuration = 100.0 / frames;
 
+
+            this.aspectRatio = parseInt(width, 10 )/parseInt(height, 10);
             this.backgroundSize = frames * 100;
             this.duration = frames * delay / 100.0;
 
@@ -320,7 +339,7 @@ function( app, Layer, Visual ){
 
         initAnimation: function(){
             this.$(".visual-target").css({
-                "background-size": "auto " + this.backgroundSize + "%",
+                "background-size": "100% " + this.backgroundSize + "%",
                 "-webkit-animation-name": "zga-layer-" + this.model.id,
                 "-webkit-animation-duration": this.duration + "s",
                 "-webkit-animation-iteration-count": "infinite",
