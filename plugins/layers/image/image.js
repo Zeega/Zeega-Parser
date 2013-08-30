@@ -146,12 +146,9 @@ function( app, Layer, Visual ){
             $img.imagesLoaded();
 
             if( this.isAnimated() ){
-
-                console.log("SAVE AR", this.aspectRatio)
                 this.model.saveAttr({
                     aspectRatio: this.aspectRatio
                 });
-
             } else {
 
                 $img.done(function() {
@@ -316,7 +313,7 @@ function( app, Layer, Visual ){
             width  = animationMeta[ 0 ].split("_")[0];
             height = animationMeta[ 1 ].split("_")[0];
             frames = animationMeta[ 2 ].split("_")[0];
-            delay  = animationMeta[ 3 ].split("_")[0] == 0 ? 10 : animationMeta[ 3 ].split("_")[0];
+            delay  = animationMeta[ 3 ].split("_")[0] === 0 ? 10 : animationMeta[ 3 ].split("_")[0];
             percentDuration = 100.0 / frames;
 
 
@@ -324,27 +321,55 @@ function( app, Layer, Visual ){
             this.backgroundSize = frames * 100;
             this.duration = frames * delay / 100.0;
 
-            css = "@-webkit-keyframes zga-layer-" + this.model.id + "{";
+            css = "@"+ this.browserCode() +"keyframes zga-layer-" + this.model.id + "{";
 
             for (var i = 0; i < frames ; i++ ) {
                 css += ( i * percentDuration ) + "%{" +
                     "background-position:0 -" + ( i * 100 ) + "%;" +
-                    "-webkit-animation-timing-function:steps(1);}";
+                    this.browserCode() + "animation-timing-function:steps(1);" +
+                    "}";
             }
             
-            css += "}"
+            css += "}";
 
             return css;
         },
 
         initAnimation: function(){
-            this.$(".visual-target").css({
-                "background-size": "100% " + this.backgroundSize + "%",
+            var webkitCss, mozCss;
+
+            webkitCss = {
                 "-webkit-animation-name": "zga-layer-" + this.model.id,
                 "-webkit-animation-duration": this.duration + "s",
                 "-webkit-animation-iteration-count": "infinite",
                 "-webkit-backface-visibility": "hidden"
-            });
+            };
+            mozCss = {
+                "animation-name": "zga-layer-" + this.model.id,
+                "animation-duration": this.duration + "s",
+                "animation-iteration-count": "infinite",
+                "backface-visibility": "hidden"
+            };
+
+            this.$(".visual-target").css(_.extend( this.browserCode() == "-moz-" ? mozCss : webkitCss, {
+                "background-size": "100% " + this.backgroundSize + "%"
+            }));
+        },
+
+        browserCode: function() {
+            var ua = navigator.userAgent;
+
+            if(ua.indexOf('Opera') != -1){
+                return '-o-';
+            }else if(ua.indexOf('MSIE') != -1){
+                return '-ms-';
+            }else if(ua.indexOf('WebKit') != -1){
+                return '-webkit-';
+            }else if(navigator.product == 'Gecko'){
+                return '-moz-';
+            }else{
+                return '';
+            }
         }
     });
 
