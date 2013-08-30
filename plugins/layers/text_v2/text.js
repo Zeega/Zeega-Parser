@@ -258,13 +258,13 @@ function( app, _Layer, Visual, TextModal ) {
             _.each( strings, function( str , i ) {
                 if ( str.match( regex ) ) {
                     flag = true;
-                    str = str.replace("http://","")
+                    str = str.replace("http://","");
                     strings[i] = "<a href='http://" + str + "' target='blank' data-bypass='true'>" + str + "</a>";
                 }
             });
 
             if ( flag ) {
-                this.model.setAttr({ content: strings.join(" ")})
+                this.model.setAttr({ content: strings.join(" ")});
             }
         },
 
