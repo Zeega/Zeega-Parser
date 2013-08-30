@@ -243,6 +243,29 @@ function( app, _Layer, Visual, TextModal ) {
                 lineHeight: this.model.getAttr("lineHeight") + "em"
             };
             this.$el.css( css );
+
+            this.linkify();
+        },
+
+        linkify: function() {
+            var expression, regex, strings, flag;
+
+            flag = false;
+            expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+            regex = new RegExp(expression);
+            strings = this.model.getAttr("content").split(" ");
+
+            _.each( strings, function( str , i ) {
+                if ( str.match( regex ) ) {
+                    flag = true;
+                    str = str.replace("http://","")
+                    strings[i] = "<a href='http://" + str + "' target='blank' data-bypass='true'>" + str + "</a>";
+                }
+            });
+
+            if ( flag ) {
+                this.model.setAttr({ content: strings.join(" ")})
+            }
         },
 
         events: {
