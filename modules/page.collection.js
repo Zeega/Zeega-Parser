@@ -9,9 +9,7 @@ function( app, PageModel, LayerCollection ) {
     return app.Backbone.Collection.extend({
 
         model: PageModel,
-
         zeega: null,
-        remixPageMax: 5,
 
         initialize: function() {
             if ( this.zeega.get("mode") == "editor" ) {
