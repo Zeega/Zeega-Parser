@@ -28,6 +28,8 @@ function() {
         response = response.items[0].text;
         removeDupeSoundtrack( response );
 
+        response.project.sequences[0].frames = _.without(response.project.sequences[0].frames, -1);
+
         if ( opts.endPage ) {
             var endId, lastPageId, lastPage, endPage, endLayers;
 
