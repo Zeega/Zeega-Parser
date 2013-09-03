@@ -4,7 +4,7 @@ define([
     "engine/modules/layer.visual.view",
 
     //plugins
-    "engineVendor/jquery.imagesloaded.min"
+    "common/libs/imagesloaded"
 ],
 
 function( app, Layer, Visual ){
