@@ -160,12 +160,11 @@ function( app, Layer, Visual ){
                     this.aspectRatio = $img.width()/ $img.height();
 
                     $img.remove();
-
-                    if ( this.model.getAttr("page_background")) {
-                        this.makePageBackground();
-                        this.disableDrag();
-                    }
                 }.bind( this ));
+            }
+            if ( this.model.getAttr("page_background")) {
+                this.makePageBackground();
+                this.disableDrag();
             }
             $("body").append( $img );
         },
