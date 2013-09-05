@@ -239,7 +239,7 @@ function( app, Backbone, LayerCollection, Layers ) {
         //update the frame thumbnail
         updateThumbUrl: function() {
             var url;
-
+            this.set("thumbnail_url", "");
             this.layers.each(function( layer ) {
                 if ( layer.get("type") == "Image" ) {
                     this.set("thumbnail_url", layer.getAttr("thumbnail_url"));
