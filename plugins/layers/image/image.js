@@ -92,8 +92,6 @@ function( app, Layer, Visual ){
             
             if( this.isAnimated() ){
                 this.template = "image/zga";
-                attr.uri = attr.zga_uri;
-                this.model.set( { attr: attr } );
             }
 
             if ( this.model.getAttr("page_background")) {
