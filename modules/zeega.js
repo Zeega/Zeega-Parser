@@ -219,39 +219,36 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         preloadNextZeega: function() {
             var remixData = this.getCurrentProject().getRemixData();
 
-            if ( remixData.remix && !this.projects.get( remixData.parent.id ) && !this.waiting ) {
-                var projectUrl = app.getApi() + "projects/" + remixData.parent.id;
+            if ( remixData.remix && !this.waiting ) {
+                var existingProjectIDs, projectUrl;
 
-                this.waiting = true;
-                this.emit("project:fetching");
+                existingProjectIDs = _.difference( _.pluck( remixData.descendants, "id"), this.projects.pluck("id") );
+                
+                if ( existingProjectIDs.length ) {
+                    var projectUrl = app.getApi() + "projects/" + existingProjectIDs[0];
 
-                $.getJSON( projectUrl, function( data ) {
-                    this._onDataLoaded( data );
-                    this.waiting = false;
-                    this.emit("project:fetch_success");
-                }.bind(this));
+                    this.waiting = true;
+                    this.emit("project:fetching", existingProjectIDs[0] );
+
+                    $.getJSON( projectUrl, function( data ) {
+                        this._onDataLoaded( data );
+                        this.waiting = false;
+                        this.emit("project:fetch_success");
+                    }.bind(this));
+                }
             }
         },
 
-        getRemixPath: function() {
-            var isComplete, path, temp;
+        getRemixData: function() {
+            var remix = _.extend({}, this.projects.at(0).get("remix"));
 
-            path = [ this.projects.at(0).getSimpleJSON() ];
+            if ( remix.descendants ) {
+                var desc = remix.descendants;
 
-            path = this.projects.map(function( project ) {
-                var remixObj = project.get("remix");
-
-                //isComplete = temp.parent.id == temp.root.id;
-                project.getSimpleJSON();
-                // temp = project.get("remix");
-
-                return project.get("remix");
-            });
-
-            return {
-                complete: isComplete,
-                path: path
-            };
+                remix.descendants = [ this.projects.at(0).getSimpleJSON() ].concat( desc );
+            }
+            
+            return remix;
         },
 
         _onDataLoaded: function( data ) {
@@ -259,6 +256,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                 _.extend({},
                     this.toJSON(),
                     {
+                        endPage: false,
                         mode: "player"
                     })
                 );
