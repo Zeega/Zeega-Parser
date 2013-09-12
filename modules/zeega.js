@@ -248,6 +248,8 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                 remix.descendants = [ this.projects.at(0).getSimpleJSON() ].concat( desc );
             }
             
+            console.log("rmxdata", remix)
+
             return remix;
         },
 
