@@ -95,6 +95,8 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                 nextPage = this.getCurrentProject().pages.at( p.get("_order") + 1 );
             } else if ( this.getNextProject() ) {
                 nextPage = this.getNextProject().pages.at(0);
+            } else if ( this.get("loop")) {
+                nextPage = this.projects.at(0).pages.at(0);
             }
 
             return nextPage;
@@ -108,6 +110,10 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                 previousPage = this.getCurrentProject().pages.at( p.get("_order") - 1 );
             } else if ( this.getPreviousProject() ) {
                 previousPage = this.getPreviousProject().pages.at( this.getPreviousProject().pages.length - 1 );
+            } else if ( this.get("loop")) {
+                var project = this.projects.at( this.projects.length - 1 );
+
+                previousPage = project.pages.at( project.pages.length - 1 );
             }
 
             return previousPage;
