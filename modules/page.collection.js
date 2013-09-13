@@ -80,12 +80,15 @@ function( app, PageModel, LayerCollection ) {
 
                 return newPage;
             } else {
-                // too many pages. do nothing
+                // too many pages
+
+                app.emit("frame_limit_met" );
             }
         },
 
         addPageByItem: function( item ) {
-            $.post( app.getApi() + "projects/"+ app.zeega.getCurrentProject().id +"/sequences/"+ app.zeega.getCurrentProject().sequence.id +"/itemframes",
+            if ( !app.zeega.getCurrentProject().get("remix").remix || ( app.zeega.getCurrentProject().get("remix").remix && this.length < this.remixPageMax )) {
+             $.post( app.getApi() + "projects/"+ app.zeega.getCurrentProject().id +"/sequences/"+ app.zeega.getCurrentProject().sequence.id +"/itemframes",
                 item.toJSON(),
                 function( pageData ) {
                     var newPage = new PageModel(_.extend( pageData, {
@@ -103,6 +106,9 @@ function( app, PageModel, LayerCollection ) {
                         page.set("_order", i );
                     });
                 }.bind(this));
+            } else {
+                app.emit("frame_limit_met" );
+            }
         },
 
         onFrameAdd: function( frame ) {
