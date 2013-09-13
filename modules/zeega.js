@@ -264,7 +264,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
                 _.extend({},
                     this.toJSON(),
                     {
-                        endPage: data.project.remix.descendants.length === 0,
+                        endPage: false,
                         mode: "player"
                     })
                 );
