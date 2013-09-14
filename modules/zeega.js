@@ -226,9 +226,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
             var remixData = this.getCurrentProject().getRemixData();
 
             if ( remixData.descendants.length && !this.waiting ) {
-                var existingProjectIDs, projectUrl;
-
-                existingProjectIDs = _.difference( _.pluck( remixData.descendants, "id"), this.projects.pluck("id") );
+                var existingProjectIDs = _.difference( _.pluck( remixData.descendants, "id"), this.projects.pluck("id") );
                 
                 if ( existingProjectIDs.length ) {
                     var projectUrl = app.getApi() + "projects/" + existingProjectIDs[0];
