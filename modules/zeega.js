@@ -236,7 +236,6 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
 
                     $.getJSON( projectUrl, function( data ) {
                         this._onDataLoaded( data );
-                        console.log("got json", data)
                         this.waiting = false;
                         this.emit("project:fetch_success");
                     }.bind(this));
