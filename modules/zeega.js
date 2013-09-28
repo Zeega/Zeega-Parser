@@ -225,7 +225,7 @@ function( app, Parser, ProjectCollection, ProjectModel, PageCollection, PageMode
         preloadNextZeega: function() {
             var remixData = this.getRemixData();
 
-            if ( remixData.remix && remixData.descendants.length && !this.waiting ) {
+            if ( remixData.remix && remixData.descendants && remixData.descendants.length && !this.waiting ) {
                 var existingProjectIDs = _.difference( _.pluck( remixData.descendants, "id"), this.projects.pluck("id") );
                 
                 if ( existingProjectIDs.length ) {
